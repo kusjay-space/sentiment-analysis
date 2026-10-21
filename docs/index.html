@@ -94,11 +94,11 @@
         <section>
             <h2>⚠️ Challenges & Limitations</h2>
             <ul>
-                <li>Model kesulitan dengan sarkasme dan bahasa figuratif</li>
-                <li>Review netral sering salah diprediksi sebagai negatif (confidence rendah)</li>
-                <li>Panjang teks > 128 token dipotong, bisa kehilangan konteks</li>
+                <li>Baseline TF-IDF mentok di ~70% (sweep hyperparameter: bigram/trigram/char n-gram semuanya &lt; 71%) — bottleneck kelas NEUTRAL (F1 0.47)</li>
+                <li>Review netral (bintang 3) secara inheren ambigu — TF-IDF tidak menangkap konteks, ini motivasi fine-tune DistilBERT</li>
+                <li>Panjang teks &gt; 128 token dipotong, bisa kehilangan konteks (1.7% review)</li>
                 <li>Dataset hanya bahasa Inggris, tidak generalizable ke bahasa lain</li>
-                <li>Kelas NEUTRAL adalah minoritas (rasio 2:1:2) — F1 per kelas akan dilaporkan</li>
+                <li>Kelas NEUTRAL adalah minoritas (rasio 2:1:2) — F1 per kelas dilaporkan</li>
             </ul>
         </section>
 

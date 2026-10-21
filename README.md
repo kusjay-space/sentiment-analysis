@@ -27,6 +27,10 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 
 Baseline dievaluasi di validation split (5.000 rows). F1 per kelas: NEGATIVE 0.748, NEUTRAL 0.468, POSITIVE 0.805. NEUTRAL adalah kelas terlemah karena imbalance 2:1:2 (lihat `notebooks/01_eda.ipynb`). DistilBERT akan dievaluasi di test split sekali, setelah training selesai.
 
+### Kenapa baseline mentok di ~70%
+
+Sweep hyperparameter TF-IDF+LogReg (lihat `src/baseline_tuned.py`) menunjukkan ceiling ≈70% pada constraint 60k train subsample — bigram/trigram, char n-gram, C besar, dan 510k features semuanya < 71%. Bottlenecknya adalah kelas NEUTRAL (F1 0.47): bintang 3 secara inheren ambigu dan TF-IDF tidak menangkap konteks. Ini motivasi utama fine-tune DistilBERT — model kontekstual diharapkan menembus 85%.
+
 ## Quick Start
 
 ```bash
