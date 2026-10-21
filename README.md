@@ -39,13 +39,13 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
 # Training (baseline)
-python src/baseline.py
+python -m src.baseline
 
 # Training (DistilBERT) — butuh GPU, gunakan Colab
-python src/train.py
+python -m src.train
 
 # Inference
-python src/inference.py
+python -m src.inference
 ```
 
 ## Results

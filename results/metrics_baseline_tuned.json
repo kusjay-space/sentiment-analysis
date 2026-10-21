@@ -1,0 +1,31 @@
+{
+  "config_name": "A",
+  "accuracy": 0.702,
+  "f1_macro": 0.6736866100923008,
+  "f1_weighted": 0.7148315385597069,
+  "f1_per_class": {
+    "NEGATIVE": 0.7484760137821362,
+    "NEUTRAL": 0.46796196775527077,
+    "POSITIVE": 0.8046218487394958
+  },
+  "n_train": 60000,
+  "n_val": 5000,
+  "best_params": {
+    "TfidfVectorizer": {
+      "lowercase": true,
+      "max_features": 100000,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "sublinear_tf": true,
+      "min_df": 2
+    },
+    "LogisticRegression": {
+      "class_weight": "balanced",
+      "C": 1.0,
+      "max_iter": 2000,
+      "random_state": 42
+    }
+  }
+}
