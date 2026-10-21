@@ -1,6 +1,6 @@
 # Sentiment Analysis — App Reviews
 
-> **🔗 Live Demo:** [https://kusjay-space.github.io/sentiment-analysis-magang](https://kusjay-space.github.io/sentiment-analysis-magang)
+> **🔗 Live Demo:** [https://kusjay-space.github.io/sentiment-analysis](https://kusjay-space.github.io/sentiment-analysis)
 
 Pipeline NLP untuk klasifikasi sentimen review aplikasi menjadi **positif, netral, atau negatif**.
 
@@ -27,8 +27,8 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 
 ```bash
 # Clone
-git clone https://github.com/kusjay-space/sentiment-analysis-magang.git
-cd sentiment-analysis-magang
+git clone https://github.com/kusjay-space/sentiment-analysis.git
+cd sentiment-analysis
 
 # Install
 pip install -r requirements.txt

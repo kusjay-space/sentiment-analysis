@@ -63,7 +63,7 @@ Hyperparameter DistilBERT:
 
 | # | Item | Path |
 |---|---|---|
-| 1 | Repo GitHub publik | `kusjay-space/sentiment-analysis-magang` |
+| 1 | Repo GitHub publik | `kusjay-space/sentiment-analysis` |
 | 2 | README.md | root, link Pages di baris 1 |
 | 3 | Notebook training | `notebooks/train.ipynb` |
 | 4 | Script training | `src/train.py` |

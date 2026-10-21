@@ -2,7 +2,7 @@
 
 ## Hari 1: Setup & EDA
 
-- [ ] Buat repo GitHub `kusjay-space/sentiment-analysis-magang`
+- [ ] Buat repo GitHub `kusjay-space/sentiment-analysis`
 - [ ] Clone ke lokal
 - [ ] Buat struktur folder
 - [ ] Load dataset `SetFit/amazon_reviews_multi_en`

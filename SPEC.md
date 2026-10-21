@@ -42,7 +42,7 @@
 ## Struktur Repo
 
 ```
-sentiment-analysis-magang/
+sentiment-analysis/
 ├── README.md
 ├── PRD.md
 ├── REQUIREMENTS.md
