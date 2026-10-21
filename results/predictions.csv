@@ -1,0 +1,11 @@
+text,true_label,predicted_label,confidence
+Stopped working after a couple of weeks. You get what you pay for.,NEGATIVE,NEGATIVE,0.971
+I have not yet got my order!!!,NEGATIVE,NEGATIVE,0.515
+I had gotten these for a family member who is getting up in years and is at risk,NEUTRAL,NEGATIVE,0.707
+"The presentation is great, but the flavor is ordinary, not impressed at all. I s",NEUTRAL,NEUTRAL,0.588
+Surprisingly ineffective product in very nice packaging. The reagents aren't any,NEGATIVE,NEGATIVE,0.661
+too loosen. cable is easy to dropping,NEGATIVE,NEUTRAL,0.586
+"A lot of the capsules were empty, dust everywhere.",NEGATIVE,NEGATIVE,0.808
+My niece love these balls! Everyone is different.,POSITIVE,POSITIVE,0.981
+Ordered this for a Santa present and Christmas Eve noticed it came broken!,NEGATIVE,NEGATIVE,0.909
+Great product. Very satisfied with my purchase.,POSITIVE,POSITIVE,0.991

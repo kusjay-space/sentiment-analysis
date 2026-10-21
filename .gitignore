@@ -34,3 +34,4 @@ data/
 !docs/*.png
 .DS_Store
 Thumbs.db
+.orca/

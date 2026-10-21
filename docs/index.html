@@ -31,7 +31,7 @@
     <header>
         <h1>Sentiment Analysis — App Reviews</h1>
         <p>AI Engineer Intern Assessment — Timedoor</p>
-        <p style="display:inline-block;margin-top:14px;padding:5px 14px;border-radius:14px;background:#f0ad4e;color:#1a1a2e;font-size:0.85em;font-weight:600;opacity:1;">Status: In Progress</p>
+        <p style="display:inline-block;margin-top:14px;padding:5px 14px;border-radius:14px;background:#28a745;color:#fff;font-size:0.85em;font-weight:600;opacity:1;">Status: Selesai — DistilBERT 75.1% (test)</p>
     </header>
 
     <div class="container">
@@ -51,30 +51,31 @@
                 </tr>
                 <tr>
                     <td>TF-IDF + LogisticRegression (baseline, tuned)</td>
-                    <td><strong>70.2%</strong></td>
-                    <td><strong>0.674</strong></td>
+                    <td>70.2% <em>(validation)</em></td>
+                    <td>0.674</td>
                 </tr>
                 <tr>
                     <td>DistilBERT (fine-tuned)</td>
-                    <td>—</td>
-                    <td>—</td>
+                    <td><strong>75.1% (test)</strong></td>
+                    <td><strong>0.687</strong></td>
                 </tr>
             </table>
-            <p><em>Baseline dievaluasi di validation split (5.000 rows). DistilBERT menyusul setelah training di Colab.</em></p>
+            <p><em>Kedua model dievaluasi di split yang sama (seleksi di validation, angka final di test). DistilBERT +4.9% atas baseline.</em></p>
             <p>Model utama: <code>distilbert/distilbert-base-uncased</code>, fine-tune 2 epoch, batch size 32, max length 128, fp16 di Colab T4.</p>
         </section>
 
         <section>
-            <h2>📊 Hasil Evaluasi</h2>
-            <div class="metric"><strong>TBD</strong> Accuracy</div>
-            <div class="metric"><strong>TBD</strong> F1-macro</div>
-            <div class="metric"><strong>TBD</strong> F1-weighted</div>
+            <h2>📊 Hasil Evaluasi (test split, 5.000 rows)</h2>
+            <div class="metric"><strong>75.1%</strong> Accuracy</div>
+            <div class="metric"><strong>0.687</strong> F1-macro</div>
+            <div class="metric"><strong>0.743</strong> F1-weighted</div>
             <br><br>
-            <p>Confusion matrix akan ditampilkan setelah evaluasi.</p>
+            <p>F1 per kelas: <span class="negative">NEGATIVE 0.806</span> · <span class="neutral">NEUTRAL 0.403</span> · <span class="positive">POSITIVE 0.851</span></p>
+            <img src="confusion_matrix.png" alt="Confusion Matrix">
         </section>
 
         <section>
-            <h2>🔍 Inference Results (10 samples)</h2>
+            <h2>🔍 Inference Results (10 samples, 8/10 benar)</h2>
             <table>
                 <tr>
                     <th>Text</th>
@@ -82,23 +83,28 @@
                     <th>Predicted</th>
                     <th>Confidence</th>
                 </tr>
-                <tr>
-                    <td>Data akan diisi setelah inference 10 sampel dari test set</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>—</td>
-                </tr>
+                <tr><td>"Stopped working after a couple of weeks..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.971</td></tr>
+                <tr><td>"I have not yet got my order!!!"</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.515</td></tr>
+                <tr><td>"I had gotten these for a family member..."</td><td class="neutral">NEUTRAL</td><td class="negative">NEGATIVE ❌</td><td>0.707</td></tr>
+                <tr><td>"The presentation is great, but the flavor is ordinary..."</td><td class="neutral">NEUTRAL</td><td class="neutral">NEUTRAL</td><td>0.588</td></tr>
+                <tr><td>"Surprisingly ineffective product..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.661</td></tr>
+                <tr><td>"too loosen. cable is easy to dropping"</td><td class="negative">NEGATIVE</td><td class="neutral">NEUTRAL ❌</td><td>0.586</td></tr>
+                <tr><td>"A lot of the capsules were empty..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.808</td></tr>
+                <tr><td>"My niece love these balls!..."</td><td class="positive">POSITIVE</td><td class="positive">POSITIVE</td><td>0.981</td></tr>
+                <tr><td>"Ordered this for a Santa present... came broken!"</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.909</td></tr>
+                <tr><td>"Great product. Very satisfied..."</td><td class="positive">POSITIVE</td><td class="positive">POSITIVE</td><td>0.991</td></tr>
             </table>
         </section>
 
         <section>
             <h2>⚠️ Challenges & Limitations</h2>
             <ul>
-                <li>Baseline TF-IDF mentok di ~70% (sweep hyperparameter: bigram/trigram/char n-gram semuanya &lt; 71%) — bottleneck kelas NEUTRAL (F1 0.47)</li>
-                <li>Review netral (bintang 3) secara inheren ambigu — TF-IDF tidak menangkap konteks, ini motivasi fine-tune DistilBERT</li>
+                <li>Baseline TF-IDF mentok di ~70% (sweep: bigram/trigram/char n-gram semuanya &lt; 71%) — bottleneck kelas NEUTRAL (F1 0.47)</li>
+                <li>DistilBERT lebih baik (75.1%) tapi target 85% tidak tercapai — training hanya 2 epoch di subset 30k; NEUTRAL tetap terlemah (F1 0.40)</li>
+                <li>Review netral (bintang 3) secara inheren ambigu — bahkan model kontekstual kesulitan; perbaikan: train full 200k, 3-4 epoch, atau focal loss</li>
                 <li>Panjang teks &gt; 128 token dipotong, bisa kehilangan konteks (1.7% review)</li>
                 <li>Dataset hanya bahasa Inggris, tidak generalizable ke bahasa lain</li>
-                <li>Kelas NEUTRAL adalah minoritas (rasio 2:1:2) — F1 per kelas dilaporkan</li>
+                <li>Kelas NEUTRAL minoritas (rasio 2:1:2) — F1 per kelas dilaporkan</li>
             </ul>
         </section>
 
