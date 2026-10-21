@@ -1,77 +1,84 @@
 # TASKS — Sentiment Analysis Magang
 
-## Hari 1: Setup & EDA
+Timeline: 22–30 Oktober 2026. Deadline submit: 30 Okt 2026, 12.00 WITA.
 
-- [ ] Buat repo GitHub `kusjay-space/sentiment-analysis`
-- [ ] Clone ke lokal
-- [ ] Buat struktur folder
+Prinsip: tidak ada angka hasil yang dilaporkan sebelum diproduksi run aktual. Validation split untuk seleksi model, test split untuk angka final (disentuh sekali di akhir).
+
+## [22 Okt] Revisi Plan & Setup
+
+- [ ] Revisi dokumen plan (PRD, REQUIREMENTS, SPEC, TASKS, README, Pages)
+- [ ] Set git identity sebelum push pertama: `git config user.name` + `git config user.email`
+- [ ] Buat repo GitHub `kusjay-space/sentiment-analysis` + push plan awal
+- [ ] Setup venv: `python -m venv .venv && source .venv/bin/activate`
+- [ ] Install dependencies + pin requirements.txt dengan `==` setelah install sukses
+- [ ] Clone/cek struktur folder lokal
 - [ ] Load dataset `SetFit/amazon_reviews_multi_en`
-- [ ] EDA: distribusi label, panjang teks, 5 contoh
+- [ ] EDA: distribusi label, panjang teks, 5 contoh sampel, catat imbalance (NEG 80k / NEU 40k / POS 80k)
 - [ ] Commit: "setup repo + EDA"
 
-## Hari 2: Baseline
+## [23 Okt] Baseline TF-IDF + LogReg
 
-- [ ] Preprocessing: lowercase, hapus HTML, strip
-- [ ] TF-IDF vectorizer
-- [ ] LogisticRegression
-- [ ] Evaluasi: accuracy, F1, confusion matrix
-- [ ] Simpan baseline metrics
+- [ ] Preprocessing TF-IDF: lowercase via vectorizer + strip HTML
+- [ ] TF-IDF vectorizer + `class_weight=balanced` pada LogisticRegression
+- [ ] Evaluasi baseline di VALIDATION split (accuracy, F1-macro, confusion matrix)
+- [ ] Simpan metrics baseline ke `results/metrics.json` (tandai split = validation)
 - [ ] Commit: "baseline TF-IDF + LogReg"
 
-## Hari 3-4: Fine-tune DistilBERT
+## [24 Okt] DistilBERT Run 1 → Kalibrasi Target
 
-- [ ] Setup Colab notebook
-- [ ] Load dataset
-- [ ] Tokenisasi (max 256)
-- [ ] Setup Trainer
-- [ ] Training 2-3 epoch
-- [ ] Simpan checkpoint
-- [ ] Evaluasi validation
-- [ ] Commit: "fine-tune DistilBERT"
+- [ ] Setup Colab notebook (GPU T4, fp16)
+- [ ] Subsample stratified 30k (12k NEG / 6k NEU / 12k POS), seed=42
+- [ ] Tokenisasi max_len 128 (teks raw, tokenizer menangani preprocessing)
+- [ ] Training run 1: batch 32, fp16, 2 epoch, eval_strategy=epoch, load_best_model_at_end=True
+- [ ] Evaluasi di VALIDATION split
+- [ ] Catat angka run 1 → kalibrasi target realistis (3-class DistilBERT realistis 86–89%)
+- [ ] Simpan checkpoint tiap epoch ke Drive
+- [ ] Commit: "DistilBERT run 1"
 
-## Hari 5: Inference
+## [25 Okt] Run 2-3 + Evaluasi Final di TEST + Freeze
 
-- [ ] Load model checkpoint
-- [ ] Ambil 10 sampel unseen dari test set
-- [ ] Prediksi + confidence
-- [ ] Simpan `predictions.csv`
-- [ ] Simpan `confusion_matrix.png`
-- [ ] Simpan `metrics.json`
-- [ ] Commit: "inference 10 samples"
+- [ ] Run 2-3: perbaikan dari insight run 1 (lr, epoch, max_len, dsb)
+- [ ] Seleksi model terbaik berdasarkan VALIDATION split
+- [ ] Evaluasi FINAL di TEST split — tepat sekali, disentuh satu kali
+- [ ] Freeze artefak: `results/metrics.json`, `results/predictions.csv`, `results/confusion_matrix.png`
+- [ ] Commit: "fine-tune DistilBERT + evaluasi final test"
 
-## Hari 6: GitHub Pages
+## [26 Okt] Pages + README + Release
 
-- [ ] Buat `docs/index.html`
-- [ ] Section: overview, dataset, model, hasil, challenges
-- [ ] Tabel 10 prediksi
-- [ ] Embed confusion matrix
-- [ ] Commit: "GitHub Pages"
+- [ ] GitHub Pages `docs/index.html` final pakai angka asli dari metrics.json
+- [ ] README final: tabel Model + Results diisi angka asli, bukan TBD/placeholder
+- [ ] Upload model checkpoint ke GitHub Releases
+- [ ] Tambah file LICENSE
+- [ ] Commit: "docs + release model"
 
-## Hari 7: README & Cleanup
+## [27 Okt] Review End-to-End (Fresh Clone Test)
 
-- [ ] README.md lengkap
-- [ ] requirements.txt
-- [ ] .gitignore
-- [ ] Upload model ke Releases
-- [ ] Commit: "final cleanup"
-
-## Hari 8: Review
-
-- [ ] Baca ulang semua file
-- [ ] Cek link Pages live
-- [ ] Cek repo bisa di-clone
-- [ ] Perbaiki typo / bug
+- [ ] Fresh clone test: clone repo ke folder baru, ikut Quick Start dari nol
+- [ ] `pip install -r requirements.txt` di fresh venv sukses (reproducibility check)
+- [ ] Cek Pages live + render mobile
+- [ ] Cek semua link README valid
 - [ ] Commit: "review fixes"
 
-## Hari 9-10: Buffer
+## [28 Okt] Bug Fix + Polish
 
-- [ ] Eksperimen tambahan (opsional)
-- [ ] Perbaiki README
-- [ ] Tambah screenshot
+- [ ] Perbaiki bug hasil review end-to-end
+- [ ] Polish README + halaman Pages
+- [ ] Cek konsistensi angka di README, Pages, dan metrics.json (harus sama)
+- [ ] Commit: "bug fix + polish"
 
-## Hari 11: Submit
+## [29 Okt] Iterasi Training Opsional
+
+Hanya dikerjakan jika review end-to-end lolos DAN masih ada sisa kuota Colab.
+
+- [ ] Iterasi training opsional (hyperparameter tambahan, augmentasi, dsb)
+- [ ] Jika ada peningkatan, update angka di semua dokumen dari metrics.json terbaru
+- [ ] Commit: "opsional: iterasi training"
+
+## [30 Okt pagi] Submit
+
+Deadline: sebelum 12.00 WITA.
 
 - [ ] Final check semua deliverable
-- [ ] Kirim email ke kotama@timedoor.net
-- [ ] CC hrd@timedoor.net
-- [ ] Isi: link repo + link Pages
+- [ ] Kirim email ke kotama@timedoor.net, cc hrd@timedoor.net
+- [ ] Isi email: link repo GitHub + link GitHub Pages
+- [ ] Konfirmasi email terkirim

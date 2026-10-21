@@ -31,6 +31,7 @@
     <header>
         <h1>Sentiment Analysis — App Reviews</h1>
         <p>AI Engineer Intern Assessment — Timedoor</p>
+        <p style="display:inline-block;margin-top:14px;padding:5px 14px;border-radius:14px;background:#f0ad4e;color:#1a1a2e;font-size:0.85em;font-weight:600;opacity:1;">Status: In Progress</p>
     </header>
 
     <div class="container">
@@ -50,25 +51,26 @@
                 </tr>
                 <tr>
                     <td>TF-IDF + LogisticRegression (baseline)</td>
-                    <td>85.2%</td>
-                    <td>0.84</td>
+                    <td>—</td>
+                    <td>—</td>
                 </tr>
                 <tr>
                     <td>DistilBERT (fine-tuned)</td>
-                    <td>91.7%</td>
-                    <td>0.91</td>
+                    <td>—</td>
+                    <td>—</td>
                 </tr>
             </table>
-            <p>Model utama: <code>distilbert/distilbert-base-uncased</code>, fine-tune 3 epoch, batch size 16, learning rate 2e-5.</p>
+            <p><em>Menunggu hasil training.</em></p>
+            <p>Model utama: <code>distilbert/distilbert-base-uncased</code>, fine-tune 2 epoch, batch size 32, max length 128, fp16 di Colab T4.</p>
         </section>
 
         <section>
             <h2>📊 Hasil Evaluasi</h2>
-            <div class="metric"><strong>91.7%</strong> Accuracy</div>
-            <div class="metric"><strong>0.91</strong> F1-macro</div>
-            <div class="metric"><strong>0.92</strong> F1-weighted</div>
+            <div class="metric"><strong>TBD</strong> Accuracy</div>
+            <div class="metric"><strong>TBD</strong> F1-macro</div>
+            <div class="metric"><strong>TBD</strong> F1-weighted</div>
             <br><br>
-            <img src="confusion_matrix.png" alt="Confusion Matrix">
+            <p>Confusion matrix akan ditampilkan setelah evaluasi.</p>
         </section>
 
         <section>
@@ -81,64 +83,10 @@
                     <th>Confidence</th>
                 </tr>
                 <tr>
-                    <td>"Great app, very fast and easy to use"</td>
-                    <td class="positive">POSITIVE</td>
-                    <td class="positive">POSITIVE</td>
-                    <td>0.994</td>
-                </tr>
-                <tr>
-                    <td>"Crashes every time I open it"</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td>0.981</td>
-                </tr>
-                <tr>
-                    <td>"It's okay, does what it says"</td>
-                    <td class="neutral">NEUTRAL</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td>0.612</td>
-                </tr>
-                <tr>
-                    <td>"Best purchase ever, highly recommend"</td>
-                    <td class="positive">POSITIVE</td>
-                    <td class="positive">POSITIVE</td>
-                    <td>0.997</td>
-                </tr>
-                <tr>
-                    <td>"Waste of money, terrible quality"</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td>0.989</td>
-                </tr>
-                <tr>
-                    <td>"Average product, nothing special"</td>
-                    <td class="neutral">NEUTRAL</td>
-                    <td class="neutral">NEUTRAL</td>
-                    <td>0.845</td>
-                </tr>
-                <tr>
-                    <td>"Love it! Works perfectly"</td>
-                    <td class="positive">POSITIVE</td>
-                    <td class="positive">POSITIVE</td>
-                    <td>0.993</td>
-                </tr>
-                <tr>
-                    <td>"Not bad, but could be better"</td>
-                    <td class="neutral">NEUTRAL</td>
-                    <td class="neutral">NEUTRAL</td>
-                    <td>0.721</td>
-                </tr>
-                <tr>
-                    <td>"Completely useless, don't buy"</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td class="negative">NEGATIVE</td>
-                    <td>0.976</td>
-                </tr>
-                <tr>
-                    <td>"Amazing value for the price"</td>
-                    <td class="positive">POSITIVE</td>
-                    <td class="positive">POSITIVE</td>
-                    <td>0.968</td>
+                    <td>Data akan diisi setelah inference 10 sampel dari test set</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
                 </tr>
             </table>
         </section>
@@ -148,8 +96,9 @@
             <ul>
                 <li>Model kesulitan dengan sarkasme dan bahasa figuratif</li>
                 <li>Review netral sering salah diprediksi sebagai negatif (confidence rendah)</li>
-                <li>Panjang teks > 256 token dipotong, bisa kehilangan konteks</li>
+                <li>Panjang teks > 128 token dipotong, bisa kehilangan konteks</li>
                 <li>Dataset hanya bahasa Inggris, tidak generalizable ke bahasa lain</li>
+                <li>Kelas NEUTRAL adalah minoritas (rasio 2:1:2) — F1 per kelas akan dilaporkan</li>
             </ul>
         </section>
 

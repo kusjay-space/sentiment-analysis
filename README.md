@@ -2,6 +2,8 @@
 
 > **🔗 Live Demo:** [https://kusjay-space.github.io/sentiment-analysis](https://kusjay-space.github.io/sentiment-analysis)
 
+> **🚧 Work in progress** — hasil akan diupdate setelah training. Semua angka di dokumen ini diisi dari `results/metrics.json` hasil run aktual.
+
 Pipeline NLP untuk klasifikasi sentimen review aplikasi menjadi **positif, netral, atau negatif**.
 
 ## Overview
@@ -20,8 +22,8 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 
 | Model | Akurasi | F1-macro |
 |---|---|---|
-| TF-IDF + LogisticRegression | 85.2% | 0.84 |
-| DistilBERT (fine-tuned) | 91.7% | 0.91 |
+| TF-IDF + LogisticRegression | TBD — menunggu hasil training | TBD — menunggu hasil training |
+| DistilBERT (fine-tuned) | TBD — menunggu hasil training | TBD — menunggu hasil training |
 
 ## Quick Start
 
@@ -29,6 +31,9 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 # Clone
 git clone https://github.com/kusjay-space/sentiment-analysis.git
 cd sentiment-analysis
+
+# Buat virtual environment
+python -m venv .venv && source .venv/bin/activate
 
 # Install
 pip install -r requirements.txt
@@ -45,11 +50,11 @@ python src/inference.py
 
 ## Results
 
-| Text | True | Predicted | Confidence |
-|---|---|---|---|
-| "Great app, very fast" | POSITIVE | POSITIVE | 0.994 |
-| "Crashes every time" | NEGATIVE | NEGATIVE | 0.981 |
-| "It's okay I guess" | POSITIVE | NEGATIVE | 0.612 |
+Hasil akan diisi setelah inference. Angka final diambil dari `results/metrics.json` (evaluasi test split) dan `results/predictions.csv` (10 sampel unseen).
+
+## Development Timeline
+
+Timeline 22–30 Oktober 2026 (deadline submit 30 Okt, 12.00 WITA) ada di [TASKS.md](TASKS.md).
 
 ## Repo Structure
 
@@ -58,7 +63,8 @@ python src/inference.py
 ├── src/           # Python scripts
 ├── results/       # metrics, predictions, plots
 ├── docs/          # GitHub Pages
-└── model/         # checkpoint (via Releases)
+├── model/         # checkpoint (via Releases)
+└── LICENSE        # MIT
 ```
 
 ## License

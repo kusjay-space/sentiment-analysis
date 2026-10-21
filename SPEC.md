@@ -11,7 +11,7 @@
                           ▼
                     ┌─────────────┐
                     │  Tokenize   │
-                    │  (256 max)  │
+                    │  (128 max)  │
                     └─────────────┘
                           │
                           ▼
@@ -72,6 +72,8 @@ sentiment-analysis/
 
 ## Data Flow
 
+**Split discipline:** TF-IDF+LogReg dan DistilBERT dievaluasi di split yang sama — validation untuk seleksi model, test untuk angka final (disentuh sekali di akhir).
+
 ### Training
 
 ```
@@ -81,13 +83,16 @@ Amazon Reviews EN (200k train)
 Mapping: label 0-1 → NEG, 2 → NEU, 3-4 → POS
     │
     ▼
-Preprocess: lowercase, strip HTML, truncate 256
+Subsample stratified 30k (12k NEG / 6k NEU / 12k POS), seed=42
     │
     ▼
-Tokenize: DistilBERT tokenizer
+Preprocess: DistilBERT pakai teks raw (tokenizer menangani), TF-IDF lowercase + strip HTML
     │
     ▼
-Train: 2-3 epoch, batch 16, lr 2e-5
+Tokenize: DistilBERT tokenizer, max_len 128
+    │
+    ▼
+Train: 2 epoch, batch 32, lr 2e-5, fp16, eval_strategy=epoch, load_best_model_at_end=True
     │
     ▼
 Save: checkpoint + tokenizer
@@ -154,6 +159,7 @@ tqdm>=4.66
 |---|---|
 | Colab OOM | reduce batch size to 8 |
 | Colab disconnect | checkpoint to Drive |
+| Colab kuota habis | kurangi subset ke 15k, batch 16 |
 | Dataset download fail | retry, use cache |
 | Model save fail | save to /tmp, upload manual |
 | Inference error | log, skip sample, continue |
@@ -164,9 +170,10 @@ tqdm>=4.66
 |---|---|
 | Data loading | assert len(ds) > 0 |
 | Mapping | assert label in {0,1,2} |
-| Tokenization | assert max_len ≤ 256 |
+| Tokenization | assert max_len ≤ 128 |
 | Model output | assert logits.shape == (batch, 3) |
 | CSV format | assert columns match spec |
+| Split discipline | Evaluasi final dilakukan tepat sekali di test split |
 | Pages render | open in browser, visual check |
 
 ## Monitoring

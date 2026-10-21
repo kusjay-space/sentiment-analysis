@@ -29,5 +29,8 @@ model/
 data/
 *.csv
 !results/predictions.csv
+*.png
+!results/*.png
+!docs/*.png
 .DS_Store
 Thumbs.db

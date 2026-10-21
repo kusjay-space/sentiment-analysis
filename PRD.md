@@ -50,13 +50,14 @@ Output akhir: repo GitHub publik + halaman GitHub Pages statis yang menjelaskan 
 | Model | Peran | Library | Train |
 |---|---|---|---|
 | TF-IDF + LogisticRegression | baseline | sklearn | 5 detik CPU |
-| DistilBERT base | utama | transformers + PyTorch | 5-10 menit Colab T4 |
+| DistilBERT base | utama | transformers + PyTorch | ~30 menit untuk subset 30k, 2 epoch, fp16 di T4 |
 
 Hyperparameter DistilBERT:
-- Epoch: 2-3
-- Batch size: 16
+- Epoch: 2
+- Batch size: 32
 - Learning rate: 2e-5
-- Max length: 256 tokens
+- Max length: 128 tokens
+- FP16: ya (Colab T4)
 - Optimizer: AdamW
 
 ## 6. Deliverables
@@ -73,13 +74,15 @@ Hyperparameter DistilBERT:
 | 8 | Metrik | `results/metrics.json` |
 | 9 | GitHub Pages | `docs/index.html` |
 | 10 | requirements.txt | root |
+| 11 | LICENSE | root |
 
 ## 7. Success Criteria
 
 | Kriteria | Target |
 |---|---|
-| Akurasi baseline | ≥ 80% |
+| Akurasi baseline | ≥ 75% |
 | Akurasi DistilBERT | ≥ 85% |
+| Integritas angka | Angka yang dilaporkan harus berasal dari metrics.json yang diproduksi run aktual — tidak ada placeholder |
 | 10 sampel unseen | 10/10 diprediksi, minimal 8 benar |
 | Repo publik | bisa di-clone tanpa error |
 | README | jelas, ada link Pages, cara install |
@@ -94,17 +97,18 @@ Hyperparameter DistilBERT:
 | Akurasi rendah | jujur di README, analisis penyebab |
 | Model 250MB > limit GitHub | upload ke Releases, link di README |
 | Waktu mepet | baseline dulu, DistilBERT bisa di-skip kalau kepepet |
+| Kuota Colab habis | subset 30k + fp16 + batch 32, checkpoint tiap epoch ke Drive |
 
-## 9. Timeline (11 hari)
+## 9. Timeline (22–30 Oktober 2026)
 
-| Hari | Aktivitas | Output |
+| Tanggal | Aktivitas | Output |
 |---|---|---|
-| 1 | Setup repo, load dataset, EDA | notebook EDA |
-| 2 | Baseline TF-IDF + LogReg | akurasi baseline |
-| 3-4 | Fine-tune DistilBERT di Colab | model checkpoint |
-| 5 | Evaluasi + inference 10 sampel | metrics.json + predictions.csv |
-| 6 | Buat GitHub Pages | docs/index.html |
-| 7 | README + requirements.txt | repo lengkap |
-| 8 | Review, perbaiki | repo final |
-| 9-10 | Buffer eksperimen | — |
-| 11 | Kirim email | submitted |
+| 22 Okt | Revisi plan, setup repo GitHub + venv, EDA | plan final + notebook EDA |
+| 23 Okt | Baseline TF-IDF + LogReg, evaluasi di validation split | metrik baseline |
+| 24 Okt | DistilBERT run 1 (subset 30k stratified, max_len 128, batch 32, fp16, 2 epoch) | checkpoint + angka kalibrasi target |
+| 25 Okt | Run 2-3 perbaikan, evaluasi final di test split (sekali), freeze artefak | metrics.json + predictions.csv + confusion_matrix.png |
+| 26 Okt | Pages + README final pakai angka asli, release model, LICENSE | docs/index.html + repo lengkap |
+| 27 Okt | Review end-to-end (fresh clone test) | repo terverifikasi |
+| 28 Okt | Bug fix + polish | repo final |
+| 29 Okt | Iterasi training opsional (jika review lolos + sisa kuota Colab) | — |
+| 30 Okt pagi | Submit email sebelum 12.00 WITA ke kotama@timedoor.net cc hrd@timedoor.net | submitted |
