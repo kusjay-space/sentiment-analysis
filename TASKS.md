@@ -6,58 +6,58 @@ Prinsip: tidak ada angka hasil yang dilaporkan sebelum diproduksi run aktual. Va
 
 ## [22 Okt] Revisi Plan & Setup
 
-- [ ] Revisi dokumen plan (PRD, REQUIREMENTS, SPEC, TASKS, README, Pages)
-- [ ] Set git identity sebelum push pertama: `git config user.name` + `git config user.email`
-- [ ] Buat repo GitHub `kusjay-space/sentiment-analysis` + push plan awal
-- [ ] Setup venv: `python -m venv .venv && source .venv/bin/activate`
-- [ ] Install dependencies + pin requirements.txt dengan `==` setelah install sukses
-- [ ] Clone/cek struktur folder lokal
-- [ ] Load dataset `SetFit/amazon_reviews_multi_en`
-- [ ] EDA: distribusi label, panjang teks, 5 contoh sampel, catat imbalance (NEG 80k / NEU 40k / POS 80k)
-- [ ] Commit: "setup repo + EDA"
+- [x] Revisi dokumen plan (PRD, REQUIREMENTS, SPEC, TASKS, README, Pages)
+- [x] Set git identity sebelum push pertama: `git config user.name` + `git config user.email`
+- [x] Buat repo GitHub `kusjay-space/sentiment-analysis` + push plan awal
+- [x] Setup venv: `python -m venv .venv && source .venv/bin/activate`
+- [x] Install dependencies + pin requirements.txt dengan `==` setelah install sukses
+- [x] Clone/cek struktur folder lokal
+- [x] Load dataset `SetFit/amazon_reviews_multi_en`
+- [x] EDA: distribusi label, panjang teks, 5 contoh sampel, catat imbalance (NEG 80k / NEU 40k / POS 80k)
+- [x] Commit: "setup repo + EDA"
 
 ## [23 Okt] Baseline TF-IDF + LogReg
 
-- [ ] Preprocessing TF-IDF: lowercase via vectorizer + strip HTML
-- [ ] TF-IDF vectorizer + `class_weight=balanced` pada LogisticRegression
-- [ ] Evaluasi baseline di VALIDATION split (accuracy, F1-macro, confusion matrix)
-- [ ] Simpan metrics baseline ke `results/metrics.json` (tandai split = validation)
-- [ ] Commit: "baseline TF-IDF + LogReg"
+- [x] Preprocessing TF-IDF: lowercase via vectorizer + strip HTML
+- [x] TF-IDF vectorizer + `class_weight=balanced` pada LogisticRegression
+- [x] Evaluasi baseline di VALIDATION split (accuracy, F1-macro, confusion matrix)
+- [x] Simpan metrics baseline ke `results/metrics.json` (tandai split = validation)
+- [x] Commit: "baseline TF-IDF + LogReg"
 
 ## [24 Okt] DistilBERT Run 1 → Kalibrasi Target
 
-- [ ] Setup Colab notebook (GPU T4, fp16)
-- [ ] Subsample stratified 30k (12k NEG / 6k NEU / 12k POS), seed=42
-- [ ] Tokenisasi max_len 128 (teks raw, tokenizer menangani preprocessing)
-- [ ] Training run 1: batch 32, fp16, 2 epoch, eval_strategy=epoch, load_best_model_at_end=True
-- [ ] Evaluasi di VALIDATION split
-- [ ] Catat angka run 1 → kalibrasi target realistis (3-class DistilBERT realistis 86–89%)
-- [ ] Simpan checkpoint tiap epoch ke Drive
-- [ ] Commit: "DistilBERT run 1"
+- [x] Setup Colab notebook (GPU T4, fp16)
+- [x] Subsample stratified 30k (12k NEG / 6k NEU / 12k POS), seed=42
+- [x] Tokenisasi max_len 128 (teks raw, tokenizer menangani preprocessing)
+- [x] Training run 1: batch 32, fp16, 2 epoch, eval_strategy=epoch, load_best_model_at_end=True
+- [x] Evaluasi di VALIDATION split
+- [x] Catat angka run 1 → kalibrasi target realistis (3-class DistilBERT realistis 86–89%)
+- [x] Simpan checkpoint tiap epoch ke Drive
+- [x] Commit: "DistilBERT run 1"
 
 ## [25 Okt] Run 2-3 + Evaluasi Final di TEST + Freeze
 
-- [ ] Run 2-3: perbaikan dari insight run 1 (lr, epoch, max_len, dsb)
-- [ ] Seleksi model terbaik berdasarkan VALIDATION split
-- [ ] Evaluasi FINAL di TEST split — tepat sekali, disentuh satu kali
-- [ ] Freeze artefak: `results/metrics.json`, `results/predictions.csv`, `results/confusion_matrix.png`
-- [ ] Commit: "fine-tune DistilBERT + evaluasi final test"
+- [x] Run 2-3: perbaikan dari insight run 1 (lr, epoch, max_len, dsb)
+- [x] Seleksi model terbaik berdasarkan VALIDATION split
+- [x] Evaluasi FINAL di TEST split — tepat sekali, disentuh satu kali
+- [x] Freeze artefak: `results/metrics.json`, `results/predictions.csv`, `results/confusion_matrix.png`
+- [x] Commit: "fine-tune DistilBERT + evaluasi final test"
 
 ## [26 Okt] Pages + README + Release
 
-- [ ] GitHub Pages `docs/index.html` final pakai angka asli dari metrics.json
-- [ ] README final: tabel Model + Results diisi angka asli, bukan TBD/placeholder
-- [ ] Upload model checkpoint ke GitHub Releases
-- [ ] Tambah file LICENSE
-- [ ] Commit: "docs + release model"
+- [x] GitHub Pages `docs/index.html` final pakai angka asli dari metrics.json
+- [x] README final: tabel Model + Results diisi angka asli, bukan TBD/placeholder
+- [x] Upload model checkpoint ke GitHub Releases
+- [x] Tambah file LICENSE
+- [x] Commit: "docs + release model"
 
 ## [27 Okt] Review End-to-End (Fresh Clone Test)
 
-- [ ] Fresh clone test: clone repo ke folder baru, ikut Quick Start dari nol
-- [ ] `pip install -r requirements.txt` di fresh venv sukses (reproducibility check)
-- [ ] Cek Pages live + render mobile
-- [ ] Cek semua link README valid
-- [ ] Commit: "review fixes"
+- [x] Fresh clone test: clone repo ke folder baru, ikut Quick Start dari nol
+- [x] `pip install -r requirements.txt` di fresh venv sukses (reproducibility check)
+- [x] Cek Pages live + render mobile
+- [x] Cek semua link README valid
+- [x] Commit: "review fixes"
 
 ## [28 Okt] Bug Fix + Polish
 
