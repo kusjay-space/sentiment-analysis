@@ -20,10 +20,12 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 
 ## Model
 
-| Model | Akurasi | F1-macro |
+| Model | Akurasi (validation) | F1-macro |
 |---|---|---|
-| TF-IDF + LogisticRegression | TBD — menunggu hasil training | TBD — menunggu hasil training |
-| DistilBERT (fine-tuned) | TBD — menunggu hasil training | TBD — menunggu hasil training |
+| TF-IDF + LogisticRegression (tuned) | **70.2%** | **0.674** |
+| DistilBERT (fine-tuned) | TBD — training di Colab | TBD |
+
+Baseline dievaluasi di validation split (5.000 rows). F1 per kelas: NEGATIVE 0.748, NEUTRAL 0.468, POSITIVE 0.805. NEUTRAL adalah kelas terlemah karena imbalance 2:1:2 (lihat `notebooks/01_eda.ipynb`). DistilBERT akan dievaluasi di test split sekali, setelah training selesai.
 
 ## Quick Start
 

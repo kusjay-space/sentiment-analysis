@@ -50,9 +50,9 @@
                     <th>F1-macro</th>
                 </tr>
                 <tr>
-                    <td>TF-IDF + LogisticRegression (baseline)</td>
-                    <td>—</td>
-                    <td>—</td>
+                    <td>TF-IDF + LogisticRegression (baseline, tuned)</td>
+                    <td><strong>70.2%</strong></td>
+                    <td><strong>0.674</strong></td>
                 </tr>
                 <tr>
                     <td>DistilBERT (fine-tuned)</td>
@@ -60,7 +60,7 @@
                     <td>—</td>
                 </tr>
             </table>
-            <p><em>Menunggu hasil training.</em></p>
+            <p><em>Baseline dievaluasi di validation split (5.000 rows). DistilBERT menyusul setelah training di Colab.</em></p>
             <p>Model utama: <code>distilbert/distilbert-base-uncased</code>, fine-tune 2 epoch, batch size 32, max length 128, fp16 di Colab T4.</p>
         </section>
 
