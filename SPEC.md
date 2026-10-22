@@ -90,7 +90,8 @@ Model yang di-submit (v1) dilatih dengan konfigurasi berikut:
 Amazon Reviews EN (200k train)
     │
     ▼
-Mapping: label 0-1 → NEG, 2 → NEU, 3-4 → POS
+Mapping: bintang 1-2 → NEG, bintang 3 → NEU, bintang 4-5 → POS
+         (kode dataset: label 0-1 → NEG, 2 → NEU, 3-4 → POS)
     │
     ▼
 Subsample stratified 30k (12k NEG / 6k NEU / 12k POS), seed=42

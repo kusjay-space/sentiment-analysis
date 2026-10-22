@@ -16,7 +16,8 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 - **Train:** 200.000 rows
 - **Validation:** 5.000 rows
 - **Test:** 5.000 rows
-- **Mapping:** bintang 1-2 → NEGATIVE, 3 → NEUTRAL, 4-5 → POSITIVE
+- **Mapping:** bintang 1–2 → NEGATIVE, bintang 3 → NEUTRAL, bintang 4–5 → POSITIVE (dalam dataset, `label` 0–4: 0–1 → NEG, 2 → NEU, 3–4 → POS)
+- **Dipakai training:** 30.000 sampel (subsample stratified dari 200k: 12k NEG / 6k NEU / 12k POS, seed 42)
 
 ## Model
 

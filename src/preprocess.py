@@ -21,7 +21,9 @@ DATA_DIR = REPO_ROOT / "data" / "amazon_reviews_multi_en"
 ID2LABEL: Dict[int, str] = {0: "NEGATIVE", 1: "NEUTRAL", 2: "POSITIVE"}
 LABEL2ID: Dict[str, int] = {name: idx for idx, name in ID2LABEL.items()}
 
-# Raw (0-4) -> sentiment (0-2). 0-1 negative, 2 neutral, 3-4 positive.
+# Raw label (0-4) -> sentiment (0-2).
+# Dataset stores star rating as zero-indexed `label`: label 0 = 1 star ... label 4 = 5 stars.
+# Stars 1-2 -> NEGATIVE, star 3 -> NEUTRAL, stars 4-5 -> POSITIVE.
 _RAW_TO_SENTIMENT: Dict[int, int] = {0: 0, 1: 0, 2: 1, 3: 2, 4: 2}
 
 # Number of classes produced by the mapping.

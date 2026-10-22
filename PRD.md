@@ -40,8 +40,8 @@ Output akhir: repo GitHub publik + halaman GitHub Pages statis yang menjelaskan 
 | Train | 200.000 rows |
 | Validation | 5.000 rows |
 | Test | 5.000 rows |
-| Label asli | bintang 0-4 (0=1 star, 4=5 stars) |
-| Mapping | 0-1 → NEGATIVE, 2 → NEUTRAL, 3-4 → POSITIVE |
+| Label asli | Bintang 1–5 (dikodekan sebagai `label` 0–4 di dataset: label 0 = bintang 1, label 4 = bintang 5) |
+| Mapping | Bintang 1–2 → NEGATIVE, bintang 3 → NEUTRAL, bintang 4–5 → POSITIVE (kode: label 0–1 → NEG, 2 → NEU, 3–4 → POS) |
 | Bahasa | Inggris |
 | Format | `id`, `text`, `label`, `label_text` |
 

@@ -46,9 +46,10 @@
                 <tr><th>Properti</th><th>Nilai</th></tr>
                 <tr><td>Sumber</td><td><a href="https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en">HuggingFace — SetFit/amazon_reviews_multi_en</a></td></tr>
                 <tr><td>Train / Validation / Test</td><td>200.000 / 5.000 / 5.000</td></tr>
-                <tr><td>Label asli</td><td>Bintang 0–4</td></tr>
-                <tr><td>Mapping 3 kelas</td><td>0–1 → NEGATIVE · 2 → NEUTRAL · 3–4 → POSITIVE</td></tr>
-                <tr><td>Distribusi setelah mapping</td><td>NEG 80k · NEU 40k · POS 80k (rasio 2:1:2)</td></tr>
+                <tr><td>Label asli</td><td>Bintang 1–5 (dalam dataset dikodekan sebagai <code>label</code> 0–4)</td></tr>
+                <tr><td>Mapping 3 kelas</td><td>Bintang <strong>1–2 → NEGATIVE</strong> · Bintang <strong>3 → NEUTRAL</strong> · Bintang <strong>4–5 → POSITIVE</strong><br><small>(kode: label 0–1 → NEG, 2 → NEU, 3–4 → POS)</small></td></tr>
+                <tr><td>Dipakai training</td><td><strong>30.000</strong> (subsample stratified: 12k NEG / 6k NEU / 12k POS)</td></tr>
+                <tr><td>Distribusi setelah mapping</td><td>NEG 80k · NEU 40k · POS 80k (rasio 2:1:2) — hanya bintang 3 yang jadi NEUTRAL, sehingga NEUTRAL minoritas</td></tr>
                 <tr><td>Bahasa</td><td>Inggris</td></tr>
                 <tr><td>Panjang teks</td><td>Median 23 kata · 98.3% ≤ 128 kata</td></tr>
             </table>

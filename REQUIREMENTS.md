@@ -61,7 +61,7 @@
 | Train | 200.000 rows |
 | Validation | 5.000 rows |
 | Test | 5.000 rows |
-| Label | 0-4 → mapping ke NEGATIVE/NEUTRAL/POSITIVE |
+| Label | Bintang 1–5 → mapping ke NEGATIVE/NEUTRAL/POSITIVE. Bintang 1–2 = NEG, bintang 3 = NEU, bintang 4–5 = POS (kode dataset: label 0–1 → NEG, 2 → NEU, 3–4 → POS). Hanya bintang 3 yang menjadi NEUTRAL, sehingga NEUTRAL minoritas (20%) |
 | Bahasa | Inggris |
 | Imbalance | Setelah mapping: NEG ~80k / NEU ~40k / POS ~80k (rasio 2:1:2); NEUTRAL kelas minoritas |
 | Preprocessing | TF-IDF: lowercase + strip HTML; DistilBERT: teks raw (tokenizer menangani), max 128 token |
