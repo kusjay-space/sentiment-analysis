@@ -80,8 +80,8 @@ Hyperparameter DistilBERT:
 
 | Kriteria | Target |
 |---|---|
-| Akurasi baseline | ≥ 75% |
-| Akurasi DistilBERT | ≥ 85% |
+| Akurasi baseline | ≥ 75% (realisasi: 70.2% validation — di bawah target, dianalisis di README) |
+| Akurasi DistilBERT | ≥ 85% (realisasi: **75.1% test** — tidak tercapai, penyebab dianalisis di README) |
 | Integritas angka | Angka yang dilaporkan harus berasal dari metrics.json yang diproduksi run aktual — tidak ada placeholder |
 | 10 sampel unseen | 10/10 diprediksi, minimal 8 benar |
 | Repo publik | bisa di-clone tanpa error |

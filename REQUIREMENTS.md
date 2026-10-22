@@ -22,7 +22,7 @@
 | ID | Requirement | Target |
 |---|---|---|
 | NFR-01 | Akurasi baseline | ≥ 75% |
-| NFR-02 | Akurasi DistilBERT | ≥ 85% |
+| NFR-02 | Akurasi DistilBERT | Target ≥ 85%; **realisasi 75.1% (test)** — tidak tercapai, penyebab dianalisis di README §Hasil DistilBERT vs ekspektasi |
 | NFR-03 | Training time | ≤ 30 menit di Colab |
 | NFR-04 | Repo size | < 100 MB (model di Releases) |
 | NFR-05 | README | bahasa Indonesia, jelas, step-by-step |

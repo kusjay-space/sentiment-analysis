@@ -70,9 +70,8 @@ Prinsip: tidak ada angka hasil yang dilaporkan sebelum diproduksi run aktual. Va
 
 Hanya dikerjakan jika review end-to-end lolos DAN masih ada sisa kuota Colab.
 
-- [ ] Iterasi training opsional (hyperparameter tambahan, augmentasi, dsb)
-- [ ] Jika ada peningkatan, update angka di semua dokumen dari metrics.json terbaru
-- [ ] Commit: "opsional: iterasi training"
+- [x] Iterasi training opsional: DistilBERT v2 (full 200k, 3 epoch, class weight NEUTRAL×2) — **dicoba, tidak dipakai**. Hasil validation: NEUTRAL F1 0.398→0.531 (+0.13) tetapi accuracy turun 74.9%→71.2% karena NEGATIVE tergerus. Trade-off tidak menguntungkan; v1 dipertahankan sebagai model submission.
+- [x] Validasi data nyata: scraping 67 review Play Store US + 80 review Play Store ID → `results/real_world_test.json`. EN 74.6% (generalisasi terbukti), ID 57.5% (di luar domain).
 
 ## [30 Okt pagi] Submit
 

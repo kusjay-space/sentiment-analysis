@@ -1,0 +1,1811 @@
+{
+  "model": "DistilBERT v1 (test acc 0.7508)",
+  "source": "Google Play Store reviews scraped via google-play-scraper",
+  "note": "Ground truth = star rating (1-2 NEG, 3 NEU, 4-5 POS), same mapping as training",
+  "english": {
+    "summary": {
+      "language": "en",
+      "n": 67,
+      "accuracy": 0.7463,
+      "f1_macro": 0.5925,
+      "low_confidence_pct": 10.4,
+      "predicted_distribution": {
+        "NEGATIVE": 26,
+        "POSITIVE": 38,
+        "NEUTRAL": 3
+      },
+      "actual_distribution": {
+        "NEUTRAL": 4,
+        "POSITIVE": 43,
+        "NEGATIVE": 20
+      }
+    },
+    "samples": [
+      {
+        "app": "Spotify",
+        "text": "dem ads fryin me",
+        "score": 3,
+        "predicted": "NEGATIVE",
+        "confidence": 0.466,
+        "probabilities": {
+          "NEGATIVE": 0.466,
+          "NEUTRAL": 0.211,
+          "POSITIVE": 0.323
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Spotify is a wonderful music streaming app with a huge variety of songs, podcasts, and playlists. I enjoy discovering new artists and listening to music that suits my mood. The personalised recommendations make finding something to listen to effortless 😍😍😍",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.988,
+        "probabilities": {
+          "NEGATIVE": 0.004,
+          "NEUTRAL": 0.009,
+          "POSITIVE": 0.988
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Como usuário da plataforma há dez anos, venho notando como o serviço vem ficando pior com o tempo. Mesmo pagando o Premium, sou obrigado a ver recomendações patrocinadas de coisas que nunca me agradam e anúncios nos podcasts longos. Aos poucos estou encontrando alternativas ao Spotify.",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.58,
+        "probabilities": {
+          "NEGATIVE": 0.259,
+          "NEUTRAL": 0.161,
+          "POSITIVE": 0.58
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Great experience",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.99,
+        "probabilities": {
+          "NEGATIVE": 0.002,
+          "NEUTRAL": 0.008,
+          "POSITIVE": 0.99
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "the best music app that knows what you need listen to.",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.99,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.007,
+          "POSITIVE": 0.99
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "i love spotify and ive been using it for a while and paying for premium for a while but honestly its getting to be expensive and i use it for podcasts more than anything so i end up getting the ads anyways. so in other words i love the app but hate what you get for the price you pay",
+        "score": 2,
+        "predicted": "NEUTRAL",
+        "confidence": 0.513,
+        "probabilities": {
+          "NEGATIVE": 0.25,
+          "NEUTRAL": 0.513,
+          "POSITIVE": 0.237
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "what an update Spotify now we can't even play the songs that we like to play without paying you deleting this shiii",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.892,
+        "probabilities": {
+          "NEGATIVE": 0.892,
+          "NEUTRAL": 0.076,
+          "POSITIVE": 0.032
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Please stop trying to ban custom OS devices from accessing an app that is licensed and paid for just because someone is not using a \"stock\" android. GrapheneOS should not be blocked from using your app. Very disappointed.",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.971,
+        "probabilities": {
+          "NEGATIVE": 0.971,
+          "NEUTRAL": 0.023,
+          "POSITIVE": 0.006
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "app is slow and crashes funny paying for a service and it doesn't work majority of the time",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.887,
+        "probabilities": {
+          "NEGATIVE": 0.887,
+          "NEUTRAL": 0.104,
+          "POSITIVE": 0.009
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "I am very happy by using this app ,while doing studies ,playing,working,or even while travelling I hear music frm Spotify.",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.986,
+        "probabilities": {
+          "NEGATIVE": 0.004,
+          "NEUTRAL": 0.011,
+          "POSITIVE": 0.986
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "greatest online music platform on the planet absolutely love it",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.989,
+        "probabilities": {
+          "NEGATIVE": 0.004,
+          "NEUTRAL": 0.007,
+          "POSITIVE": 0.989
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "best app for music",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.947,
+        "probabilities": {
+          "NEGATIVE": 0.019,
+          "NEUTRAL": 0.034,
+          "POSITIVE": 0.947
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "I like the fact that I am not on premium and you still cater for me but do not worry I am going on premium soon",
+        "score": 4,
+        "predicted": "POSITIVE",
+        "confidence": 0.95,
+        "probabilities": {
+          "NEGATIVE": 0.004,
+          "NEUTRAL": 0.046,
+          "POSITIVE": 0.95
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "one star for ads it is what that makes things worser for music listeners",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.513,
+        "probabilities": {
+          "NEGATIVE": 0.19,
+          "NEUTRAL": 0.297,
+          "POSITIVE": 0.513
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "free app and get experience",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.96,
+        "probabilities": {
+          "NEGATIVE": 0.013,
+          "NEUTRAL": 0.027,
+          "POSITIVE": 0.96
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "paid for premium and didn't get premium, guess paying 14$ a month is still considered \"a free listener\"",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.612,
+        "probabilities": {
+          "NEGATIVE": 0.612,
+          "NEUTRAL": 0.317,
+          "POSITIVE": 0.071
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "they need to work on there ad",
+        "score": 2,
+        "predicted": "POSITIVE",
+        "confidence": 0.55,
+        "probabilities": {
+          "NEGATIVE": 0.144,
+          "NEUTRAL": 0.306,
+          "POSITIVE": 0.55
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "a lil bit expensive but music is",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.731,
+        "probabilities": {
+          "NEGATIVE": 0.026,
+          "NEUTRAL": 0.243,
+          "POSITIVE": 0.731
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "ads make irretate",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.581,
+        "probabilities": {
+          "NEGATIVE": 0.581,
+          "NEUTRAL": 0.29,
+          "POSITIVE": 0.129
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "New update is is disturbing my music experience",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.471,
+        "probabilities": {
+          "NEGATIVE": 0.471,
+          "NEUTRAL": 0.323,
+          "POSITIVE": 0.207
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "easy to find music and podcasts. I only got 1 ad maximum, definitely recomend",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.675,
+        "probabilities": {
+          "NEGATIVE": 0.064,
+          "NEUTRAL": 0.262,
+          "POSITIVE": 0.675
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "enjoying Spotify it easy and fast",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.986,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.011,
+          "POSITIVE": 0.986
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Worst app I have ever seen",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.969,
+        "probabilities": {
+          "NEGATIVE": 0.969,
+          "NEUTRAL": 0.024,
+          "POSITIVE": 0.007
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "The app is nice and neat there is one thing, every time the songs end in your playlist it goes to a different song instead of the one you want to have and once you have the app long enough you have to buy premium just to listen to some music's",
+        "score": 3,
+        "predicted": "NEUTRAL",
+        "confidence": 0.455,
+        "probabilities": {
+          "NEGATIVE": 0.168,
+          "NEUTRAL": 0.455,
+          "POSITIVE": 0.376
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Completely unusable if you don't have premium. I get ads after EVERY song and can't even play my playlists.",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.969,
+        "probabilities": {
+          "NEGATIVE": 0.969,
+          "NEUTRAL": 0.027,
+          "POSITIVE": 0.004
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "sempre usei, mas se pa vale mais a pena o YouTube music por ter mais opções e ser mais barato",
+        "score": 4,
+        "predicted": "POSITIVE",
+        "confidence": 0.501,
+        "probabilities": {
+          "NEGATIVE": 0.295,
+          "NEUTRAL": 0.204,
+          "POSITIVE": 0.501
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "I keep getting ads after every song and NONE of them are close to 30 minutes long. please fix.",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.841,
+        "probabilities": {
+          "NEGATIVE": 0.841,
+          "NEUTRAL": 0.135,
+          "POSITIVE": 0.024
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Spotify A revolution",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.852,
+        "probabilities": {
+          "NEGATIVE": 0.092,
+          "NEUTRAL": 0.056,
+          "POSITIVE": 0.852
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "ur widget sucks",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.909,
+        "probabilities": {
+          "NEGATIVE": 0.909,
+          "NEUTRAL": 0.068,
+          "POSITIVE": 0.023
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "awesome app for playing music",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.99,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.007,
+          "POSITIVE": 0.99
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "greate service",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.889,
+        "probabilities": {
+          "NEGATIVE": 0.043,
+          "NEUTRAL": 0.068,
+          "POSITIVE": 0.889
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "Repeat song used to turn into repeat playlist/repeat album if you go next song. Now it turns off repeat entirely. My choice to have shuffle on all my playlists is removed when I select a new one. They have a smart shuffle option that doesn't work. It plays the same selection of songs, despite saying otherwise. They only give 10 hours of audio books. You can only buy credits from the web app. There's a bug where selecting a new song cancels playing anything in the app. On any version.",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.877,
+        "probabilities": {
+          "NEGATIVE": 0.877,
+          "NEUTRAL": 0.112,
+          "POSITIVE": 0.011
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "keeps crashing",
+        "score": 3,
+        "predicted": "NEGATIVE",
+        "confidence": 0.77,
+        "probabilities": {
+          "NEGATIVE": 0.77,
+          "NEUTRAL": 0.186,
+          "POSITIVE": 0.044
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "absolute garbage, treats non paying customers like trash and so badly made, just use better alternatives like youtube music. Don't choose Spotify, it makes it's own queue for you and you can't disable it",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.972,
+        "probabilities": {
+          "NEGATIVE": 0.972,
+          "NEUTRAL": 0.022,
+          "POSITIVE": 0.006
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "the app is so buggy update 21/10/26 - android port has gotten so bad, it's super buggy and not so smooth to use. takes longer to load unlike the ios port. search takes longer, music playing need to wait, sometimes stops halfway, and even the app itself shuts down too. not fun at all man, fix your goddamn app",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.952,
+        "probabilities": {
+          "NEGATIVE": 0.952,
+          "NEUTRAL": 0.043,
+          "POSITIVE": 0.005
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "great for songs listening",
+        "score": 4,
+        "predicted": "POSITIVE",
+        "confidence": 0.98,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.017,
+          "POSITIVE": 0.98
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "It's good until ads start but it's the GOATEST.",
+        "score": 4,
+        "predicted": "NEUTRAL",
+        "confidence": 0.652,
+        "probabilities": {
+          "NEGATIVE": 0.16,
+          "NEUTRAL": 0.652,
+          "POSITIVE": 0.188
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "too many problems when the network is bad",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.543,
+        "probabilities": {
+          "NEGATIVE": 0.543,
+          "NEUTRAL": 0.374,
+          "POSITIVE": 0.083
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "amazing application",
+        "score": 4,
+        "predicted": "POSITIVE",
+        "confidence": 0.99,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.007,
+          "POSITIVE": 0.99
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "I think this app is really good you get to listen to your favorite songs and stuff. it's way better with Spotify premium",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.881,
+        "probabilities": {
+          "NEGATIVE": 0.016,
+          "NEUTRAL": 0.103,
+          "POSITIVE": 0.881
+        }
+      },
+      {
+        "app": "Spotify",
+        "text": "everything is behind a paywall now you can listen to one song per day and that's all it lets you listen to now",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.533,
+        "probabilities": {
+          "NEGATIVE": 0.311,
+          "NEUTRAL": 0.156,
+          "POSITIVE": 0.533
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "Hifzullahplaystore@gmail.com",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.59,
+        "probabilities": {
+          "NEGATIVE": 0.283,
+          "NEUTRAL": 0.127,
+          "POSITIVE": 0.59
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "very fast post upload hoti hai",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.965,
+        "probabilities": {
+          "NEGATIVE": 0.013,
+          "NEUTRAL": 0.022,
+          "POSITIVE": 0.965
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "very poor software working",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.95,
+        "probabilities": {
+          "NEGATIVE": 0.95,
+          "NEUTRAL": 0.046,
+          "POSITIVE": 0.005
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "my insta id delete kiya to voh vapis do jald My Instagram account has been suspended, and I would like to request a manual review of my account. I understand that I may have violated one or more of Instagram’s rules unintentionally. I sincerely apologize for any mistake and I am willing to follow all Instagram Community Guidelines and Terms of Use going forward. This account is important to me, and I kindly request you to review my account and reconsider the suspension if possible. I am also r",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.55,
+        "probabilities": {
+          "NEGATIVE": 0.278,
+          "NEUTRAL": 0.172,
+          "POSITIVE": 0.55
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "so far so good",
+        "score": 4,
+        "predicted": "POSITIVE",
+        "confidence": 0.98,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.017,
+          "POSITIVE": 0.98
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "Dear Instagram Team, my account (Aryan_Thakur66) has been deactivated. I believe this is a mistake as I have always followed all community guidelines and terms of service. I request you to please review my account and reactivate it as soon as possible. Thank you for your time and assistance .\"",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.458,
+        "probabilities": {
+          "NEGATIVE": 0.458,
+          "NEUTRAL": 0.162,
+          "POSITIVE": 0.38
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "it is a very good platform for intertenment, news, skills, it's.",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.976,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.021,
+          "POSITIVE": 0.976
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "I have two pages and when I try to go to my second page, the program hangs and exits.",
+        "score": 4,
+        "predicted": "NEGATIVE",
+        "confidence": 0.919,
+        "probabilities": {
+          "NEGATIVE": 0.919,
+          "NEUTRAL": 0.067,
+          "POSITIVE": 0.013
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "Good instagram bhout aacha ha instagram",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.953,
+        "probabilities": {
+          "NEGATIVE": 0.009,
+          "NEUTRAL": 0.038,
+          "POSITIVE": 0.953
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "golu. kumar",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.452,
+        "probabilities": {
+          "NEGATIVE": 0.343,
+          "NEUTRAL": 0.206,
+          "POSITIVE": 0.452
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "ankit___rana__35 I'd suspend kiu kar rhe ho dir bar bar",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.746,
+        "probabilities": {
+          "NEGATIVE": 0.746,
+          "NEUTRAL": 0.16,
+          "POSITIVE": 0.094
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "One Number App",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.727,
+        "probabilities": {
+          "NEGATIVE": 0.171,
+          "NEUTRAL": 0.103,
+          "POSITIVE": 0.727
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "rude👎 obviously same more than yto",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.512,
+        "probabilities": {
+          "NEGATIVE": 0.512,
+          "NEUTRAL": 0.333,
+          "POSITIVE": 0.156
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "instagram is best approach isse app paise kma sakte hai bahut log is app se bmw X5 karis chuke hai",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.872,
+        "probabilities": {
+          "NEGATIVE": 0.053,
+          "NEUTRAL": 0.075,
+          "POSITIVE": 0.872
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "nice 👍 wow😘 my favorite app🥰✨🎀",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.964,
+        "probabilities": {
+          "NEGATIVE": 0.01,
+          "NEUTRAL": 0.026,
+          "POSITIVE": 0.964
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "I hate the forced advertisement that I must watch before scrolling my feed! I'm deleting the app. It feels like a cheap mobile clicker, that is made only for earning money via adds",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.919,
+        "probabilities": {
+          "NEGATIVE": 0.919,
+          "NEUTRAL": 0.07,
+          "POSITIVE": 0.01
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "चांद बाबू मियां जी",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.478,
+        "probabilities": {
+          "NEGATIVE": 0.312,
+          "NEUTRAL": 0.209,
+          "POSITIVE": 0.478
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "very enjoy time app",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.988,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.009,
+          "POSITIVE": 0.988
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "When I frequently send Reels to my own chat, it doesn't appear at the top of the share list like other accounts do. Please make self-chat appear at the top of the share suggestions based on usage frequency so I don't have to search for my profile every time. I'm requesting this because I don't have anyone else to share Or spam Reels with, so my own chat is the only place I send them 😭❤‍🩹",
+        "score": 3,
+        "predicted": "NEGATIVE",
+        "confidence": 0.783,
+        "probabilities": {
+          "NEGATIVE": 0.783,
+          "NEUTRAL": 0.141,
+          "POSITIVE": 0.076
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "love this shi",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.987,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.009,
+          "POSITIVE": 0.987
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "My account kept banning like the 5th time it's so exhausted to keep making a new account, I didn't do any violation. I hope my new account will not going to suspended or banned again. Thank you",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.652,
+        "probabilities": {
+          "NEGATIVE": 0.652,
+          "NEUTRAL": 0.238,
+          "POSITIVE": 0.11
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "Dear Instagram Team, my account (mr.x.harshit008) has been deactivated. I believe this is a mistake as I have always followed all community guidelines and terms of service. I request you to please review my account and reactivate it as soon as possible. Thank you for your time and assistance.\"",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.569,
+        "probabilities": {
+          "NEGATIVE": 0.569,
+          "NEUTRAL": 0.17,
+          "POSITIVE": 0.261
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "Best application 🙏🙏🙏❤️",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.923,
+        "probabilities": {
+          "NEGATIVE": 0.03,
+          "NEUTRAL": 0.047,
+          "POSITIVE": 0.923
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "excellent app",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.983,
+        "probabilities": {
+          "NEGATIVE": 0.003,
+          "NEUTRAL": 0.013,
+          "POSITIVE": 0.983
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "Dear Instagram Support Team, ​I am writing to appeal the permanent deactivation of my Instagram account: ​Username: ravishansari112 ​Account Status: Disabled on 13 October 2026 ​My account was disabled stating that it does not follow Community Standards. I believe this decision was made in error by an automated system. I have always respected and strictly complied with Instagram's Community Guidelines and Terms of Use. ​The application shows that no further review can be requested, which p",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.45,
+        "probabilities": {
+          "NEGATIVE": 0.45,
+          "NEUTRAL": 0.214,
+          "POSITIVE": 0.336
+        }
+      },
+      {
+        "app": "Instagram",
+        "text": "really good app",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.971,
+        "probabilities": {
+          "NEGATIVE": 0.004,
+          "NEUTRAL": 0.026,
+          "POSITIVE": 0.971
+        }
+      }
+    ]
+  },
+  "indonesian": {
+    "summary": {
+      "language": "id",
+      "n": 80,
+      "accuracy": 0.575,
+      "f1_macro": 0.3637,
+      "low_confidence_pct": 68.8,
+      "predicted_distribution": {
+        "NEGATIVE": 60,
+        "POSITIVE": 18,
+        "NEUTRAL": 2
+      },
+      "actual_distribution": {
+        "POSITIVE": 33,
+        "NEGATIVE": 43,
+        "NEUTRAL": 4
+      }
+    },
+    "samples": [
+      {
+        "app": "Gojek",
+        "text": "walaupun ada 1 yg pernah judes sy tetap kasih nilai oke tetap oke lah sy coustaner yg setia",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.516,
+        "probabilities": {
+          "NEGATIVE": 0.516,
+          "NEUTRAL": 0.257,
+          "POSITIVE": 0.228
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "sangat membatu",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.414,
+        "probabilities": {
+          "NEGATIVE": 0.351,
+          "NEUTRAL": 0.235,
+          "POSITIVE": 0.414
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "Driver cepat sampai di titik jemput",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.496,
+        "probabilities": {
+          "NEGATIVE": 0.496,
+          "NEUTRAL": 0.223,
+          "POSITIVE": 0.281
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "ok good",
+        "score": 5,
+        "predicted": "NEUTRAL",
+        "confidence": 0.542,
+        "probabilities": {
+          "NEGATIVE": 0.061,
+          "NEUTRAL": 0.542,
+          "POSITIVE": 0.397
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "Aplikasi yg berguna",
+        "score": 4,
+        "predicted": "NEGATIVE",
+        "confidence": 0.394,
+        "probabilities": {
+          "NEGATIVE": 0.394,
+          "NEUTRAL": 0.289,
+          "POSITIVE": 0.317
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "mantap",
+        "score": 4,
+        "predicted": "NEGATIVE",
+        "confidence": 0.395,
+        "probabilities": {
+          "NEGATIVE": 0.395,
+          "NEUTRAL": 0.218,
+          "POSITIVE": 0.387
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "membantu ketika saat d butuhkan untuk prjalanan jauh maupun dekat.mantap",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.395,
+        "probabilities": {
+          "NEGATIVE": 0.395,
+          "NEUTRAL": 0.231,
+          "POSITIVE": 0.375
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "gw mesen makanan engga ada driver mulu padahal masih jabodetabek",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.398,
+        "probabilities": {
+          "NEGATIVE": 0.398,
+          "NEUTRAL": 0.251,
+          "POSITIVE": 0.351
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "cepat driver nya ramah2 nyaman deh",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.547,
+        "probabilities": {
+          "NEGATIVE": 0.547,
+          "NEUTRAL": 0.184,
+          "POSITIVE": 0.269
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "penyelesaian masalahnya sangat tdk membantu",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.384,
+        "probabilities": {
+          "NEGATIVE": 0.384,
+          "NEUTRAL": 0.252,
+          "POSITIVE": 0.364
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "gajelas banget cs ga ngasih solusi, kendala semua isinya",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.382,
+        "probabilities": {
+          "NEGATIVE": 0.382,
+          "NEUTRAL": 0.239,
+          "POSITIVE": 0.379
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "tambah pilihan kendaraan listrik tuk yg tidak mau nambah asap",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.465,
+        "probabilities": {
+          "NEGATIVE": 0.465,
+          "NEUTRAL": 0.253,
+          "POSITIVE": 0.282
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "Bagus, ramah",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.492,
+        "probabilities": {
+          "NEGATIVE": 0.304,
+          "NEUTRAL": 0.203,
+          "POSITIVE": 0.492
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "apk tll yg salah cs, yang kena malah driver nya, jdi anyep. seretin rejeki org lo?",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.652,
+        "probabilities": {
+          "NEGATIVE": 0.652,
+          "NEUTRAL": 0.174,
+          "POSITIVE": 0.175
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "mau komplain susah sekali",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.368,
+        "probabilities": {
+          "NEGATIVE": 0.368,
+          "NEUTRAL": 0.277,
+          "POSITIVE": 0.356
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "aplikasi yg sangat membantu",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.4,
+        "probabilities": {
+          "NEGATIVE": 0.4,
+          "NEUTRAL": 0.221,
+          "POSITIVE": 0.38
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "Jangan pesan lewat aplikasi Gojek deh, soalnya sistemnya jelek KLO order dapat drivernya jauh terus, kasian drivernya jemputannya jauh habis dibensin, waktu, tenaga, resiko juga besar.",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.397,
+        "probabilities": {
+          "NEGATIVE": 0.376,
+          "NEUTRAL": 0.228,
+          "POSITIVE": 0.397
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "jelek",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.436,
+        "probabilities": {
+          "NEGATIVE": 0.436,
+          "NEUTRAL": 0.263,
+          "POSITIVE": 0.301
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "semoga Pak Nadim Makarim segera bebas",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.404,
+        "probabilities": {
+          "NEGATIVE": 0.404,
+          "NEUTRAL": 0.272,
+          "POSITIVE": 0.324
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "fast respon",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.929,
+        "probabilities": {
+          "NEGATIVE": 0.019,
+          "NEUTRAL": 0.052,
+          "POSITIVE": 0.929
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "👍👍👍👍👍👍",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.547,
+        "probabilities": {
+          "NEGATIVE": 0.547,
+          "NEUTRAL": 0.206,
+          "POSITIVE": 0.247
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "good",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.781,
+        "probabilities": {
+          "NEGATIVE": 0.014,
+          "NEUTRAL": 0.205,
+          "POSITIVE": 0.781
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "Aman & lancar",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.59,
+        "probabilities": {
+          "NEGATIVE": 0.225,
+          "NEUTRAL": 0.185,
+          "POSITIVE": 0.59
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "parah lama lama gak jelas ini aplikasi beli makanan gak ada yg mau nganter",
+        "score": 2,
+        "predicted": "POSITIVE",
+        "confidence": 0.488,
+        "probabilities": {
+          "NEGATIVE": 0.296,
+          "NEUTRAL": 0.216,
+          "POSITIVE": 0.488
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "mantap",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.395,
+        "probabilities": {
+          "NEGATIVE": 0.395,
+          "NEUTRAL": 0.218,
+          "POSITIVE": 0.387
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "gabisa pake diskon lagi karna katanya menyalahgunakan diskon? gak make sense. Fiturnya kan diciptakan buat digunakan, kalau menggunakan fitur yang di berikan saja dibilang menyalahgunakan, terus untuk apa fitur itu diciptakan? jangan pake diskon ges, nanti akun kalian gak dibolehin pake lagi. sudah email pun percuma. mengecewakan.",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.472,
+        "probabilities": {
+          "NEGATIVE": 0.472,
+          "NEUTRAL": 0.221,
+          "POSITIVE": 0.307
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "sangat membantu",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.471,
+        "probabilities": {
+          "NEGATIVE": 0.311,
+          "NEUTRAL": 0.219,
+          "POSITIVE": 0.471
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "saya kemarin dapat voucher gofood ongkir dan juga voucher makanan, tapi ketika saya pesan 1 jam kemudian tiba tiba di batalkan pesanan saya tanpa alasan yang jelas oleh sistem dan juga voucher saya juga hilang :)",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.446,
+        "probabilities": {
+          "NEGATIVE": 0.446,
+          "NEUTRAL": 0.246,
+          "POSITIVE": 0.308
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "tolong dong gojek masa sudah ada 2 bulan gofood di gojek saya gak ada diskonnya (semua resto), saya sudah coba berbagai akun saya yang lain tapi diskonnya juga gak ada, bener-bener hilang, tolong dong ini ginana cara baikinnya",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.427,
+        "probabilities": {
+          "NEGATIVE": 0.427,
+          "NEUTRAL": 0.239,
+          "POSITIVE": 0.334
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "cukup baik bagus",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.419,
+        "probabilities": {
+          "NEGATIVE": 0.419,
+          "NEUTRAL": 0.266,
+          "POSITIVE": 0.315
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "good",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.781,
+        "probabilities": {
+          "NEGATIVE": 0.014,
+          "NEUTRAL": 0.205,
+          "POSITIVE": 0.781
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "aplikasi ini sangat tepat waktu 👍👍👍",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.42,
+        "probabilities": {
+          "NEGATIVE": 0.42,
+          "NEUTRAL": 0.2,
+          "POSITIVE": 0.38
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "gojek kadang pencarian lama , gofood pemesanan juga lama di saat mode murah ,emang boleh gitu SE adil itu , kalau lah dia mesan gofood mau makan Udah kelaparan rumah nya ga ada yang jaga untuk dia keluar dan solusi ngego food Kelen memperlambat juga pesanan nya terus buat apa kalian buat tipe murah dan cepat , murah untuk biaya menolong kan tapi kalau pelayanan lama siapa yang kalian tolong diri sendiri , apa perusahaan",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.404,
+        "probabilities": {
+          "NEGATIVE": 0.404,
+          "NEUTRAL": 0.227,
+          "POSITIVE": 0.369
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "maaf kak sebaiknya tidak mencantumkan fitur yang tidak dapat di gunakan seperti gojek murah Rp 1",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.472,
+        "probabilities": {
+          "NEGATIVE": 0.472,
+          "NEUTRAL": 0.243,
+          "POSITIVE": 0.285
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "lamaaa nunggu makanana 2 jam sendiri",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.394,
+        "probabilities": {
+          "NEGATIVE": 0.394,
+          "NEUTRAL": 0.232,
+          "POSITIVE": 0.374
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "ampun sekali gojek ini. aplikator kasih pilihan pengiriman, dengan rentang harga yang sangat jauh. tapi apa yang saya dapet hingga hampir 2 jam menunggu mencari driver, padahal saya cek disekeliling resto banyak driver food yang duduk duduk menunggu orderan..",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.508,
+        "probabilities": {
+          "NEGATIVE": 0.508,
+          "NEUTRAL": 0.212,
+          "POSITIVE": 0.28
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "setiap pesan gojek driver nya pada batalin, mengecewankan",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.452,
+        "probabilities": {
+          "NEGATIVE": 0.452,
+          "NEUTRAL": 0.235,
+          "POSITIVE": 0.313
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "membantu di saat sedang lapar",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.411,
+        "probabilities": {
+          "NEGATIVE": 0.358,
+          "NEUTRAL": 0.231,
+          "POSITIVE": 0.411
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "ok",
+        "score": 5,
+        "predicted": "NEUTRAL",
+        "confidence": 0.534,
+        "probabilities": {
+          "NEGATIVE": 0.196,
+          "NEUTRAL": 0.534,
+          "POSITIVE": 0.27
+        }
+      },
+      {
+        "app": "Gojek",
+        "text": "bisakah saya mengajukan pinjama",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.421,
+        "probabilities": {
+          "NEGATIVE": 0.421,
+          "NEUTRAL": 0.258,
+          "POSITIVE": 0.321
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "ongkir mahal Walaupun Jadi pengguna baru voucher gak ngaruh",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.427,
+        "probabilities": {
+          "NEGATIVE": 0.319,
+          "NEUTRAL": 0.254,
+          "POSITIVE": 0.427
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "kapok beli dsini..kok bisa di tokped isinya bnyk toko yg nipu",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.514,
+        "probabilities": {
+          "NEGATIVE": 0.514,
+          "NEUTRAL": 0.237,
+          "POSITIVE": 0.249
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "simpel cepat murah",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.529,
+        "probabilities": {
+          "NEGATIVE": 0.529,
+          "NEUTRAL": 0.241,
+          "POSITIVE": 0.23
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "banyak toko abal-abal order barang PD ngak dikirim.. gimana toped konsumen dibuat susah pesan barang.. tidak di evakuasi mans toko aktif mana toko mati",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.511,
+        "probabilities": {
+          "NEGATIVE": 0.511,
+          "NEUTRAL": 0.226,
+          "POSITIVE": 0.263
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "sekarang ambil invoicenya susah",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.445,
+        "probabilities": {
+          "NEGATIVE": 0.445,
+          "NEUTRAL": 0.233,
+          "POSITIVE": 0.322
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "ada barang yg perlu verifikasi,tp di waktu verifikasi selalu gagal,sudah beberapa hari,dan beberapa kali verifikasi tetap gagal,,,👎👎👎",
+        "score": 4,
+        "predicted": "NEGATIVE",
+        "confidence": 0.412,
+        "probabilities": {
+          "NEGATIVE": 0.412,
+          "NEUTRAL": 0.194,
+          "POSITIVE": 0.394
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "aplikasi yg sangat tidak memuaskan dan sangat aneh ...semakin lama pake aplikasi ini bukannya banyak diskon / focer...tapi malahan harga barang semakin hari semakin mahal...",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.476,
+        "probabilities": {
+          "NEGATIVE": 0.476,
+          "NEUTRAL": 0.213,
+          "POSITIVE": 0.311
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "semua kurir tiktok shop dan Tokopedia nambah nambahin harga cod 2-5 ribu BIAYA LAYANAN MAHAL",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.399,
+        "probabilities": {
+          "NEGATIVE": 0.376,
+          "NEUTRAL": 0.226,
+          "POSITIVE": 0.399
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Jelekkkkkk, langganan plus udah bayar tapi menu plusnya ga berubahhhh!!! mana ga bisa co elektronik lagi, dibatas mulu dasar",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.731,
+        "probabilities": {
+          "NEGATIVE": 0.148,
+          "NEUTRAL": 0.12,
+          "POSITIVE": 0.731
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "tiap mo checkout dibuat pangling sama fitur gratis ongkir, dipilih gratis malah brubah jadi lebih mahal yang tadinya ongkir 12.000, pilih option tertera ada 2 pilihan tntu saya klik gratis, eh malah jd 34.000, bagong sekali 😅, g pernah benar benar gratis ongkir. ga kayak app orange yang otomatis pilihin yang gratis ongkir.",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.446,
+        "probabilities": {
+          "NEGATIVE": 0.446,
+          "NEUTRAL": 0.194,
+          "POSITIVE": 0.36
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Makin Parah Tokopedia",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.398,
+        "probabilities": {
+          "NEGATIVE": 0.398,
+          "NEUTRAL": 0.243,
+          "POSITIVE": 0.358
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Saya minta tolong , di lokasi pengambilan dan di lokasi pengantaran , kalau ada biaya parkir , kasih uang parkir ke driver , supaya tidak mengurangi penghasilan driver , di jaman sekarang tidak ada biaya parkir 1000 rb , kebanyakan biaya parkir untuk motor 2000 rb dan 3000 rb , Kalau pengantaran ke Expedisi kalau ada biaya parkir , toko harus kasih uang parkir ke driver dikarenakan pengantaran ke expedisi",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.437,
+        "probabilities": {
+          "NEGATIVE": 0.437,
+          "NEUTRAL": 0.238,
+          "POSITIVE": 0.325
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "bener² oon tolol gak ada adab ni ui aplikasi udah tau gak mau login masuk buat pencarian kenapa maksa pantes gak pernah tenar ni aplikasi",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.458,
+        "probabilities": {
+          "NEGATIVE": 0.458,
+          "NEUTRAL": 0.228,
+          "POSITIVE": 0.314
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "pokonya mantap kiwrojer",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.437,
+        "probabilities": {
+          "NEGATIVE": 0.437,
+          "NEUTRAL": 0.257,
+          "POSITIVE": 0.306
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "setelah diperbaharui Aplikasinya terlalu berat dan semakin susah dan tidak ada pintasan pencarian di saat diDi layar utama hp seperti dahulu jadi saya malas buka tokopedia lagi dah belanja males",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.389,
+        "probabilities": {
+          "NEGATIVE": 0.389,
+          "NEUTRAL": 0.255,
+          "POSITIVE": 0.357
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "senang dan puas belanja di Tokopedia.. tapi kenapa Vocher plus ku cuma 3 biji doang . kmrin² banyak . tolong kembalikan Vocher plus Kya dlu lgi 😭😭",
+        "score": 5,
+        "predicted": "POSITIVE",
+        "confidence": 0.423,
+        "probabilities": {
+          "NEGATIVE": 0.387,
+          "NEUTRAL": 0.19,
+          "POSITIVE": 0.423
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "mau login via desktop nyari kode buat login QR gak ada, buka bantuan ehhh malah dikasih yg versi lama bangmkee",
+        "score": 3,
+        "predicted": "POSITIVE",
+        "confidence": 0.496,
+        "probabilities": {
+          "NEGATIVE": 0.344,
+          "NEUTRAL": 0.16,
+          "POSITIVE": 0.496
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Tolong di rombak lagi untuk toko yang udah nonaktifkan, biar yang terlihat yang aktif aja",
+        "score": 3,
+        "predicted": "NEGATIVE",
+        "confidence": 0.419,
+        "probabilities": {
+          "NEGATIVE": 0.419,
+          "NEUTRAL": 0.244,
+          "POSITIVE": 0.337
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "\"Aplikasi tidak bisa berjalan pada perangkat anda\". Jadi harus beli hp baru yg sistem androidnya terbaru gitu utk bisa belanja melalui aplikasi tokped? Hadeh",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.395,
+        "probabilities": {
+          "NEGATIVE": 0.395,
+          "NEUTRAL": 0.21,
+          "POSITIVE": 0.395
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Tokopedia sekarang lelet",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.432,
+        "probabilities": {
+          "NEGATIVE": 0.432,
+          "NEUTRAL": 0.243,
+          "POSITIVE": 0.325
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "susah amat sambung Tokopedia ke akun saya",
+        "score": 4,
+        "predicted": "POSITIVE",
+        "confidence": 0.48,
+        "probabilities": {
+          "NEGATIVE": 0.308,
+          "NEUTRAL": 0.212,
+          "POSITIVE": 0.48
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "wduh semakin parah peLayanannya alamat sy sdh bnar dan sudah byar duluan alasannya salah alamat yg bnar tko pedia apa ekspedisinya sy sangat kecewa sekaLi blum Lg kurir chat wa alamat bnar alasan ya menurut sy kga msuk di akaL orang waras 👺👺👺",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.511,
+        "probabilities": {
+          "NEGATIVE": 0.511,
+          "NEUTRAL": 0.208,
+          "POSITIVE": 0.281
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Mau masukin pin tokopedia buat ngeliat sisa limit, rincian transaksi gak bisa karena keyboard gak muncul kalah sama \"isi otomatis dari sms\"",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.511,
+        "probabilities": {
+          "NEGATIVE": 0.511,
+          "NEUTRAL": 0.22,
+          "POSITIVE": 0.269
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "UPDATENYAAAA SUEEE 5 MENITTT,SAYAAA LAGIII BUTUHHH GAMAUUU TAUUU KEDEPANEEE HARUSSS DIPERBAIKINNN LAGIIII BIARRR CEPATTT PROSESSS DOWNLOADNYAAAA!!!! MKSH AK KSH BNTNG 1 AJH BR KDPN LBH BK😡😡😡 OKEH GAJADI BINTANG 1 JADINE BINTANG 3 KARNA UDAH SELESE DOWNLOADNYA",
+        "score": 3,
+        "predicted": "NEGATIVE",
+        "confidence": 0.45,
+        "probabilities": {
+          "NEGATIVE": 0.45,
+          "NEUTRAL": 0.209,
+          "POSITIVE": 0.341
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "kenapa ketika toko yang di banned permanen sama tokped duidnya ga balik dah? aku pesen layanan dan pas complain malaj hilang.",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.458,
+        "probabilities": {
+          "NEGATIVE": 0.458,
+          "NEUTRAL": 0.227,
+          "POSITIVE": 0.315
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "woi data diri saya salah. penyebutan nama kurang sepasi. lama banget di benerinnya. sial",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.427,
+        "probabilities": {
+          "NEGATIVE": 0.427,
+          "NEUTRAL": 0.228,
+          "POSITIVE": 0.345
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "itu fitur feednya kenapa gak muncul ? tolong perbaiki",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.489,
+        "probabilities": {
+          "NEGATIVE": 0.489,
+          "NEUTRAL": 0.256,
+          "POSITIVE": 0.255
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Kecewa dengan tokped sekarang, diiming-imingi dapat voucher 1 juta setelah belanja 2 produk ternyata voucher gak kunjung dapat..sudah complain dari Agustus hingga sekarang masih proses aja...gak transparan, masih mending si orange..",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.546,
+        "probabilities": {
+          "NEGATIVE": 0.546,
+          "NEUTRAL": 0.225,
+          "POSITIVE": 0.229
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "paket udah dari bulan Juni sampe sekarang Agustus gak pindah , dan gak di anter, di aplikasi juga tidak otomatis batal, padahal paket tidak pernah bergerak sudah 2 bulan lebih. chat seler paket kemungkinan hilang, tapi di aplikasi tidak ada pergerakan. kenapa tidak batal otomatis, ini sudah 2 bulan lebih loh, tlong dong Tokopedia, di benerin sistem nya.",
+        "score": 2,
+        "predicted": "NEGATIVE",
+        "confidence": 0.482,
+        "probabilities": {
+          "NEGATIVE": 0.482,
+          "NEUTRAL": 0.242,
+          "POSITIVE": 0.277
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "apk kontollllllll gk guna anjjjj",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.486,
+        "probabilities": {
+          "NEGATIVE": 0.486,
+          "NEUTRAL": 0.252,
+          "POSITIVE": 0.262
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "dalam waktu 2 bulan, 3 kali bermasalah. 2 kali bermasalah di toko yang udah ga aktif, tapi gaada pemberitahuan, dan 1 kali di pengiriman, yang udah 22 hari ga ada progres. mengajukan complain tapi respon dari CS slow, jadi banyak waktu yg ke buang",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.577,
+        "probabilities": {
+          "NEGATIVE": 0.577,
+          "NEUTRAL": 0.219,
+          "POSITIVE": 0.204
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "gak jelas",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.402,
+        "probabilities": {
+          "NEGATIVE": 0.402,
+          "NEUTRAL": 0.279,
+          "POSITIVE": 0.319
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Gak bisa2 bayar pke gopay.. mesti dr web browser dlu klow pke gopay,,asli makin kesini makin parah tim technical nya 👎🏻",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.535,
+        "probabilities": {
+          "NEGATIVE": 0.535,
+          "NEUTRAL": 0.185,
+          "POSITIVE": 0.28
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "aplikasi busuk. dah lama nunggu pesanan sampe malah macet di lokasi sampai beberapa hari dan melebihi estimasi tiba sampai beberapa hari tiba² pesanan dibatalkan mana vouchernya juga hilang. kalau nggak niat ngapain buat voucher",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.511,
+        "probabilities": {
+          "NEGATIVE": 0.511,
+          "NEUTRAL": 0.209,
+          "POSITIVE": 0.28
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Aplikasi jelek, transaksi top up listrik udah di transfer tapi tokennya ga keluar dan ga ada invoicenya. Komplain cuman dijawab bot dan serta ga bisa ngasih bukti transaksi buat minta refund. Dasar Anj*ng",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.583,
+        "probabilities": {
+          "NEGATIVE": 0.583,
+          "NEUTRAL": 0.211,
+          "POSITIVE": 0.206
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "selama ini amanah tiba2 akun logout sendiri paketan hilang, gongnya tiba2 paketan d kirim k rumah oknum yg kerja sama sama kurir tolong d tindak lanjuti.. paket yg bayar siapa malah c penadah dan keluarganya yg dpt barang yg kita bayar gila sihhhh",
+        "score": 3,
+        "predicted": "NEGATIVE",
+        "confidence": 0.48,
+        "probabilities": {
+          "NEGATIVE": 0.48,
+          "NEUTRAL": 0.223,
+          "POSITIVE": 0.298
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "👍",
+        "score": 5,
+        "predicted": "NEGATIVE",
+        "confidence": 0.547,
+        "probabilities": {
+          "NEGATIVE": 0.547,
+          "NEUTRAL": 0.206,
+          "POSITIVE": 0.247
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "TRNYT YG HEBAT PEMILIK LUAR🏆 KONOHA KALAH DLM SGL HAL‼️ PNY ANAK BANGSA KALAH SAMA PENDATANG⁉️ DLM PERSAINGAN HARGA⁉️ DLM ITEM🤣PARAHNYA BNYK SELLER2 TDK AKTIF❌️AKIBATNYA DUIT NYANGKUT BEBERAPA💥TMPT LAIN PENGEMBALIAN UANG HRSNYA LEWAT APA YG KITA BAYAR💰. INI NYANGKUT MAKANYA HARGA MAHAL TERPAKSA DIBELI⁉️HARGA ONLINE BILA TANPA BEBAS ONGKIR❌ BELANJA SAJA DITEMPAT SENDIRI‼️JANGAN BEBANKAN KONSUMEN DNG ASURANSI WLPN NILAINYA KECIL‼️ITU KEBIJAKAN PEMBELI BKN TOPED⁉️SEMOGA BERBENAH.. TERIMAKASIH🙏",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.631,
+        "probabilities": {
+          "NEGATIVE": 0.631,
+          "NEUTRAL": 0.195,
+          "POSITIVE": 0.174
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "return barang, barangnya hilang duit tidak kembali, pantes tidak laku busuk kayak gini",
+        "score": 1,
+        "predicted": "NEGATIVE",
+        "confidence": 0.545,
+        "probabilities": {
+          "NEGATIVE": 0.545,
+          "NEUTRAL": 0.189,
+          "POSITIVE": 0.266
+        }
+      },
+      {
+        "app": "Tokopedia",
+        "text": "Aplikasi stres. Transaksi saya gagal terus menerus padahal menggunakan e-commerce dan mbanking lain aman saja.",
+        "score": 1,
+        "predicted": "POSITIVE",
+        "confidence": 0.451,
+        "probabilities": {
+          "NEGATIVE": 0.366,
+          "NEUTRAL": 0.183,
+          "POSITIVE": 0.451
+        }
+      }
+    ]
+  }
+}

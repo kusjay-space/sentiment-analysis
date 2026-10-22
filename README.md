@@ -37,6 +37,28 @@ Sweep hyperparameter TF-IDF+LogReg (lihat `src/baseline_tuned.py`) menunjukkan c
 
 Target awal 85% tidak tercapai (real: 75.1% test). Penyebab: (1) training hanya 2 epoch di subset 30k — model kontekstual butuh lebih banyak data/epoch untuk menangkap nuansa NEUTRAL; (2) NEUTRAL (bintang 3) memang ambigu secara linguistik — bahkan DistilBERT hanya F1 0.40 di kelas ini. Namun DistilBERT tetap unggul **+4.9% accuracy** atas baseline dan jauh lebih baik di NEGATIVE/POSITIVE (0.81/0.85). Perbaikan lanjutan: train full 200k, 3-4 epoch, atau focal loss untuk kelas minoritas.
 
+### Validasi di Data Nyata (Real-World Test)
+
+Test set akademik bisa menipu: model bisa menghafal pola dataset. Untuk itu model diuji pada **review asli hasil scraping Play Store** (`google-play-scraper`), di luar distribusi training. Ground truth = star rating, mapping sama dengan training.
+
+| Test | Data | n | Accuracy | F1-macro | Confidence < 0.5 |
+|---|---|---|---|---|---|
+| Test set akademik | Amazon Reviews (test split) | 5.000 | 75.1% | 0.687 | — |
+| **Real-world English** | Play Store US (Spotify, Instagram) | 67 | **74.6%** | 0.593 | 10% |
+| **Real-world Indonesian** | Play Store ID (Gojek, Tokopedia) | 80 | 57.5% | 0.364 | **69%** |
+
+**Interpretasi:**
+
+1. **English generalizes.** Selisih 75.1% (akademik) vs 74.6% (nyata) hanya **0.5 poin** — bukti model tidak overfit dan benar-benar belajar sinyal sentimen, bukan menghafal dataset.
+
+2. **Indonesia di luar domain.** Model dilatih hanya pada teks Inggris; tokenizer memecah kata Indonesia menjadi 2–4 subword tanpa makna (contoh: `mengecewakan` → `meng`/`##ece`/`##wa`/`##kan`). Akibatnya akurasi turun ke 57.5%, dan model cenderung bias ke NEGATIVE (60 dari 80 prediksi).
+
+3. **Model menandai ketidakpastiannya.** Di data Indonesia, **69% prediksi punya confidence < 0.5**, versus hanya 10% di data English. Model tidak salah tebak dengan yakin — ia melaporkan rendahnya keyakinan, yang merupakan perilaku yang diinginkan untuk sistem produksi (bisa di-flag untuk review manusia).
+
+4. **Noise di data nyata.** Sebagian review Play Store US ternyata berbahasa Portugis, dan sebagian label bintang tidak konsisten dengan teksnya (mis. teks negatif tapi diberi 5 bintang). Ini menekankan bahwa ceiling akurasi pada data nyata lebih rendah dari benchmark akademik.
+
+**Implikasi untuk produksi:** untuk feedback pengguna Indonesia, diperlukan model berbahasa Indonesia (IndoBERT / XLM-R) yang dilatih pada korpus Indonesia — di luar scope assessment ini (lihat PRD §3 Out of Scope). Bukti lengkap per sampel: [`results/real_world_test.json`](results/real_world_test.json).
+
 ## Quick Start
 
 ```bash

@@ -36,9 +36,34 @@
 
     <div class="container">
         <section>
-            <h2>📋 Overview</h2>
-            <p>Pipeline NLP untuk mengklasifikasi review teks menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, atau <span class="negative">NEGATIVE</span>.</p>
-            <p>Dataset: Amazon Reviews EN (200.000 train, 5.000 validation, 5.000 test)</p>
+            <h2>📋 Abstract</h2>
+            <p>Pipeline NLP untuk mengklasifikasi review teks menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, atau <span class="negative">NEGATIVE</span>. Pendekatan bertahap: baseline <strong>TF-IDF + Logistic Regression</strong> (70.2% validation) lalu fine-tune <strong>DistilBERT</strong> (75.1% test, +4.9 poin). Model juga diuji pada <strong>review asli Play Store</strong> di luar dataset training untuk memvalidasi generalisasi: 74.6% pada review berbahasa Inggris (selisih 0.5 poin dari test set akademik — bukti tidak overfit), dan 57.5% pada review berbahasa Indonesia dengan 69% prediksi ber-confidence rendah (model menandai ketidakpastiannya sendiri).</p>
+        </section>
+
+        <section>
+            <h2>📚 Dataset</h2>
+            <table>
+                <tr><th>Properti</th><th>Nilai</th></tr>
+                <tr><td>Sumber</td><td><a href="https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en">HuggingFace — SetFit/amazon_reviews_multi_en</a></td></tr>
+                <tr><td>Train / Validation / Test</td><td>200.000 / 5.000 / 5.000</td></tr>
+                <tr><td>Label asli</td><td>Bintang 0–4</td></tr>
+                <tr><td>Mapping 3 kelas</td><td>0–1 → NEGATIVE · 2 → NEUTRAL · 3–4 → POSITIVE</td></tr>
+                <tr><td>Distribusi setelah mapping</td><td>NEG 80k · NEU 40k · POS 80k (rasio 2:1:2)</td></tr>
+                <tr><td>Bahasa</td><td>Inggris</td></tr>
+                <tr><td>Panjang teks</td><td>Median 23 kata · 98.3% ≤ 128 kata</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>🔬 Metodologi</h2>
+            <ol>
+                <li><strong>Data preparation.</strong> Load dataset, mapping bintang ke 3 kelas sentimen, EDA (distribusi label, panjang teks, sampel).</li>
+                <li><strong>Baseline.</strong> TF-IDF (sublinear TF, 100k features, bigram) + Logistic Regression dengan <code>class_weight='balanced'</code>. Sweep 4 konfigurasi hyperparameter untuk menemukan ceiling.</li>
+                <li><strong>Fine-tuning.</strong> DistilBERT base uncased, subsample stratified 30k (12k/6k/12k, seed 42), max_len 128, batch 32, lr 2e-5, 2 epoch, fp16 di GPU T4.</li>
+                <li><strong>Evaluasi.</strong> Seleksi model di validation split; angka final dilaporkan dari test split yang disentuh <em>tepat sekali</em>. Metrik: accuracy, F1-macro, F1 per kelas, confusion matrix.</li>
+                <li><strong>Inference.</strong> 10 sampel unseen dari test split (seed 42) → teks, label asli, prediksi, confidence.</li>
+                <li><strong>Validasi data nyata.</strong> Scraping review asli Play Store (EN & ID) untuk menguji generalisasi di luar distribusi training.</li>
+            </ol>
         </section>
 
         <section>
@@ -72,6 +97,33 @@
             <br><br>
             <p>F1 per kelas: <span class="negative">NEGATIVE 0.806</span> · <span class="neutral">NEUTRAL 0.403</span> · <span class="positive">POSITIVE 0.851</span></p>
             <img src="confusion_matrix.png" alt="Confusion Matrix">
+        </section>
+
+        <section>
+            <h2>🌍 Validasi Data Nyata (Play Store)</h2>
+            <p>Test set akademik bisa menipu — model bisa menghafal pola dataset. Karena itu model diuji pada <strong>review asli hasil scraping Play Store</strong>, di luar distribusi training. Ground truth = star rating dengan mapping yang sama.</p>
+            <table>
+                <tr>
+                    <th>Test</th><th>Data</th><th>n</th><th>Accuracy</th><th>F1-macro</th><th>Conf &lt; 0.5</th>
+                </tr>
+                <tr>
+                    <td>Test set akademik</td><td>Amazon Reviews (test)</td><td>5.000</td>
+                    <td>75.1%</td><td>0.687</td><td>—</td>
+                </tr>
+                <tr>
+                    <td><strong>Real-world English</strong></td><td>Play Store US (Spotify, Instagram)</td><td>67</td>
+                    <td class="positive"><strong>74.6%</strong></td><td>0.593</td><td>10%</td>
+                </tr>
+                <tr>
+                    <td><strong>Real-world Indonesian</strong></td><td>Play Store ID (Gojek, Tokopedia)</td><td>80</td>
+                    <td class="negative">57.5%</td><td>0.364</td><td><strong>69%</strong></td>
+                </tr>
+            </table>
+            <p><strong>1. English generalizes.</strong> Selisih 75.1% (akademik) vs 74.6% (nyata) hanya <strong>0.5 poin</strong> — bukti model tidak overfit dan benar-benar belajar sinyal sentimen, bukan menghafal dataset.</p>
+            <p><strong>2. Indonesia di luar domain.</strong> Model dilatih hanya pada teks Inggris; tokenizer memecah kata Indonesia menjadi 2–4 subword tanpa makna (contoh: <code>mengecewakan</code> → <code>meng</code>/<code>##ece</code>/<code>##wa</code>/<code>##kan</code>). Akurasi turun ke 57.5% dengan bias ke NEGATIVE (60 dari 80 prediksi).</p>
+            <p><strong>3. Model menandai ketidakpastiannya.</strong> Di data Indonesia, <strong>69% prediksi punya confidence &lt; 0.5</strong>, versus hanya 10% di data English. Model tidak salah tebak dengan yakin — perilaku yang diinginkan untuk sistem produksi (bisa di-flag untuk review manusia).</p>
+            <p><strong>4. Noise di data nyata.</strong> Sebagian review Play Store US ternyata berbahasa Portugis, dan sebagian label bintang tidak konsisten dengan teksnya. Ceiling akurasi pada data nyata memang lebih rendah dari benchmark akademik.</p>
+            <p><strong>Implikasi produksi:</strong> untuk feedback pengguna Indonesia diperlukan model berbahasa Indonesia (IndoBERT / XLM-R) yang dilatih pada korpus Indonesia — di luar scope assessment ini.</p>
         </section>
 
         <section>

@@ -49,25 +49,33 @@ sentiment-analysis/
 ├── TASKS.md
 ├── SPEC.md
 ├── requirements.txt
+├── LICENSE
 ├── .gitignore
 ├── notebooks/
 │   ├── 01_eda.ipynb
 │   ├── 02_baseline.ipynb
-│   ├── 03_finetune.ipynb
-│   └── 04_inference.ipynb
+│   └── 03_finetune.ipynb
 ├── src/
 │   ├── preprocess.py
 │   ├── baseline.py
+│   ├── baseline_tuned.py
 │   ├── train.py
-│   └── inference.py
+│   ├── inference.py
+│   └── predict.py
 ├── results/
 │   ├── metrics.json
+│   ├── metrics_baseline.json
+│   ├── metrics_baseline_tuned.json
 │   ├── predictions.csv
-│   └── confusion_matrix.png
+│   ├── confusion_matrix.png
+│   ├── confusion_matrix_baseline.png
+│   ├── confusion_matrix_baseline_tuned.png
+│   └── real_world_test.json
 ├── model/
-│   └── (checkpoint via Git LFS atau Releases)
+│   └── README.md   (checkpoint via GitHub Releases)
 └── docs/
-    └── index.html
+    ├── index.html
+    └── confusion_matrix.png
 ```
 
 ## Data Flow
@@ -75,6 +83,8 @@ sentiment-analysis/
 **Split discipline:** TF-IDF+LogReg dan DistilBERT dievaluasi di split yang sama — validation untuk seleksi model, test untuk angka final (disentuh sekali di akhir).
 
 ### Training
+
+Model yang di-submit (v1) dilatih dengan konfigurasi berikut:
 
 ```
 Amazon Reviews EN (200k train)
