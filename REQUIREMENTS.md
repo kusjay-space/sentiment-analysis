@@ -58,12 +58,12 @@
 | Item | Detail |
 |---|---|
 | Sumber | `SetFit/amazon_reviews_multi_en` |
-| Train | 200.000 rows |
+| Train | 30.000 rows (subsample stratified: 12k NEG / 6k NEU / 12k POS, seed 42) |
 | Validation | 5.000 rows |
 | Test | 5.000 rows |
 | Label | Bintang 1–5 → mapping ke NEGATIVE/NEUTRAL/POSITIVE. Bintang 1–2 = NEG, bintang 3 = NEU, bintang 4–5 = POS (kode dataset: label 0–1 → NEG, 2 → NEU, 3–4 → POS). Hanya bintang 3 yang menjadi NEUTRAL, sehingga NEUTRAL minoritas (20%) |
 | Bahasa | Inggris |
-| Imbalance | Setelah mapping: NEG ~80k / NEU ~40k / POS ~80k pada dataset penuh (rasio 2:1:2). Pada subsample training 30k: 12k / 6k / 12k (rasio sama). NEUTRAL kelas minoritas (20%) karena hanya bintang 3 yang masuk NEUTRAL |
+| Imbalance | NEG 12k / NEU 6k / POS 12k (rasio 2:1:2). NEUTRAL kelas minoritas (20%) karena hanya bintang 3 yang masuk NEUTRAL |
 | Preprocessing | TF-IDF: lowercase + strip HTML; DistilBERT: teks raw (tokenizer menangani), max 128 token |
 
 ## Model

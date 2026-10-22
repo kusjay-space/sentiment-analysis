@@ -37,7 +37,7 @@ Output akhir: repo GitHub publik + halaman GitHub Pages statis yang menjelaskan 
 | Properti | Nilai |
 |---|---|
 | Sumber | HuggingFace `SetFit/amazon_reviews_multi_en` |
-| Train | 200.000 rows (dipakai 30.000 subsample stratified: 12k NEG / 6k NEU / 12k POS) |
+| Train | 30.000 rows (subsample stratified: 12k NEG / 6k NEU / 12k POS, seed 42) |
 | Validation | 5.000 rows |
 | Test | 5.000 rows |
 | Label asli | Bintang 1–5 (dikodekan sebagai `label` 0–4 di dataset: label 0 = bintang 1, label 4 = bintang 5) |

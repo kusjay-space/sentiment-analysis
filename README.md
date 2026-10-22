@@ -16,31 +16,30 @@ Sumber: [HuggingFace — `SetFit/amazon_reviews_multi_en`](https://huggingface.c
 
 **Ukuran split**
 
-| Split | Tersedia | Dipakai | Keterangan |
-|---|---|---|---|
-| Train | 200.000 | **30.000** | subsample stratified (12k NEG / 6k NEU / 12k POS), seed 42 |
-| Validation | 5.000 | 5.000 | seleksi model & hyperparameter |
-| Test | 5.000 | 5.000 | disentuh **tepat sekali** untuk angka final |
-
-Model dilatih pada 30.000 dari 200.000 sampel agar fine-tuning selesai ~30 menit di GPU T4 (kuota Colab gratis) dan tetap cukup untuk proof-of-concept sesuai brief. Dataset penuh didokumentasikan agar hasil dapat direproduksi.
-
-**Mapping label** — dataset menyimpan rating sebagai `label` 0–4 (label 0 = bintang 1, label 4 = bintang 5):
-
-| Bintang asli | Kode `label` | Kelas |
+| Split | Jumlah | Keterangan |
 |---|---|---|
-| ★☆☆☆☆ · ★★☆☆☆ | 0, 1 | NEGATIVE |
-| ★★★☆☆ | 2 | NEUTRAL |
-| ★★★★☆ · ★★★★★ | 3, 4 | POSITIVE |
+| Train | **30.000** | subsample stratified 12k NEG / 6k NEU / 12k POS, seed 42 |
+| Validation | 5.000 | seleksi model & hyperparameter |
+| Test | 5.000 | disentuh **tepat sekali** untuk angka final |
 
-**Distribusi kelas** — hanya bintang 3 yang menjadi NEUTRAL, sedangkan NEGATIVE dan POSITIVE masing-masing mendapat dua bintang. Karena itu NEUTRAL jadi kelas minoritas (20%), baik di dataset penuh maupun di subsample training:
+**Mapping label** — rating bintang digabung menjadi tiga kelas sentimen:
 
-| Kelas | Dataset penuh (200k) | Training (30k) | Proporsi |
-|---|---|---|---|
-| NEGATIVE | 80.000 | **12.000** | 40% |
-| NEUTRAL | 40.000 | **6.000** | 20% |
-| POSITIVE | 80.000 | **12.000** | 40% |
+| Bintang asli | Kelas |
+|---|---|
+| ★☆☆☆☆ · ★★☆☆☆ | NEGATIVE |
+| ★★★☆☆ | NEUTRAL |
+| ★★★★☆ · ★★★★★ | POSITIVE |
 
-Rasio 2 : 1 : 2 dipertahankan pada subsample agar distribusi training mencerminkan distribusi asli. Karena NEUTRAL minoritas, baseline memakai `class_weight='balanced'` dan F1 dilaporkan per kelas.
+**Distribusi kelas pada data training** — hanya bintang 3 yang menjadi NEUTRAL, sedangkan NEGATIVE dan POSITIVE masing-masing mendapat dua bintang. Karena itu NEUTRAL jadi kelas minoritas (20%):
+
+| Kelas | Jumlah | Proporsi |
+|---|---|---|
+| NEGATIVE | 12.000 | 40% |
+| NEUTRAL | 6.000 | 20% |
+| POSITIVE | 12.000 | 40% |
+| **Total** | **30.000** | 100% |
+
+Karena NEUTRAL minoritas, baseline memakai `class_weight='balanced'` dan F1 dilaporkan per kelas.
 
 **Karakteristik teks:** bahasa Inggris · median 23 kata (p95 = 88, maks 429) · 98.3% review ≤ 128 kata sehingga `max_len=128` memadai · kolom `id`, `text`, `label`, `label_text`.
 
@@ -57,11 +56,11 @@ Kedua model dievaluasi di split yang sama (train subsample → seleksi di valida
 
 ### Kenapa baseline mentok di ~70%
 
-Sweep hyperparameter TF-IDF+LogReg (lihat `src/baseline_tuned.py`) menunjukkan ceiling ≈70% pada constraint 60k train subsample — bigram/trigram, char n-gram, C besar, dan 510k features semuanya < 71%. Bottlenecknya adalah kelas NEUTRAL (F1 0.47): bintang 3 secara inheren ambigu dan TF-IDF tidak menangkap konteks. Ini motivasi utama fine-tune DistilBERT.
+Sweep hyperparameter TF-IDF+LogReg (lihat `src/baseline_tuned.py`) menunjukkan ceiling ≈70% pada data training 30k — bigram/trigram, char n-gram, C besar, dan 510k features semuanya < 71%. Bottlenecknya adalah kelas NEUTRAL (F1 0.47): bintang 3 secara inheren ambigu dan TF-IDF tidak menangkap konteks. Ini motivasi utama fine-tune DistilBERT.
 
 ### Hasil DistilBERT vs ekspektasi
 
-Target awal 85% tidak tercapai (real: 75.1% test). Penyebab: (1) training hanya 2 epoch di subset 30k — model kontekstual butuh lebih banyak data/epoch untuk menangkap nuansa NEUTRAL; (2) NEUTRAL (bintang 3) memang ambigu secara linguistik — bahkan DistilBERT hanya F1 0.40 di kelas ini. Namun DistilBERT tetap unggul **+4.9% accuracy** atas baseline dan jauh lebih baik di NEGATIVE/POSITIVE (0.81/0.85). Perbaikan lanjutan: train full 200k, 3-4 epoch, atau focal loss untuk kelas minoritas.
+Target awal 85% tidak tercapai (real: 75.1% test). Penyebab: (1) training hanya 2 epoch di subset 30k — model kontekstual butuh lebih banyak data/epoch untuk menangkap nuansa NEUTRAL; (2) NEUTRAL (bintang 3) memang ambigu secara linguistik — bahkan DistilBERT hanya F1 0.40 di kelas ini. Namun DistilBERT tetap unggul **+4.9% accuracy** atas baseline dan jauh lebih baik di NEGATIVE/POSITIVE (0.81/0.85). Perbaikan lanjutan: tambah data training, 3-4 epoch, atau focal loss untuk kelas minoritas.
 
 ### Validasi di Data Nyata (Real-World Test)
 

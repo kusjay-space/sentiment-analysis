@@ -87,7 +87,7 @@ sentiment-analysis/
 Model yang di-submit (v1) dilatih dengan konfigurasi berikut:
 
 ```
-Amazon Reviews EN (200k train)
+Amazon Reviews EN (subsample 30k)
     │
     ▼
 Mapping: bintang 1-2 → NEG, bintang 3 → NEU, bintang 4-5 → POS
