@@ -12,12 +12,37 @@ Project ini adalah submission untuk AI Engineer Intern assessment di Timedoor. M
 
 ## Dataset
 
-- **Sumber:** [Amazon Reviews Multi EN](https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en)
-- **Train:** 200.000 rows
-- **Validation:** 5.000 rows
-- **Test:** 5.000 rows
-- **Mapping:** bintang 1–2 → NEGATIVE, bintang 3 → NEUTRAL, bintang 4–5 → POSITIVE (dalam dataset, `label` 0–4: 0–1 → NEG, 2 → NEU, 3–4 → POS)
-- **Dipakai training:** 30.000 sampel (subsample stratified dari 200k: 12k NEG / 6k NEU / 12k POS, seed 42)
+Sumber: [HuggingFace — `SetFit/amazon_reviews_multi_en`](https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en) (salah satu platform yang direkomendasikan brief, selain Kaggle dan Roboflow).
+
+**Ukuran split**
+
+| Split | Tersedia | Dipakai | Keterangan |
+|---|---|---|---|
+| Train | 200.000 | **30.000** | subsample stratified (12k NEG / 6k NEU / 12k POS), seed 42 |
+| Validation | 5.000 | 5.000 | seleksi model & hyperparameter |
+| Test | 5.000 | 5.000 | disentuh **tepat sekali** untuk angka final |
+
+Model dilatih pada 30.000 dari 200.000 sampel agar fine-tuning selesai ~30 menit di GPU T4 (kuota Colab gratis) dan tetap cukup untuk proof-of-concept sesuai brief. Dataset penuh didokumentasikan agar hasil dapat direproduksi.
+
+**Mapping label** — dataset menyimpan rating sebagai `label` 0–4 (label 0 = bintang 1, label 4 = bintang 5):
+
+| Bintang asli | Kode `label` | Kelas |
+|---|---|---|
+| ★☆☆☆☆ · ★★☆☆☆ | 0, 1 | NEGATIVE |
+| ★★★☆☆ | 2 | NEUTRAL |
+| ★★★★☆ · ★★★★★ | 3, 4 | POSITIVE |
+
+**Distribusi kelas** — hanya bintang 3 yang menjadi NEUTRAL, sedangkan NEGATIVE dan POSITIVE masing-masing mendapat dua bintang. Karena itu NEUTRAL jadi kelas minoritas (20%), baik di dataset penuh maupun di subsample training:
+
+| Kelas | Dataset penuh (200k) | Training (30k) | Proporsi |
+|---|---|---|---|
+| NEGATIVE | 80.000 | **12.000** | 40% |
+| NEUTRAL | 40.000 | **6.000** | 20% |
+| POSITIVE | 80.000 | **12.000** | 40% |
+
+Rasio 2 : 1 : 2 dipertahankan pada subsample agar distribusi training mencerminkan distribusi asli. Karena NEUTRAL minoritas, baseline memakai `class_weight='balanced'` dan F1 dilaporkan per kelas.
+
+**Karakteristik teks:** bahasa Inggris · median 23 kata (p95 = 88, maks 429) · 98.3% review ≤ 128 kata sehingga `max_len=128` memadai · kolom `id`, `text`, `label`, `label_text`.
 
 ## Model
 

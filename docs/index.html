@@ -6,170 +6,332 @@
     <title>Sentiment Analysis — App Reviews</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        header { background: #1a1a2e; color: white; padding: 40px 0; text-align: center; }
-        header h1 { font-size: 2em; margin-bottom: 10px; }
-        header p { opacity: 0.8; }
-        section { background: white; margin: 20px 0; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h2 { color: #1a1a2e; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #f8f9fa; font-weight: 600; }
-        .positive { color: #28a745; font-weight: bold; }
-        .negative { color: #dc3545; font-weight: bold; }
-        .neutral { color: #ffc107; font-weight: bold; }
-        .metric { display: inline-block; background: #e9ecef; padding: 10px 20px; border-radius: 20px; margin: 5px; }
-        .metric strong { font-size: 1.2em; }
-        img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; }
-        footer { text-align: center; padding: 20px; color: #666; font-size: 0.9em; }
-        a { color: #0066cc; text-decoration: none; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #2c3038; background: #f5f6f8; }
+        .container { max-width: 920px; margin: 0 auto; padding: 20px; }
+        header { background: #1a1a2e; color: white; padding: 44px 0; text-align: center; }
+        header h1 { font-size: 2em; margin-bottom: 8px; }
+        header p { opacity: 0.82; }
+        .badge { display: inline-block; margin-top: 16px; padding: 6px 16px; border-radius: 14px; background: #28a745; color: #fff; font-size: 0.85em; font-weight: 600; }
+        nav { background: #fff; border-bottom: 1px solid #e6e8eb; position: sticky; top: 0; z-index: 10; }
+        nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; max-width: 920px; margin: 0 auto; padding: 10px 20px; }
+        nav a { font-size: 0.86em; color: #4a5160; text-decoration: none; padding: 5px 10px; border-radius: 6px; display: block; }
+        nav a:hover { background: #eef1f5; color: #1a1a2e; }
+        section { background: white; margin: 20px 0; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+        h2 { color: #1a1a2e; font-size: 1.28em; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #eef1f5; }
+        h3 { color: #1a1a2e; font-size: 1.02em; margin: 22px 0 8px; }
+        p { margin-bottom: 12px; }
+        p:last-child { margin-bottom: 0; }
+        ul, ol { margin: 10px 0 12px 22px; }
+        li { margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.94em; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eef1f5; vertical-align: top; }
+        th { background: #f8f9fb; font-weight: 600; color: #1a1a2e; font-size: 0.92em; }
+        tr:last-child td { border-bottom: none; }
+        td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        code { background: #f1f3f6; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+        small { color: #6b7280; }
+        .positive { color: #1a7f37; font-weight: 600; }
+        .negative { color: #c62828; font-weight: 600; }
+        .neutral { color: #b45309; font-weight: 600; }
+        .metrics { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+        .metric { background: #eef1f5; padding: 12px 20px; border-radius: 8px; text-align: center; flex: 1 1 130px; }
+        .metric strong { display: block; font-size: 1.35em; color: #1a1a2e; }
+        .metric span { font-size: 0.8em; color: #6b7280; }
+        .note { background: #f8f9fb; border-left: 3px solid #1a1a2e; padding: 12px 16px; margin: 14px 0; font-size: 0.94em; }
+        .warn { background: #fff8e6; border-left: 3px solid #f0ad4e; padding: 12px 16px; margin: 14px 0; font-size: 0.94em; }
+        img { max-width: 100%; height: auto; border-radius: 8px; margin: 14px 0; border: 1px solid #eef1f5; }
+        footer { text-align: center; padding: 26px; color: #6b7280; font-size: 0.88em; }
+        a { color: #0b5cad; text-decoration: none; }
         a:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            section { padding: 20px 16px; }
+            header h1 { font-size: 1.5em; }
+            table { font-size: 0.86em; }
+            th, td { padding: 8px; }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Sentiment Analysis — App Reviews</h1>
         <p>AI Engineer Intern Assessment — Timedoor</p>
-        <p style="display:inline-block;margin-top:14px;padding:5px 14px;border-radius:14px;background:#28a745;color:#fff;font-size:0.85em;font-weight:600;opacity:1;">Status: Selesai — DistilBERT 75.1% (test)</p>
+        <p class="badge">DistilBERT 75.1% accuracy (test split)</p>
     </header>
 
+    <nav>
+        <ul>
+            <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#dataset">Dataset</a></li>
+            <li><a href="#metodologi">Metodologi</a></li>
+            <li><a href="#model">Model</a></li>
+            <li><a href="#hasil">Hasil</a></li>
+            <li><a href="#realworld">Validasi Nyata</a></li>
+            <li><a href="#inference">Inference</a></li>
+            <li><a href="#limitasi">Limitasi</a></li>
+            <li><a href="#repo">Repository</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
-        <section>
+
+        <section id="abstract">
             <h2>📋 Abstract</h2>
-            <p>Pipeline NLP untuk mengklasifikasi review teks menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, atau <span class="negative">NEGATIVE</span>. Pendekatan bertahap: baseline <strong>TF-IDF + Logistic Regression</strong> (70.2% validation) lalu fine-tune <strong>DistilBERT</strong> (75.1% test, +4.9 poin). Model juga diuji pada <strong>review asli Play Store</strong> di luar dataset training untuk memvalidasi generalisasi: 74.6% pada review berbahasa Inggris (selisih 0.5 poin dari test set akademik — bukti tidak overfit), dan 57.5% pada review berbahasa Indonesia dengan 69% prediksi ber-confidence rendah (model menandai ketidakpastiannya sendiri).</p>
+            <p>Pipeline NLP yang mengklasifikasikan review pengguna menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, dan <span class="negative">NEGATIVE</span>. Pendekatan bertahap: baseline <strong>TF-IDF + Logistic Regression</strong> (70.2% validation), lalu fine-tune <strong>DistilBERT</strong> (75.1% test, +4.9 poin).</p>
+            <p>Untuk menguji apakah model benar-benar belajar sinyal sentimen — bukan menghafal dataset — model diuji pada <strong>review asli hasil scraping Play Store</strong>: <strong>74.6%</strong> pada review berbahasa Inggris (selisih hanya 0.5 poin dari test set akademik), dan 57.5% pada review berbahasa Indonesia dengan 69% prediksi ber-confidence rendah, karena model memang hanya dilatih pada teks Inggris.</p>
         </section>
 
-        <section>
+        <section id="dataset">
             <h2>📚 Dataset</h2>
+            <p>Sumber: <a href="https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en">HuggingFace — <code>SetFit/amazon_reviews_multi_en</code></a> (salah satu platform yang direkomendasikan brief, selain Kaggle dan Roboflow).</p>
+
+            <h3>Ukuran split</h3>
+            <table>
+                <tr>
+                    <th>Split</th>
+                    <th class="num">Tersedia</th>
+                    <th class="num">Dipakai</th>
+                    <th>Keterangan</th>
+                </tr>
+                <tr>
+                    <td>Train</td>
+                    <td class="num">200.000</td>
+                    <td class="num"><strong>30.000</strong></td>
+                    <td>subsample stratified (12k NEG / 6k NEU / 12k POS), seed 42</td>
+                </tr>
+                <tr>
+                    <td>Validation</td>
+                    <td class="num">5.000</td>
+                    <td class="num">5.000</td>
+                    <td>untuk seleksi model &amp; hyperparameter</td>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td class="num">5.000</td>
+                    <td class="num">5.000</td>
+                    <td>disentuh <em>tepat sekali</em> untuk angka final</td>
+                </tr>
+            </table>
+            <div class="note">
+                <strong>Kenapa hanya 30.000 dari 200.000?</strong> Model dilatih pada subsample agar fine-tuning selesai dalam ~30 menit di GPU T4 (kuota Colab gratis) dan tetap cukup untuk proof-of-concept sesuai brief. Dataset penuh tetap didokumentasikan agar hasil dapat direproduksi.
+            </div>
+
+            <h3>Mapping label</h3>
+            <p>Dataset menyimpan rating sebagai <code>label</code> 0–4 (label 0 = bintang 1, label 4 = bintang 5). Lima kelas digabung menjadi tiga:</p>
+            <table>
+                <tr>
+                    <th>Bintang asli</th>
+                    <th>Kode <code>label</code></th>
+                    <th>Kelas sentimen</th>
+                </tr>
+                <tr><td>★☆☆☆☆ &nbsp;·&nbsp; ★★☆☆☆</td><td>0, 1</td><td class="negative">NEGATIVE</td></tr>
+                <tr><td>★★★☆☆</td><td>2</td><td class="neutral">NEUTRAL</td></tr>
+                <tr><td>★★★★☆ &nbsp;·&nbsp; ★★★★★</td><td>3, 4</td><td class="positive">POSITIVE</td></tr>
+            </table>
+
+            <h3>Distribusi kelas</h3>
+            <p>Hanya bintang 3 yang menjadi NEUTRAL, sedangkan NEGATIVE dan POSITIVE masing-masing mendapat dua bintang. Akibatnya NEUTRAL menjadi kelas minoritas (20%) — baik pada dataset penuh maupun pada subsample training:</p>
+            <table>
+                <tr>
+                    <th>Kelas</th>
+                    <th class="num">Dataset penuh (200k)</th>
+                    <th class="num">Training (30k)</th>
+                    <th class="num">Proporsi</th>
+                </tr>
+                <tr><td class="negative">NEGATIVE</td><td class="num">80.000</td><td class="num"><strong>12.000</strong></td><td class="num">40%</td></tr>
+                <tr><td class="neutral">NEUTRAL</td><td class="num">40.000</td><td class="num"><strong>6.000</strong></td><td class="num">20%</td></tr>
+                <tr><td class="positive">POSITIVE</td><td class="num">80.000</td><td class="num"><strong>12.000</strong></td><td class="num">40%</td></tr>
+            </table>
+            <p><small>Rasio 2 : 1 : 2 dipertahankan pada subsample agar distribusi training mencerminkan distribusi asli. Karena NEUTRAL minoritas, baseline memakai <code>class_weight='balanced'</code> dan F1 dilaporkan per kelas.</small></p>
+
+            <h3>Karakteristik teks</h3>
             <table>
                 <tr><th>Properti</th><th>Nilai</th></tr>
-                <tr><td>Sumber</td><td><a href="https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en">HuggingFace — SetFit/amazon_reviews_multi_en</a></td></tr>
-                <tr><td>Train / Validation / Test</td><td>200.000 / 5.000 / 5.000</td></tr>
-                <tr><td>Label asli</td><td>Bintang 1–5 (dalam dataset dikodekan sebagai <code>label</code> 0–4)</td></tr>
-                <tr><td>Mapping 3 kelas</td><td>Bintang <strong>1–2 → NEGATIVE</strong> · Bintang <strong>3 → NEUTRAL</strong> · Bintang <strong>4–5 → POSITIVE</strong><br><small>(kode: label 0–1 → NEG, 2 → NEU, 3–4 → POS)</small></td></tr>
-                <tr><td>Dipakai training</td><td><strong>30.000</strong> (subsample stratified: 12k NEG / 6k NEU / 12k POS)</td></tr>
-                <tr><td>Distribusi setelah mapping</td><td>NEG 80k · NEU 40k · POS 80k (rasio 2:1:2) — hanya bintang 3 yang jadi NEUTRAL, sehingga NEUTRAL minoritas</td></tr>
                 <tr><td>Bahasa</td><td>Inggris</td></tr>
-                <tr><td>Panjang teks</td><td>Median 23 kata · 98.3% ≤ 128 kata</td></tr>
+                <tr><td>Panjang (kata)</td><td>median 23 · p95 88 · maks 429</td></tr>
+                <tr><td>Cakupan <code>max_len=128</code></td><td>98.3% review tidak terpotong</td></tr>
+                <tr><td>Kolom</td><td><code>id</code>, <code>text</code>, <code>label</code>, <code>label_text</code></td></tr>
             </table>
         </section>
 
-        <section>
+        <section id="metodologi">
             <h2>🔬 Metodologi</h2>
             <ol>
-                <li><strong>Data preparation.</strong> Load dataset, mapping bintang ke 3 kelas sentimen, EDA (distribusi label, panjang teks, sampel).</li>
-                <li><strong>Baseline.</strong> TF-IDF (sublinear TF, 100k features, bigram) + Logistic Regression dengan <code>class_weight='balanced'</code>. Sweep 4 konfigurasi hyperparameter untuk menemukan ceiling.</li>
-                <li><strong>Fine-tuning.</strong> DistilBERT base uncased, subsample stratified 30k (12k/6k/12k, seed 42), max_len 128, batch 32, lr 2e-5, 2 epoch, fp16 di GPU T4.</li>
-                <li><strong>Evaluasi.</strong> Seleksi model di validation split; angka final dilaporkan dari test split yang disentuh <em>tepat sekali</em>. Metrik: accuracy, F1-macro, F1 per kelas, confusion matrix.</li>
-                <li><strong>Inference.</strong> 10 sampel unseen dari test split (seed 42) → teks, label asli, prediksi, confidence.</li>
-                <li><strong>Validasi data nyata.</strong> Scraping review asli Play Store (EN & ID) untuk menguji generalisasi di luar distribusi training.</li>
+                <li><strong>Data preparation.</strong> Load dataset, mapping 5 bintang ke 3 kelas sentimen, lalu EDA: distribusi label, distribusi panjang teks, dan inspeksi sampel per kelas.</li>
+                <li><strong>Baseline.</strong> TF-IDF (sublinear TF, 100k fitur, bigram) + Logistic Regression dengan <code>class_weight='balanced'</code>. Empat konfigurasi hyperparameter disapu untuk menemukan ceiling pendekatan klasik.</li>
+                <li><strong>Fine-tuning.</strong> DistilBERT base uncased, subsample stratified 30k, <code>max_len=128</code>, batch 32, learning rate 2e-5, 2 epoch, fp16 pada GPU T4.</li>
+                <li><strong>Disiplin split.</strong> Seleksi model dan hyperparameter hanya di <em>validation</em>. Angka final dilaporkan dari <em>test</em> yang disentuh tepat sekali, sehingga tidak ada kebocoran data ke proses seleksi.</li>
+                <li><strong>Evaluasi.</strong> Accuracy, F1-macro, F1-weighted, F1 per kelas, dan confusion matrix. F1-macro menjadi metrik pendamping utama karena kelas tidak seimbang.</li>
+                <li><strong>Inference.</strong> 10 sampel unseen dari test split (seed 42) → teks, label asli, prediksi, dan confidence.</li>
+                <li><strong>Validasi data nyata.</strong> Scraping review asli Play Store (Inggris &amp; Indonesia) untuk menguji generalisasi di luar distribusi training.</li>
             </ol>
         </section>
 
-        <section>
+        <section id="model">
             <h2>🤖 Model</h2>
             <table>
                 <tr>
                     <th>Model</th>
-                    <th>Akurasi</th>
-                    <th>F1-macro</th>
+                    <th>Split evaluasi</th>
+                    <th class="num">Accuracy</th>
+                    <th class="num">F1-macro</th>
                 </tr>
                 <tr>
-                    <td>TF-IDF + LogisticRegression (baseline, tuned)</td>
-                    <td>70.2% <em>(validation)</em></td>
-                    <td>0.674</td>
+                    <td>TF-IDF + LogisticRegression <small>(baseline, tuned)</small></td>
+                    <td>validation</td>
+                    <td class="num">70.2%</td>
+                    <td class="num">0.674</td>
                 </tr>
                 <tr>
-                    <td>DistilBERT (fine-tuned)</td>
-                    <td><strong>75.1% (test)</strong></td>
-                    <td><strong>0.687</strong></td>
+                    <td><strong>DistilBERT base uncased</strong> <small>(model utama)</small></td>
+                    <td>test</td>
+                    <td class="num"><strong>75.1%</strong></td>
+                    <td class="num"><strong>0.687</strong></td>
                 </tr>
             </table>
-            <p><em>Kedua model dievaluasi di split yang sama (seleksi di validation, angka final di test). DistilBERT +4.9% atas baseline.</em></p>
-            <p>Model utama: <code>distilbert/distilbert-base-uncased</code>, fine-tune 2 epoch, batch size 32, max length 128, fp16 di Colab T4.</p>
+            <p>Keduanya dievaluasi dengan protokol yang sama: seleksi di validation, angka final di test. DistilBERT unggul <strong>+4.9 poin accuracy</strong> dan jauh lebih baik pada NEGATIVE/POSITIVE, meski biaya komputasinya lebih tinggi.</p>
+            <div class="note">
+                <strong>Konfigurasi fine-tuning:</strong> <code>distilbert-base-uncased</code> · 2 epoch · batch 32 · lr 2e-5 · max_len 128 · fp16 · AdamW · seed 42 · <code>load_best_model_at_end</code> berdasarkan F1-macro validation.
+            </div>
         </section>
 
-        <section>
-            <h2>📊 Hasil Evaluasi (test split, 5.000 rows)</h2>
-            <div class="metric"><strong>75.1%</strong> Accuracy</div>
-            <div class="metric"><strong>0.687</strong> F1-macro</div>
-            <div class="metric"><strong>0.743</strong> F1-weighted</div>
-            <br><br>
-            <p>F1 per kelas: <span class="negative">NEGATIVE 0.806</span> · <span class="neutral">NEUTRAL 0.403</span> · <span class="positive">POSITIVE 0.851</span></p>
-            <img src="confusion_matrix.png" alt="Confusion Matrix">
+        <section id="hasil">
+            <h2>📊 Hasil Evaluasi (test split, 5.000 sampel)</h2>
+            <div class="metrics">
+                <div class="metric"><strong>75.1%</strong><span>Accuracy</span></div>
+                <div class="metric"><strong>0.687</strong><span>F1-macro</span></div>
+                <div class="metric"><strong>0.743</strong><span>F1-weighted</span></div>
+            </div>
+
+            <h3>F1 per kelas</h3>
+            <table>
+                <tr><th>Kelas</th><th class="num">F1</th><th>Interpretasi</th></tr>
+                <tr>
+                    <td class="negative">NEGATIVE</td>
+                    <td class="num">0.806</td>
+                    <td>kuat — sinyal negatif umumnya eksplisit</td>
+                </tr>
+                <tr>
+                    <td class="neutral">NEUTRAL</td>
+                    <td class="num">0.403</td>
+                    <td><strong>terlemah</strong> — bintang 3 ambigu secara linguistik, dan kelas ini minoritas (20%)</td>
+                </tr>
+                <tr>
+                    <td class="positive">POSITIVE</td>
+                    <td class="num">0.851</td>
+                    <td>terkuat — pujian cenderung jelas</td>
+                </tr>
+            </table>
+
+            <h3>Confusion matrix</h3>
+            <img src="confusion_matrix.png" alt="Confusion matrix DistilBERT pada test split">
+            <p><small>Kesalahan terbesar terjadi pada kelas NEUTRAL yang tersebar ke NEGATIVE dan POSITIVE — konsisten dengan sifat ambigunya rating bintang 3.</small></p>
         </section>
 
-        <section>
+        <section id="realworld">
             <h2>🌍 Validasi Data Nyata (Play Store)</h2>
-            <p>Test set akademik bisa menipu — model bisa menghafal pola dataset. Karena itu model diuji pada <strong>review asli hasil scraping Play Store</strong>, di luar distribusi training. Ground truth = star rating dengan mapping yang sama.</p>
+            <p>Test set akademik bisa menipu: model berpotensi menghafal pola dataset. Karena itu model diuji pada <strong>review asli hasil scraping Play Store</strong> menggunakan <code>google-play-scraper</code>, di luar distribusi training. Ground truth = star rating dengan mapping yang sama seperti training.</p>
             <table>
                 <tr>
-                    <th>Test</th><th>Data</th><th>n</th><th>Accuracy</th><th>F1-macro</th><th>Conf &lt; 0.5</th>
+                    <th>Test</th>
+                    <th>Data</th>
+                    <th class="num">n</th>
+                    <th class="num">Accuracy</th>
+                    <th class="num">F1-macro</th>
+                    <th class="num">Conf &lt; 0.5</th>
                 </tr>
                 <tr>
-                    <td>Test set akademik</td><td>Amazon Reviews (test)</td><td>5.000</td>
-                    <td>75.1%</td><td>0.687</td><td>—</td>
+                    <td>Test set akademik</td>
+                    <td>Amazon Reviews (test split)</td>
+                    <td class="num">5.000</td>
+                    <td class="num">75.1%</td>
+                    <td class="num">0.687</td>
+                    <td class="num">—</td>
                 </tr>
                 <tr>
-                    <td><strong>Real-world English</strong></td><td>Play Store US (Spotify, Instagram)</td><td>67</td>
-                    <td class="positive"><strong>74.6%</strong></td><td>0.593</td><td>10%</td>
+                    <td><strong>Real-world English</strong></td>
+                    <td>Play Store US (Spotify, Instagram)</td>
+                    <td class="num">67</td>
+                    <td class="num positive"><strong>74.6%</strong></td>
+                    <td class="num">0.593</td>
+                    <td class="num">10%</td>
                 </tr>
                 <tr>
-                    <td><strong>Real-world Indonesian</strong></td><td>Play Store ID (Gojek, Tokopedia)</td><td>80</td>
-                    <td class="negative">57.5%</td><td>0.364</td><td><strong>69%</strong></td>
+                    <td><strong>Real-world Indonesian</strong></td>
+                    <td>Play Store ID (Gojek, Tokopedia)</td>
+                    <td class="num">80</td>
+                    <td class="num negative">57.5%</td>
+                    <td class="num">0.364</td>
+                    <td class="num"><strong>69%</strong></td>
                 </tr>
             </table>
-            <p><strong>1. English generalizes.</strong> Selisih 75.1% (akademik) vs 74.6% (nyata) hanya <strong>0.5 poin</strong> — bukti model tidak overfit dan benar-benar belajar sinyal sentimen, bukan menghafal dataset.</p>
-            <p><strong>2. Indonesia di luar domain.</strong> Model dilatih hanya pada teks Inggris; tokenizer memecah kata Indonesia menjadi 2–4 subword tanpa makna (contoh: <code>mengecewakan</code> → <code>meng</code>/<code>##ece</code>/<code>##wa</code>/<code>##kan</code>). Akurasi turun ke 57.5% dengan bias ke NEGATIVE (60 dari 80 prediksi).</p>
-            <p><strong>3. Model menandai ketidakpastiannya.</strong> Di data Indonesia, <strong>69% prediksi punya confidence &lt; 0.5</strong>, versus hanya 10% di data English. Model tidak salah tebak dengan yakin — perilaku yang diinginkan untuk sistem produksi (bisa di-flag untuk review manusia).</p>
-            <p><strong>4. Noise di data nyata.</strong> Sebagian review Play Store US ternyata berbahasa Portugis, dan sebagian label bintang tidak konsisten dengan teksnya. Ceiling akurasi pada data nyata memang lebih rendah dari benchmark akademik.</p>
-            <p><strong>Implikasi produksi:</strong> untuk feedback pengguna Indonesia diperlukan model berbahasa Indonesia (IndoBERT / XLM-R) yang dilatih pada korpus Indonesia — di luar scope assessment ini.</p>
+
+            <h3>Temuan</h3>
+            <ol>
+                <li><strong>Bahasa Inggris ter-generalisasi.</strong> Selisih 75.1% (akademik) vs 74.6% (nyata) hanya <strong>0.5 poin</strong> — bukti model belajar sinyal sentimen, bukan menghafal dataset.</li>
+                <li><strong>Bahasa Indonesia di luar domain.</strong> Model dilatih hanya pada teks Inggris; tokenizer memecah kata Indonesia menjadi 2–4 subword tanpa makna (contoh: <code>mengecewakan</code> → <code>meng</code> · <code>##ece</code> · <code>##wa</code> · <code>##kan</code>). Akurasi turun ke 57.5% dengan bias ke NEGATIVE (60 dari 80 prediksi).</li>
+                <li><strong>Model menandai ketidakpastiannya.</strong> Di data Indonesia, 69% prediksi punya confidence &lt; 0.5 — versus hanya 10% di data Inggris. Model tidak salah tebak dengan yakin; perilaku ini justru diinginkan di produksi karena prediksi berconfidence rendah bisa di-flag untuk review manusia.</li>
+                <li><strong>Noise pada data nyata.</strong> Sebagian review Play Store US ternyata berbahasa Portugis, dan sebagian label bintang tidak konsisten dengan teksnya (teks negatif diberi 5 bintang). Ceiling akurasi pada data nyata memang lebih rendah dari benchmark akademik.</li>
+            </ol>
+            <div class="warn">
+                <strong>Implikasi produksi:</strong> untuk feedback pengguna berbahasa Indonesia diperlukan model berbahasa Indonesia (IndoBERT / XLM-R) yang dilatih pada korpus Indonesia. Ini di luar scope assessment ini dan dicatat sebagai future work.
+            </div>
+            <p><small>Bukti per sampel: <code>results/real_world_test.json</code></small></p>
         </section>
 
-        <section>
-            <h2>🔍 Inference Results (10 samples, 8/10 benar)</h2>
+        <section id="inference">
+            <h2>🔍 Inference — 10 Sampel Unseen (8/10 benar)</h2>
+            <p>Diambil acak dari test split dengan seed 42, tidak dipakai saat training maupun seleksi model.</p>
             <table>
                 <tr>
                     <th>Text</th>
                     <th>True</th>
                     <th>Predicted</th>
-                    <th>Confidence</th>
+                    <th class="num">Confidence</th>
                 </tr>
-                <tr><td>"Stopped working after a couple of weeks..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.971</td></tr>
-                <tr><td>"I have not yet got my order!!!"</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.515</td></tr>
-                <tr><td>"I had gotten these for a family member..."</td><td class="neutral">NEUTRAL</td><td class="negative">NEGATIVE ❌</td><td>0.707</td></tr>
-                <tr><td>"The presentation is great, but the flavor is ordinary..."</td><td class="neutral">NEUTRAL</td><td class="neutral">NEUTRAL</td><td>0.588</td></tr>
-                <tr><td>"Surprisingly ineffective product..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.661</td></tr>
-                <tr><td>"too loosen. cable is easy to dropping"</td><td class="negative">NEGATIVE</td><td class="neutral">NEUTRAL ❌</td><td>0.586</td></tr>
-                <tr><td>"A lot of the capsules were empty..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.808</td></tr>
-                <tr><td>"My niece love these balls!..."</td><td class="positive">POSITIVE</td><td class="positive">POSITIVE</td><td>0.981</td></tr>
-                <tr><td>"Ordered this for a Santa present... came broken!"</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td>0.909</td></tr>
-                <tr><td>"Great product. Very satisfied..."</td><td class="positive">POSITIVE</td><td class="positive">POSITIVE</td><td>0.991</td></tr>
+                <tr><td>"Stopped working after a couple of weeks..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td class="num">0.971</td></tr>
+                <tr><td>"I have not yet got my order!!!"</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td class="num">0.515</td></tr>
+                <tr><td>"I had gotten these for a family member..."</td><td class="neutral">NEUTRAL</td><td class="negative">NEGATIVE ❌</td><td class="num">0.707</td></tr>
+                <tr><td>"The presentation is great, but the flavor is ordinary..."</td><td class="neutral">NEUTRAL</td><td class="neutral">NEUTRAL</td><td class="num">0.588</td></tr>
+                <tr><td>"Surprisingly ineffective product..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td class="num">0.661</td></tr>
+                <tr><td>"too loosen. cable is easy to dropping"</td><td class="negative">NEGATIVE</td><td class="neutral">NEUTRAL ❌</td><td class="num">0.586</td></tr>
+                <tr><td>"A lot of the capsules were empty..."</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td class="num">0.808</td></tr>
+                <tr><td>"My niece love these balls!..."</td><td class="positive">POSITIVE</td><td class="positive">POSITIVE</td><td class="num">0.981</td></tr>
+                <tr><td>"Ordered this for a Santa present... came broken!"</td><td class="negative">NEGATIVE</td><td class="negative">NEGATIVE</td><td class="num">0.909</td></tr>
+                <tr><td>"Great product. Very satisfied..."</td><td class="positive">POSITIVE</td><td class="positive">POSITIVE</td><td class="num">0.991</td></tr>
             </table>
+            <p><small>Dua kesalahan keduanya melibatkan kelas NEUTRAL — konsisten dengan F1 NEUTRAL yang paling rendah. Data lengkap: <code>results/predictions.csv</code></small></p>
         </section>
 
-        <section>
-            <h2>⚠️ Challenges & Limitations</h2>
+        <section id="limitasi">
+            <h2>⚠️ Limitasi &amp; Pelajaran</h2>
             <ul>
-                <li>Baseline TF-IDF mentok di ~70% (sweep: bigram/trigram/char n-gram semuanya &lt; 71%) — bottleneck kelas NEUTRAL (F1 0.47)</li>
-                <li>DistilBERT lebih baik (75.1%) tapi target 85% tidak tercapai — training hanya 2 epoch di subset 30k; NEUTRAL tetap terlemah (F1 0.40)</li>
-                <li>Review netral (bintang 3) secara inheren ambigu — bahkan model kontekstual kesulitan; perbaikan: train full 200k, 3-4 epoch, atau focal loss</li>
-                <li>Panjang teks &gt; 128 token dipotong, bisa kehilangan konteks (1.7% review)</li>
-                <li>Dataset hanya bahasa Inggris, tidak generalizable ke bahasa lain</li>
-                <li>Kelas NEUTRAL minoritas (rasio 2:1:2) — F1 per kelas dilaporkan</li>
+                <li><strong>Target 85% tidak tercapai</strong> (realisasi 75.1%). Penyebab: training hanya 2 epoch pada 30k sampel, dan NEUTRAL secara inheren ambigu. Angka dilaporkan apa adanya, bukan dioptimalkan pada test set.</li>
+                <li><strong>NEUTRAL adalah bottleneck utama</strong> (F1 0.403). Bintang 3 mencakup review campuran — "bagus tapi mahal" — sehingga batas antar kelas kabur bahkan bagi manusia.</li>
+                <li><strong>Baseline TF-IDF mentok di ~70%.</strong> Sapuan hyperparameter (bigram, trigram, char n-gram, 510k fitur, C besar) semuanya &lt; 71%, mengonfirmasi bahwa pendekatan tanpa konteks punya ceiling di dataset ini.</li>
+                <li><strong>Eksperimen lanjutan tidak dipakai.</strong> DistilBERT pada 200k penuh + 3 epoch + class weight NEUTRAL×2 menaikkan F1 NEUTRAL (0.398 → 0.531) tetapi menurunkan accuracy (74.9% → 71.2%) karena NEGATIVE tergerus. Trade-off tidak menguntungkan, sehingga model 30k dipertahankan.</li>
+                <li><strong>Hanya bahasa Inggris.</strong> Terbukti dari uji data nyata: 57.5% pada review Indonesia dengan 69% confidence rendah.</li>
+                <li><strong>Pemotongan teks.</strong> 1.7% review melebihi 128 token sehingga konteksnya terpotong.</li>
             </ul>
         </section>
 
-        <section>
-            <h2>📁 Repository</h2>
-            <p><a href="https://github.com/kusjay-space/sentiment-analysis">GitHub Repository</a></p>
-            <p><a href="https://github.com/kusjay-space/sentiment-analysis/releases">Download Model Checkpoint</a></p>
+        <section id="repo">
+            <h2>📁 Repository &amp; Artefak</h2>
+            <table>
+                <tr><th>Item</th><th>Lokasi</th></tr>
+                <tr><td>Kode sumber</td><td><a href="https://github.com/kusjay-space/sentiment-analysis">github.com/kusjay-space/sentiment-analysis</a></td></tr>
+                <tr><td>Model checkpoint (~256 MB)</td><td><a href="https://github.com/kusjay-space/sentiment-analysis/releases">GitHub Releases v1.0</a></td></tr>
+                <tr><td>Metrik test</td><td><code>results/metrics.json</code></td></tr>
+                <tr><td>10 prediksi</td><td><code>results/predictions.csv</code></td></tr>
+                <tr><td>Confusion matrix</td><td><code>results/confusion_matrix.png</code></td></tr>
+                <tr><td>Validasi data nyata</td><td><code>results/real_world_test.json</code></td></tr>
+                <tr><td>Notebook</td><td><code>notebooks/01_eda.ipynb</code>, <code>02_baseline.ipynb</code>, <code>03_finetune.ipynb</code></td></tr>
+            </table>
         </section>
+
     </div>
 
     <footer>
-        <p>AI Engineer Intern Assessment — Timedoor 2026</p>
+        <p>AI Engineer Intern Assessment — Timedoor 2026 · Dibangun dengan PyTorch &amp; HuggingFace Transformers</p>
     </footer>
 </body>
 </html>
