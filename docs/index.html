@@ -87,6 +87,7 @@
             <li><a href="#hasil">Hasil</a></li>
             <li><a href="#realworld">Validasi Nyata</a></li>
             <li><a href="#inference">Inference</a></li>
+            <li><a href="#usage">Cara Pakai</a></li>
             <li><a href="#limitasi">Limitasi</a></li>
             <li><a href="#repo">Repository</a></li>
         </ul>
@@ -353,6 +354,92 @@
             <p><small>Dua kesalahan keduanya melibatkan kelas NEUTRAL — konsisten dengan F1 NEUTRAL yang paling rendah. Data lengkap: <code>results/predictions.csv</code></small></p>
         </section>
 
+        <section id="usage">
+            <h2>🚀 Cara Pakai pada Data Sendiri</h2>
+            <p>Dua mode: satu teks untuk pengujian cepat, atau file CSV/Excel untuk analisis massal.</p>
+
+            <h3>A. Satu teks</h3>
+            <p><code>python -m src.predict "This product is amazing, works perfectly"</code></p>
+            <p>Hasil langsung di terminal:</p>
+            <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">  → POSITIVE (conf 0.992)
+    NEG 0.002 | NEU 0.005 | POS 0.992</pre>
+            <p>Tanpa argumen akan masuk mode interaktif — ketik teks, Enter, keluar dengan <code>quit</code>.</p>
+
+            <h3>B. Banyak review dari file</h3>
+            <p>Siapkan file dengan minimal satu kolom berisi teks review. Kolom rating bersifat opsional; bila ada, akurasi dihitung otomatis.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>review</th>
+                        <th class="num">rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>This app is fantastic. Works perfectly.</td><td class="num">5</td></tr>
+                    <tr><td>2</td><td>Stopped working after the update.</td><td class="num">1</td></tr>
+                    <tr><td>3</td><td>It's okay, nothing special.</td><td class="num">3</td></tr>
+                </tbody>
+            </table>
+            <p>Jalankan:</p>
+            <p><code>python -m src.analyze reviews.csv</code></p>
+            <p>Hasil di terminal mencakup jumlah review, rata-rata confidence, jumlah yang perlu dicek manual, distribusi sentimen, dan akurasi terhadap rating (bila tersedia):</p>
+            <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">Review dianalisis      : 147
+Rata-rata confidence   : 0.623
+Perlu review manual    : 62 (confidence &lt; 0.5)
+
+Distribusi sentimen:
+  POSITIVE      56  ( 38.1%)
+  NEUTRAL        5  (  3.4%)
+  NEGATIVE      86  ( 58.5%)</pre>
+
+            <h3>Output: di mana dan apa isinya</h3>
+            <p>File hasil ditulis ke <code>results/analyzed_&lt;namafile&gt;.csv</code> — berisi seluruh kolom asli ditambah kolom prediksi:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kolom baru</th>
+                        <th>Isi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>sentiment</code></td><td>POSITIVE / NEUTRAL / NEGATIVE</td></tr>
+                    <tr><td><code>confidence</code></td><td>0–1, keyakinan model pada prediksinya</td></tr>
+                    <tr><td><code>prob_negative</code></td><td>probabilitas kelas NEGATIVE</td></tr>
+                    <tr><td><code>prob_neutral</code></td><td>probabilitas kelas NEUTRAL</td></tr>
+                    <tr><td><code>prob_positive</code></td><td>probabilitas kelas POSITIVE</td></tr>
+                    <tr><td><code>needs_review</code></td><td><code>True</code> bila confidence &lt; 0.5 → sebaiknya dicek manusia</td></tr>
+                </tbody>
+            </table>
+            <p>Ringkasan statistik juga disimpan sebagai <code>results/analyze_summary.json</code> (machine-readable, termasuk confusion matrix terhadap rating).</p>
+
+            <h3>Opsi</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Perintah</th>
+                        <th>Fungsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>--text-col NAMA</code></td><td>tentukan kolom teks manual bila tidak terdeteksi</td></tr>
+                    <tr><td><code>-o hasil.csv</code></td><td>tentukan lokasi/nama file output</td></tr>
+                    <tr><td><code>-o hasil.xlsx</code></td><td>output ke Excel</td></tr>
+                    <tr><td><code>--dry-run</code></td><td>cek kolom terdeteksi tanpa menjalankan model</td></tr>
+                    <tr><td><code>--batch-size 64</code></td><td>ubah batch size</td></tr>
+                </tbody>
+            </table>
+            <div class="note">
+                <strong>Kolom terdeteksi otomatis:</strong> <code>text</code>, <code>review</code>, <code>content</code>, <code>comment</code>, <code>komentar</code>, <code>ulasan</code>, <code>feedback</code>, dan sejenisnya. Rating: <code>rating</code>, <code>score</code>, <code>stars</code>, <code>bintang</code>, <code>label</code>.<br>
+                <strong>Format:</strong> CSV (UTF-8/latin-1, delimiter <code>,</code> <code>;</code> tab <code>|</code>), TSV, XLSX, XLS.<br>
+                <strong>Kecepatan:</strong> ~6 review/detik di CPU 2 core; 147 review selesai dalam 24 detik.
+            </div>
+            <div class="warn">
+                <strong>Batas bahasa:</strong> model hanya dilatih pada teks Inggris. Review berbahasa Indonesia tetap menghasilkan prediksi, tetapi akurasinya ~57% dan sering ber-confidence rendah — perhatikan kolom <code>needs_review</code>.
+            </div>
+            <p><small>Contoh file input: <code>examples/reviews_sample.csv</code></small></p>
+        </section>
+
         <section id="limitasi">
             <h2>⚠️ Limitasi &amp; Pelajaran</h2>
             <ul>
@@ -381,6 +468,7 @@
                     <tr><td>10 prediksi</td><td><code>results/predictions.csv</code></td></tr>
                     <tr><td>Confusion matrix</td><td><code>results/confusion_matrix.png</code></td></tr>
                     <tr><td>Validasi data nyata</td><td><code>results/real_world_test.json</code></td></tr>
+                    <tr><td>Tool analisis batch</td><td><code>src/analyze.py</code> · contoh: <code>examples/reviews_sample.csv</code></td></tr>
                     <tr><td>Notebook</td><td><code>notebooks/01_eda.ipynb</code>, <code>02_baseline.ipynb</code>, <code>03_finetune.ipynb</code></td></tr>
                 </tbody>
             </table>

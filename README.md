@@ -97,15 +97,128 @@ python -m venv .venv && source .venv/bin/activate
 # Install
 pip install -r requirements.txt
 
+# Download model checkpoint (~256 MB) dari Releases
+gh release download v1.0 -p model_final.zip
+unzip model_final.zip -d model/
+
 # Training (baseline)
 python -m src.baseline
 
 # Training (DistilBERT) — butuh GPU, gunakan Colab
 python -m src.train
 
-# Inference
+# Inference pada test set (menghasilkan metrics.json, predictions.csv, confusion matrix)
 python -m src.inference
 ```
+
+## Cara Pakai untuk Data Review Sendiri
+
+Ada dua cara, tergantung kebutuhan.
+
+### A. Satu teks saja (cepat)
+
+```bash
+python -m src.predict "This product is amazing, works perfectly"
+```
+
+Output:
+
+```
+  → POSITIVE (conf 0.992)
+    NEG 0.002 | NEU 0.005 | POS 0.992
+```
+
+Tanpa argumen, masuk mode interaktif (ketik teks → Enter → hasil, `quit` untuk keluar):
+
+```bash
+python -m src.predict
+```
+
+### B. Banyak review dari file CSV/Excel (batch)
+
+Siapkan file dengan **minimal satu kolom berisi teks review**. Contoh `reviews.csv`:
+
+```csv
+id,review,rating
+1,This app is fantastic. Works perfectly.,5
+2,Stopped working after the update. Crashes constantly.,1
+3,It's okay. Does the job but nothing special.,3
+```
+
+Kolom `rating` **opsional** — kalau ada (skala 1–5 atau 0–4), tool otomatis menghitung akurasi terhadap rating tersebut.
+
+Jalankan:
+
+```bash
+python -m src.analyze reviews.csv
+```
+
+Output di terminal:
+
+```
+Reading reviews.csv ...
+  3 rows · 3 columns
+  text column : review
+  rating column: rating
+
+Running inference on 3 reviews (device: cpu) ...
+
+==============================================================
+HASIL ANALISIS
+==============================================================
+  Review dianalisis      : 3
+  Rata-rata confidence   : 0.863
+  Perlu review manual    : 0 (confidence < 0.5)
+
+  Distribusi sentimen:
+    POSITIVE       2  ( 66.7%)  █████████████████████████████████
+    NEUTRAL        0  (  0.0%)
+    NEGATIVE       1  ( 33.3%)  ████████████████
+
+  Akurasi vs rating asli : 100.00% (3 baris punya rating)
+--------------------------------------------------------------
+  Output  : results/analyzed_reviews.csv
+  Ringkasan: results/analyze_summary.json
+--------------------------------------------------------------
+```
+
+**File output** (`results/analyzed_reviews.csv`) berisi kolom asli + kolom baru:
+
+| Kolom baru | Isi |
+|---|---|
+| `sentiment` | `POSITIVE` / `NEUTRAL` / `NEGATIVE` |
+| `confidence` | 0–1, keyakinan model pada prediksinya |
+| `prob_negative` | probabilitas NEGATIVE |
+| `prob_neutral` | probabilitas NEUTRAL |
+| `prob_positive` | probabilitas POSITIVE |
+| `needs_review` | `True` bila confidence < 0.5 → sebaiknya dicek manusia |
+
+**Opsi tambahan:**
+
+```bash
+# Tentukan sendiri kolom teksnya (kalau nama kolom tidak terdeteksi otomatis)
+python -m src.analyze reviews.csv --text-col komentar
+
+# Tentukan lokasi output
+python -m src.analyze reviews.csv -o hasil/analisis.csv
+
+# Excel sebagai input DAN output
+python -m src.analyze reviews.xlsx -o hasil.xlsx
+
+# Cek dulu kolom apa yang terdeteksi, tanpa menjalankan model
+python -m src.analyze reviews.csv --dry-run
+
+# Ubah batch size (naikkan kalau RAM/VRAM besar)
+python -m src.analyze reviews.csv --batch-size 64
+```
+
+**Nama kolom yang dikenali otomatis:** `text`, `review`, `review_text`, `content`, `comment`, `komentar`, `ulasan`, `body`, `message`, `feedback`, `deskripsi`. Untuk rating: `rating`, `score`, `stars`, `star`, `bintang`, `label`. Kalau tidak ada yang cocok, tool memilih kolom teks dengan rata-rata panjang terbesar; kalau masih gagal, gunakan `--text-col`.
+
+**Format yang didukung:** `.csv` (UTF-8/UTF-8-BOM/latin-1, delimiter `,` `;` tab `|` terdeteksi otomatis), `.tsv`, `.xlsx`, `.xls`.
+
+**Kecepatan:** ~6 review/detik di CPU 2 core (147 review = 24 detik). Dengan GPU jauh lebih cepat.
+
+**Batas bahasa:** model ini **hanya dilatih pada teks Inggris**. Review berbahasa Indonesia akan tetap menghasilkan prediksi, tetapi akurasinya rendah (~57%) dan sering ber-confidence rendah (lihat `needs_review`). Lihat bagian *Validasi di Data Nyata* di atas.
 
 ## Results
 
@@ -136,6 +249,7 @@ Timeline 22–30 Oktober 2026 (deadline submit 30 Okt, 12.00 WITA) ada di [TASKS
 ├── notebooks/     # Jupyter notebooks
 ├── src/           # Python scripts
 ├── results/       # metrics, predictions, plots
+├── examples/      # contoh file input (reviews_sample.csv)
 ├── docs/          # GitHub Pages
 ├── model/         # checkpoint (via Releases)
 └── LICENSE        # MIT

@@ -61,7 +61,10 @@ sentiment-analysis/
 │   ├── baseline_tuned.py
 │   ├── train.py
 │   ├── inference.py
-│   └── predict.py
+│   ├── predict.py      (prediksi 1 teks / interaktif)
+│   └── analyze.py      (batch analisis file CSV/Excel milik user)
+├── examples/
+│   └── reviews_sample.csv
 ├── results/
 │   ├── metrics.json
 │   ├── metrics_baseline.json
