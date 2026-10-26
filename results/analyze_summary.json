@@ -1,36 +1,16 @@
 {
-  "input_file": "/tmp/real_reviews.csv",
-  "rows_analyzed": 147,
+  "input_file": "/tmp/norating.csv",
+  "rows_analyzed": 2,
   "rows_skipped": 0,
-  "text_column": "review",
-  "rating_column": "rating",
+  "text_column": "text",
+  "rating_column": null,
   "device": "cpu",
   "model": "distilbert-base-uncased (fine-tuned, 3-class)",
   "label_distribution": {
-    "NEGATIVE": 86,
-    "POSITIVE": 56,
-    "NEUTRAL": 5
+    "POSITIVE": 1,
+    "NEGATIVE": 1
   },
-  "mean_confidence": 0.623,
-  "low_confidence_rows": 62,
-  "low_confidence_threshold": 0.5,
-  "accuracy_vs_rating": 0.6054,
-  "rows_with_rating": 147,
-  "confusion": {
-    "NEGATIVE": {
-      "NEGATIVE": 43,
-      "NEUTRAL": 8,
-      "POSITIVE": 35
-    },
-    "NEUTRAL": {
-      "NEGATIVE": 0,
-      "NEUTRAL": 1,
-      "POSITIVE": 4
-    },
-    "POSITIVE": {
-      "NEGATIVE": 9,
-      "NEUTRAL": 2,
-      "POSITIVE": 45
-    }
-  }
+  "mean_confidence": 0.9722,
+  "low_confidence_rows": 0,
+  "low_confidence_threshold": 0.5
 }

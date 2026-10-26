@@ -147,22 +147,73 @@ def read_table(path: Path) -> pd.DataFrame:
             if cand in first_line:
                 delimiter = cand
                 break
+
+        # Try strict parsing first, then fall back to the tolerant engine which
+        # keeps malformed rows instead of aborting (common when review text
+        # contains unescaped delimiters).
+        df = None
         try:
             df = pd.read_csv(path, sep=delimiter, encoding=enc)
         except Exception:
-            # Last resort: let pandas guess, restricted to sane delimiters.
-            df = pd.read_csv(
-                path, sep=None, engine="python", encoding=enc,
-                # no restriction available here; comma fallback below
-            )
+            import warnings
+
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                for on_bad in ("warn", "skip"):
+                    try:
+                        df = pd.read_csv(
+                            path,
+                            sep=delimiter,
+                            encoding=enc,
+                            engine="python",
+                            on_bad_lines=on_bad,
+                        )
+                        break
+                    except Exception:
+                        continue
+        if df is None:
+            last_err = "could not parse CSV"
+            continue
+
         # A single unnamed column usually means the delimiter guess was wrong.
-        if len(df.columns) == 1 and "," in raw.split("\n", 1)[0]:
+        if len(df.columns) == 1 and "," in first_line:
             df = pd.read_csv(path, sep=",", encoding=enc)
+
+        # If rows were dropped because review text contained unescaped
+        # delimiters, rebuild the table manually so no review is lost.
+        n_lines = len([ln for ln in raw.splitlines() if ln.strip()])
+        if len(df) < n_lines - 1:
+            rebuilt = _rebuild_ragged(raw, delimiter)
+            if rebuilt is not None and len(rebuilt) > len(df):
+                df = rebuilt
         return df
 
     raise ValueError(
         f"Could not decode {path} ({last_err}). Convert it to UTF-8 and retry."
     )
+
+
+def _rebuild_ragged(raw: str, delimiter: str) -> Optional[pd.DataFrame]:
+    """Rebuild a CSV whose rows have too many fields (unescaped delimiters).
+
+    Assumes the LAST column is the free-text one, which is the common layout
+    (id, rating, review). Extra fields are re-joined back into that column.
+    """
+    lines = [ln for ln in raw.splitlines() if ln.strip()]
+    if len(lines) < 2:
+        return None
+    header = lines[0].split(delimiter)
+    n_cols = len(header)
+    rows = []
+    for line in lines[1:]:
+        parts = line.split(delimiter)
+        if len(parts) < n_cols:
+            parts += [""] * (n_cols - len(parts))
+        elif len(parts) > n_cols:
+            extra = len(parts) - n_cols
+            parts = parts[: n_cols - 1] + [delimiter.join(parts[n_cols - 1 :])]
+        rows.append(parts)
+    return pd.DataFrame(rows, columns=header)
 
 
 def detect_text_column(df: pd.DataFrame) -> str:
