@@ -29,6 +29,7 @@ model/
 data/
 *.csv
 !results/predictions.csv
+!examples/*.csv
 *.png
 !results/*.png
 !docs/*.png
