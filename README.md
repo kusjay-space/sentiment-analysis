@@ -113,12 +113,31 @@ python -m src.inference
 
 ## Cara Pakai untuk Data Review Sendiri
 
-Ada dua cara, tergantung kebutuhan.
+> **Penting:** jalankan dengan Python dari virtualenv proyek, bukan `python` sistem.
+> Cara paling aman: aktifkan venv dulu (`source .venv/bin/activate`) atau pakai wrapper `./run.sh`.
+> Kalau muncul `ModuleNotFoundError: No module named 'torch'`, itu tandanya venv belum aktif.
+
+```bash
+# Cara 1 (disarankan) — wrapper, otomatis pakai venv
+./run.sh predict "This product is amazing"
+./run.sh analyze reviews.csv
+
+# Cara 2 — aktifkan venv dulu
+source .venv/bin/activate
+python -m src.predict "This product is amazing"
+./run.sh analyze reviews.csv
+
+# Cara 3 — panggil venv python langsung
+.venv/bin/python -m src.predict "This product is amazing"
+.venv/bin/python -m src.analyze reviews.csv
+```
+
+Ada dua mode, tergantung kebutuhan.
 
 ### A. Satu teks saja (cepat)
 
 ```bash
-python -m src.predict "This product is amazing, works perfectly"
+./run.sh predict "This product is amazing, works perfectly"
 ```
 
 Output:
@@ -131,7 +150,7 @@ Output:
 Tanpa argumen, masuk mode interaktif (ketik teks → Enter → hasil, `quit` untuk keluar):
 
 ```bash
-python -m src.predict
+./run.sh predict
 ```
 
 ### B. Banyak review dari file CSV/Excel (batch)
@@ -150,7 +169,7 @@ Kolom `rating` **opsional** — kalau ada (skala 1–5 atau 0–4), tool otomati
 Jalankan:
 
 ```bash
-python -m src.analyze reviews.csv
+./run.sh analyze reviews.csv
 ```
 
 Output di terminal:
@@ -197,19 +216,19 @@ HASIL ANALISIS
 
 ```bash
 # Tentukan sendiri kolom teksnya (kalau nama kolom tidak terdeteksi otomatis)
-python -m src.analyze reviews.csv --text-col komentar
+./run.sh analyze reviews.csv --text-col komentar
 
 # Tentukan lokasi output
-python -m src.analyze reviews.csv -o hasil/analisis.csv
+./run.sh analyze reviews.csv -o hasil/analisis.csv
 
 # Excel sebagai input DAN output
-python -m src.analyze reviews.xlsx -o hasil.xlsx
+./run.sh analyze reviews.xlsx -o hasil.xlsx
 
 # Cek dulu kolom apa yang terdeteksi, tanpa menjalankan model
-python -m src.analyze reviews.csv --dry-run
+./run.sh analyze reviews.csv --dry-run
 
 # Ubah batch size (naikkan kalau RAM/VRAM besar)
-python -m src.analyze reviews.csv --batch-size 64
+./run.sh analyze reviews.csv --batch-size 64
 ```
 
 **Nama kolom yang dikenali otomatis:** `text`, `review`, `review_text`, `content`, `comment`, `komentar`, `ulasan`, `body`, `message`, `feedback`, `deskripsi`. Untuk rating: `rating`, `score`, `stars`, `star`, `bintang`, `label`. Kalau tidak ada yang cocok, tool memilih kolom teks dengan rata-rata panjang terbesar; kalau masih gagal, gunakan `--text-col`.
@@ -250,6 +269,7 @@ Timeline 22–30 Oktober 2026 (deadline submit 30 Okt, 12.00 WITA) ada di [TASKS
 ├── src/           # Python scripts
 ├── results/       # metrics, predictions, plots
 ├── examples/      # contoh file input (reviews_sample.csv)
+├── run.sh         # wrapper: jalankan tanpa activate venv
 ├── docs/          # GitHub Pages
 ├── model/         # checkpoint (via Releases)
 └── LICENSE        # MIT

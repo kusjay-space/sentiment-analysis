@@ -40,9 +40,25 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
-import pandas as pd
-import torch
-from transformers import AutoTokenizer, DistilBertForSequenceClassification
+try:
+    import pandas as pd
+    import torch
+    from transformers import AutoTokenizer, DistilBertForSequenceClassification
+except ModuleNotFoundError as exc:  # pragma: no cover - user-facing guard
+    sys.exit(
+        f"ERROR: '{exc.name}' is not installed for this Python interpreter.\n"
+        f"  Interpreter: {sys.executable}\n\n"
+        "You are probably not using the project's virtualenv. Fix it with one of:\n"
+        "  1. Activate the venv first:\n"
+        "       source .venv/bin/activate\n"
+        "       python -m src.analyze reviews.csv\n"
+        "  2. Or use the wrapper (activates it for you):\n"
+        "       ./run.sh analyze reviews.csv\n"
+        "  3. Or call the venv python directly:\n"
+        "       .venv/bin/python -m src.analyze reviews.csv\n\n"
+        "If the venv does not exist yet:\n"
+        "   python3 -m venv .venv && .venv/bin/pip install -r requirements.txt"
+    )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MODEL_DIR = REPO_ROOT / "model" / "final"

@@ -359,7 +359,8 @@
             <p>Dua mode: satu teks untuk pengujian cepat, atau file CSV/Excel untuk analisis massal.</p>
 
             <h3>A. Satu teks</h3>
-            <p><code>python -m src.predict "This product is amazing, works perfectly"</code></p>
+            <p><code>./run.sh predict "This product is amazing, works perfectly"</code></p>
+            <p><small>Atau <code>source .venv/bin/activate</code> dulu lalu <code>python -m src.predict "..."</code>. Kalau muncul <code>ModuleNotFoundError: No module named 'torch'</code>, venv belum aktif.</small></p>
             <p>Hasil langsung di terminal:</p>
             <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">  → POSITIVE (conf 0.992)
     NEG 0.002 | NEU 0.005 | POS 0.992</pre>
@@ -382,7 +383,7 @@
                 </tbody>
             </table>
             <p>Jalankan:</p>
-            <p><code>python -m src.analyze reviews.csv</code></p>
+            <p><code>./run.sh analyze reviews.csv</code></p>
             <p>Hasil di terminal mencakup jumlah review, rata-rata confidence, jumlah yang perlu dicek manual, distribusi sentimen, dan akurasi terhadap rating (bila tersedia):</p>
             <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">Review dianalisis      : 147
 Rata-rata confidence   : 0.623

@@ -65,6 +65,7 @@ sentiment-analysis/
 │   └── analyze.py      (batch analisis file CSV/Excel milik user)
 ├── examples/
 │   └── reviews_sample.csv
+├── run.sh          (wrapper venv)
 ├── results/
 │   ├── metrics.json
 │   ├── metrics_baseline.json
