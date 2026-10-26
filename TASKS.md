@@ -61,10 +61,10 @@ Prinsip: tidak ada angka hasil yang dilaporkan sebelum diproduksi run aktual. Va
 
 ## [28 Okt] Bug Fix + Polish
 
-- [ ] Perbaiki bug hasil review end-to-end
-- [ ] Polish README + halaman Pages
-- [ ] Cek konsistensi angka di README, Pages, dan metrics.json (harus sama)
-- [ ] Commit: "bug fix + polish"
+- [x] Perbaiki bug hasil review end-to-end (label mapping, CSV parsing, venv guard)
+- [x] Polish README + halaman Pages (10 section, nav sticky, tabel rapi, responsif)
+- [x] Cek konsistensi angka di README, Pages, dan metrics.json (semua cocok)
+- [x] Commit: "bug fix + polish"
 
 ## [29 Okt] Iterasi Training Opsional
 

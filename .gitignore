@@ -30,6 +30,8 @@ data/
 *.csv
 !results/predictions.csv
 !examples/*.csv
+results/analyze_summary.json
+results/analyzed_*.csv
 *.png
 !results/*.png
 !docs/*.png

@@ -58,7 +58,7 @@
 | Item | Detail |
 |---|---|
 | Sumber | `SetFit/amazon_reviews_multi_en` |
-| Train | 30.000 rows (subsample stratified: 12k NEG / 6k NEU / 12k POS, seed 42) |
+| Train | 30.000 rows untuk DistilBERT (subsample stratified: 12k NEG / 6k NEU / 12k POS, seed 42). Baseline TF-IDF memakai 60.000 rows (20k/kelas) |
 | Validation | 5.000 rows |
 | Test | 5.000 rows |
 | Label | Bintang 1–5 → mapping ke NEGATIVE/NEUTRAL/POSITIVE. Bintang 1–2 = NEG, bintang 3 = NEU, bintang 4–5 = POS (kode dataset: label 0–1 → NEG, 2 → NEU, 3–4 → POS). Hanya bintang 3 yang menjadi NEUTRAL, sehingga NEUTRAL minoritas (20%) |

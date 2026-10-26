@@ -97,7 +97,7 @@
 
         <section id="abstract">
             <h2>📋 Abstract</h2>
-            <p>Pipeline NLP yang mengklasifikasikan review pengguna menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, dan <span class="negative">NEGATIVE</span>. Pendekatan bertahap: baseline <strong>TF-IDF + Logistic Regression</strong> (70.2% validation), lalu fine-tune <strong>DistilBERT</strong> (75.1% test, +4.9 poin).</p>
+            <p>Pipeline NLP yang mengklasifikasikan review pengguna menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, dan <span class="negative">NEGATIVE</span>. Pendekatan bertahap: baseline <strong>TF-IDF + Logistic Regression</strong> (70.2% validation, 60k data) lalu fine-tune <strong>DistilBERT</strong> (75.1% test, 30k data). DistilBERT unggul <strong>+4.9 poin</strong> meski dilatih pada separuh data baseline.</p>
             <p>Untuk menguji apakah model benar-benar belajar sinyal sentimen — bukan menghafal dataset — model diuji pada <strong>review asli hasil scraping Play Store</strong>: <strong>74.6%</strong> pada review berbahasa Inggris (selisih hanya 0.5 poin dari test set akademik), dan 57.5% pada review berbahasa Indonesia dengan 69% prediksi ber-confidence rendah, karena model memang hanya dilatih pada teks Inggris.</p>
         </section>
 
@@ -204,6 +204,7 @@
                 <thead>
                     <tr>
                         <th>Model</th>
+                        <th class="num">Data training</th>
                         <th>Split</th>
                         <th class="num">Accuracy</th>
                         <th class="num">F1-macro</th>
@@ -212,19 +213,24 @@
                 <tbody>
                     <tr>
                         <td>TF-IDF + LogisticRegression <small>(baseline, tuned)</small></td>
+                        <td class="num">60.000</td>
                         <td>validation</td>
                         <td class="num">70.2%</td>
                         <td class="num">0.674</td>
                     </tr>
                     <tr>
                         <td><strong>DistilBERT base uncased</strong> <small>(model utama)</small></td>
+                        <td class="num"><strong>30.000</strong></td>
                         <td>test</td>
                         <td class="num"><strong>75.1%</strong></td>
                         <td class="num"><strong>0.687</strong></td>
                     </tr>
                 </tbody>
             </table>
-            <p>Keduanya dievaluasi dengan protokol yang sama: seleksi di validation, angka final di test. DistilBERT unggul <strong>+4.9 poin accuracy</strong> dan jauh lebih baik pada NEGATIVE/POSITIVE, meski biaya komputasinya lebih tinggi.</p>
+            <p>DistilBERT unggul <strong>+4.9 poin accuracy</strong> meskipun dilatih pada <strong>separuh data</strong> baseline (30k vs 60k) — bukti keunggulan pemahaman konteks dibanding pendekatan bag-of-words.</p>
+            <div class="note">
+                <strong>Checkpoint yang tersedia:</strong> hanya DistilBERT (<code>model/final/</code>, 256 MB di Releases). Baseline tidak disimpan sebagai artefak karena perannya hanya pembanding untuk mengukur batas pendekatan klasik — metrik dan confusion matrix-nya tetap tersimpan sebagai bukti run nyata. Untuk memakai ulang baseline, jalankan <code>./run.sh baseline</code>.
+            </div>
             <div class="note">
                 <strong>Konfigurasi fine-tuning:</strong> <code>distilbert-base-uncased</code> · 2 epoch · batch 32 · lr 2e-5 · max_len 128 · fp16 · AdamW · seed 42 · <code>load_best_model_at_end</code> berdasarkan F1-macro validation.
             </div>
@@ -450,6 +456,7 @@ Distribusi sentimen:
                 <li><strong>Percobaan dengan data lebih banyak tidak dipakai.</strong> Melatih ulang dengan seluruh data + 3 epoch + class weight NEUTRAL×2 menaikkan F1 NEUTRAL (0.398 → 0.531) tetapi menurunkan accuracy (74.9% → 71.2%) karena NEGATIVE tergerus. Trade-off tidak menguntungkan, sehingga konfigurasi 30k dipertahankan.</li>
                 <li><strong>Hanya bahasa Inggris.</strong> Terbukti dari uji data nyata: 57.5% pada review Indonesia dengan 69% confidence rendah.</li>
                 <li><strong>Pemotongan teks.</strong> 1.7% review melebihi 128 token sehingga konteksnya terpotong.</li>
+                <li><strong>Tidak ada demo interaktif di browser.</strong> GitHub Pages bersifat static hosting (tidak menjalankan Python), sehingga inferensi dijalankan secara lokal melalui <code>predict.py</code> / <code>analyze.py</code> — bukan dari halaman web ini.</li>
             </ul>
         </section>
 
