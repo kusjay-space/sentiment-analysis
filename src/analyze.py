@@ -1,36 +1,11 @@
-"""Batch sentiment analysis on YOUR OWN review file.
+"""Batch sentiment analysis on a review file (CSV / TSV / Excel).
 
-Reads a CSV/TSV/Excel file of reviews, predicts sentiment for every row, and
-writes an enriched output file plus a summary report.
+    python -m src.analyze reviews.csv
+    python -m src.analyze reviews.csv --text-col comment -o out.xlsx
+    python -m src.analyze reviews.csv --dry-run
 
-Usage:
-    # Basic: analyse reviews.csv, output to results/analyzed.csv
-    python -m src.analyze data_saya.csv
-
-    # Choose the text column (default: auto-detect / first text-like column)
-    python -m src.analyze data_saya.csv --text-col review
-
-    # Choose where to write output
-    python -m src.analyze data_saya.csv -o hasil/analisis.csv
-
-    # Excel input/output
-    python -m src.analyze reviews.xlsx -o hasil.xlsx
-
-    # See what columns were detected without running the model
-    python -m src.analyze data_saya.csv --dry-run
-
-Input requirements:
-    * A file with at least one column containing review text.
-    * Optional columns (used if present): 'rating' / 'score' / 'stars' for
-      automatic accuracy checking, 'id' for row tracking.
-    * Encoding: UTF-8 recommended. Delimiter auto-detected for CSV.
-
-Output:
-    * An enriched file with added columns: sentiment, confidence, prob_negative,
-      prob_neutral, prob_positive, needs_review (True when confidence < 0.5).
-    * A printed summary: class distribution, mean confidence, low-confidence
-      count, and accuracy vs rating (if a rating column exists).
-    * results/analyze_summary.json with the same summary as machine-readable data.
+Adds sentiment, confidence, per-class probabilities and needs_review columns to
+every row, and writes a summary to results/analyze_summary.json.
 """
 from __future__ import annotations
 
@@ -65,7 +40,6 @@ MODEL_DIR = REPO_ROOT / "model" / "final"
 RESULTS_DIR = REPO_ROOT / "results"
 
 ID2LABEL = {0: "NEGATIVE", 1: "NEUTRAL", 2: "POSITIVE"}
-LABEL2ID = {v: k for k, v in ID2LABEL.items()}
 
 # Column names we try, in priority order, when the user does not pass --text-col.
 TEXT_COL_CANDIDATES = [
@@ -83,9 +57,6 @@ _tokenizer = None
 _device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
-# --------------------------------------------------------------------------- #
-# Model loading / inference
-# --------------------------------------------------------------------------- #
 def _load():
     """Lazy-load model + tokenizer once."""
     global _model, _tokenizer
@@ -135,9 +106,6 @@ def predict_batch(texts: List[str], batch_size: int = BATCH_SIZE) -> List[Dict]:
     return out
 
 
-# --------------------------------------------------------------------------- #
-# Input handling
-# --------------------------------------------------------------------------- #
 def read_table(path: Path) -> pd.DataFrame:
     """Read CSV/TSV/Excel into a DataFrame, auto-detecting separator."""
     suffix = path.suffix.lower()
@@ -226,7 +194,6 @@ def _rebuild_ragged(raw: str, delimiter: str) -> Optional[pd.DataFrame]:
         if len(parts) < n_cols:
             parts += [""] * (n_cols - len(parts))
         elif len(parts) > n_cols:
-            extra = len(parts) - n_cols
             parts = parts[: n_cols - 1] + [delimiter.join(parts[n_cols - 1 :])]
         rows.append(parts)
     return pd.DataFrame(rows, columns=header)
@@ -284,9 +251,7 @@ def rating_to_sentiment(value: float) -> Optional[str]:
     return "POSITIVE"
 
 
-# --------------------------------------------------------------------------- #
 # Main
-# --------------------------------------------------------------------------- #
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         description="Batch sentiment analysis on your own review file."
@@ -384,7 +349,6 @@ def main(argv: Optional[List[str]] = None) -> int:
                 pd.crosstab(actual[mask], result.loc[mask, "sentiment"]).to_dict()
             )
 
-    # Write outputs.
     if args.output is None:
         RESULTS_DIR.mkdir(exist_ok=True)
         out_path = RESULTS_DIR / f"analyzed_{args.input.stem}.csv"
@@ -401,7 +365,6 @@ def main(argv: Optional[List[str]] = None) -> int:
     RESULTS_DIR.mkdir(exist_ok=True)
     summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False))
 
-    # Human-readable report.
     print("\n" + "=" * 62)
     print("HASIL ANALISIS")
     print("=" * 62)

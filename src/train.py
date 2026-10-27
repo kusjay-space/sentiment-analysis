@@ -32,7 +32,6 @@ from src.preprocess import (
     LABEL2ID,
     NUM_LABELS,
     apply_mapping,
-    get_texts_labels,
     load_dataset_local,
     stratified_subsample,
 )
