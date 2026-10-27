@@ -34,6 +34,7 @@ def load_dataset_local(path: Union[str, Path] = DATA_DIR) -> DatasetDict:
     return load_from_disk(str(path))
 
 
+# Label mapping
 def map_label(label: int) -> int:
     """Map a raw 0-4 rating label to a sentiment id (0-2)."""
     try:
@@ -50,6 +51,7 @@ def apply_mapping(dataset: Dataset) -> Dataset:
     )
 
 
+# Sampling
 def stratified_subsample(
     dataset: Dataset,
     n_per_class: Union[int, Dict[int, int]],

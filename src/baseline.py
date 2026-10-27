@@ -47,6 +47,7 @@ NGRAM_RANGE = (1, 2)
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 
 
+# Text preprocessing
 def strip_html(text: str) -> str:
     """Remove HTML tags from a raw review string."""
     return _HTML_TAG_RE.sub(" ", text)
@@ -57,6 +58,7 @@ def preprocess_texts(texts: List[str]) -> List[str]:
     return [strip_html(text) for text in texts]
 
 
+# Metrics & plotting
 def f1_per_class(
     y_true: List[int], y_pred: List[int]
 ) -> Dict[str, float]:
@@ -93,6 +95,7 @@ def save_confusion_matrix(
     plt.close(fig)
 
 
+# Pipeline
 def build_pipeline() -> Tuple[TfidfVectorizer, LogisticRegression]:
     """Create the unfitted vectorizer and classifier."""
     vectorizer = TfidfVectorizer(
@@ -108,6 +111,7 @@ def build_pipeline() -> Tuple[TfidfVectorizer, LogisticRegression]:
     return vectorizer, classifier
 
 
+# Main
 def run() -> Dict[str, float]:
     """Train the baseline, evaluate on validation, and persist artifacts."""
     dataset = load_dataset_local()
@@ -152,9 +156,9 @@ def run() -> Dict[str, float]:
     print(f"  f1_weighted = {metrics['f1_weighted']:.4f}")
     for name, score in metrics["f1_per_class"].items():
         print(f"  f1[{name:<8}] = {score:.4f}")
-    print(f"  wrote {metrics_path.relative_to(REPO_ROOT)}")
+    print(f"  tersimpan {metrics_path.relative_to(REPO_ROOT)}")
     print(
-        "  wrote "
+        "  tersimpan "
         f"{(RESULTS_DIR / 'confusion_matrix_baseline.png').relative_to(REPO_ROOT)}"
     )
     return metrics

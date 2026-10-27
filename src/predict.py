@@ -37,6 +37,7 @@ _tokenizer = None
 _device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
+# Model
 def _load():
     """Lazy-load model + tokenizer once."""
     global _model, _tokenizer
@@ -77,21 +78,22 @@ def predict(text: str) -> dict:
 def _pretty(result: dict) -> str:
     p = result["probabilities"]
     return (
-        f"  → {result['label']} (conf {result['confidence']})\n"
+        f"  → {result['label']} (keyakinan {result['confidence']})\n"
         f"    NEG {p['NEGATIVE']:.3f} | NEU {p['NEUTRAL']:.3f} | POS {p['POSITIVE']:.3f}"
     )
 
 
+# Main
 def main():
     if len(sys.argv) > 1:
-        # One-shot: text from command-line args.
+        # Mode one-shot: teks diambil dari argumen perintah.
         print(_pretty(predict(" ".join(sys.argv[1:]))))
         return
-    # Interactive loop.
-    print("Sentiment test — type a sentence, Enter to predict, 'quit' to exit.")
+    # Mode interaktif.
+    print("Uji sentimen — ketik kalimat, Enter untuk prediksi, 'quit' untuk keluar.")
     while True:
         try:
-            text = input("\ntext> ").strip()
+            text = input("\nteks> ").strip()
         except (EOFError, KeyboardInterrupt):
             break
         if text.lower() in {"quit", "exit", "q"}:

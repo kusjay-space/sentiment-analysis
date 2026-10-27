@@ -26,16 +26,16 @@ if [ ! -x "$VENV_PY" ]; then
 fi
 
 if [ $# -eq 0 ]; then
-    echo "Usage: ./run.sh <command> [args...]" >&2
+    echo "Pemakaian: ./run.sh <perintah> [argumen...]" >&2
     echo "" >&2
-    echo "Commands:" >&2
-    echo "  predict \"text\"        predict a single review" >&2
-    echo "  analyze FILE           batch-analyse a CSV/Excel file" >&2
-    echo "  inference              evaluate on the test split" >&2
-    echo "  baseline               train the TF-IDF baseline" >&2
-    echo "  train                  fine-tune DistilBERT (needs GPU)" >&2
+    echo "Perintah:" >&2
+    echo "  predict \"teks\"     prediksi satu review" >&2
+    echo "  analyze FILE        analisis batch file CSV/Excel" >&2
+    echo "  inference           evaluasi pada test split" >&2
+    echo "  baseline            latih baseline TF-IDF" >&2
+    echo "  train               fine-tune DistilBERT (butuh GPU)" >&2
     echo "" >&2
-    echo "Example:" >&2
+    echo "Contoh:" >&2
     echo "  ./run.sh analyze examples/reviews_sample.csv" >&2
     exit 1
 fi

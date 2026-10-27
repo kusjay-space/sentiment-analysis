@@ -158,7 +158,7 @@ Test set akademik bisa menipu — model berpotensi menghafal pola dataset. Karen
 
 1. **Bahasa Inggris ter-generalisasi.** Selisih 75.1% (akademik) vs 74.6% (nyata) hanya **0.5 poin** — bukti model tidak overfit.
 2. **Bahasa Indonesia di luar domain.** Model dilatih hanya pada teks Inggris; tokenizer memecah kata Indonesia menjadi 2–4 subword tanpa makna (`mengecewakan` → `meng` / `##ece` / `##wa` / `##kan`). Akurasi turun ke 57.5% dengan bias ke NEGATIVE (60 dari 80 prediksi).
-3. **Model menandai ketidakpastiannya.** Di data Indonesia, **69% prediksi ber-confidence < 0.5**, versus hanya 10% di data Inggris. Model tidak salah tebak dengan yakin — perilaku yang justru diinginkan di produksi, karena prediksi low-confidence bisa di-flag untuk review manusia.
+3. **Model menandai ketidakpastiannya.** Di data Indonesia, **69% prediksi berkeyakinan < 0.5**, versus hanya 10% di data Inggris. Model tidak salah tebak dengan yakin — perilaku yang justru diinginkan di produksi, karena prediksi berkeyakinan rendah bisa di-flag untuk review manusia.
 4. **Noise di data nyata.** Sebagian review Play Store US ternyata berbahasa Portugis, dan sebagian label bintang tidak konsisten dengan teksnya (teks negatif diberi 5 bintang). Ceiling akurasi pada data nyata memang lebih rendah dari benchmark akademik.
 
 Bukti per sampel: [`results/real_world_test.json`](results/real_world_test.json).
@@ -230,8 +230,8 @@ python -m src.analyze reviews.csv
 ```
 
 ```
-  → POSITIVE (conf 0.992)
-    NEG 0.002 | NEU 0.005 | POS 0.992
+  → POSITIVE (keyakinan 0.992)
+    NEG 0.002 | NEU 0.006 | POS 0.992
 ```
 
 Tanpa argumen → mode interaktif (ketik teks → Enter → hasil, `quit` untuk keluar).
@@ -242,42 +242,42 @@ Siapkan file dengan **minimal satu kolom berisi teks review**:
 
 ```csv
 id,review,rating
-1,This app is fantastic. Works perfectly.,5
-2,Stopped working after the update. Crashes constantly.,1
-3,It's okay. Does the job but nothing special.,3
+1,This app is absolutely fantastic. Works perfectly and saves me hours every week.,5
+2,Stopped working after the last update. Crashes every time I open it.,1
+3,It's okay. Does the job but nothing special about the design.,3
 ```
 
 Kolom `rating` **opsional** — kalau ada (skala 1–5 atau 0–4), tool otomatis menghitung akurasi terhadap rating tersebut.
 
 ```bash
-./run.sh analyze reviews.csv
+./run.sh analyze examples/reviews_sample.csv
 ```
 
-Output di terminal:
+Output nyata di terminal (file contoh berisi 10 review):
 
 ```
-Reading reviews.csv ...
-  3 rows · 3 columns
-  text column : review
-  rating column: rating
+Membaca examples/reviews_sample.csv ...
+  10 baris · 3 kolom
+  kolom teks  : review
+  kolom rating: rating
 
-Running inference on 3 reviews (device: cpu) ...
+Menjalankan inferensi pada 10 review (device: cpu) ...
 
 ==============================================================
 HASIL ANALISIS
 ==============================================================
-  Review dianalisis      : 3
-  Rata-rata confidence   : 0.863
-  Perlu review manual    : 0 (confidence < 0.5)
+  Review dianalisis      : 10
+  Rata-rata keyakinan    : 0.863
+  Perlu review manual    : 0 (keyakinan < 0.5)
 
   Distribusi sentimen:
-    POSITIVE       2  ( 66.7%)  █████████████████████████████████
-    NEUTRAL        0  (  0.0%)
-    NEGATIVE       1  ( 33.3%)  ████████████████
+    POSITIVE       5  ( 50.0%)  █████████████████████████
+    NEUTRAL        2  ( 20.0%)  ██████████
+    NEGATIVE       3  ( 30.0%)  ███████████████
 
-  Akurasi vs rating asli : 100.00% (3 baris punya rating)
+  Akurasi vs rating asli : 70.00% (10 baris punya rating)
 --------------------------------------------------------------
-  Output  : results/analyzed_reviews.csv
+  Output  : results/analyzed_reviews_sample.csv
   Ringkasan: results/analyze_summary.json
 --------------------------------------------------------------
 ```
@@ -353,7 +353,7 @@ Kalau kamu ingin baseline-nya bisa dipakai lagi tanpa training, jalankan `./run.
 1. **Target 85% tidak tercapai** (realisasi 75.1%). Angka dilaporkan apa adanya, tidak dioptimalkan pada test set.
 2. **NEUTRAL adalah bottleneck utama** (F1 0.403). Bintang 3 mencakup review campuran — "bagus tapi mahal" — sehingga batas antar kelas kabur bahkan bagi manusia.
 3. **Baseline mentok di ~70.2%.** Sapuan hyperparameter ekstensif mengonfirmasi ceiling pendekatan tanpa konteks.
-4. **Hanya bahasa Inggris.** Terbukti dari uji data nyata: 57.5% pada review Indonesia dengan 69% confidence rendah.
+4. **Hanya bahasa Inggris.** Terbukti dari uji data nyata: 57.5% pada review Indonesia dengan 69% keyakinan rendah.
 5. **Percobaan dengan data lebih banyak tidak dipakai.** Melatih ulang dengan seluruh dataset + 3 epoch + class weight NEUTRAL×2 menaikkan F1 NEUTRAL (0.398 → 0.531) tetapi menurunkan accuracy (74.9% → 71.2%) karena NEGATIVE tergerus. Trade-off tidak menguntungkan, sehingga konfigurasi 30k dipertahankan.
 6. **Pemotongan teks.** 1.7% review melebihi 128 token sehingga konteksnya terpotong.
 7. **Demo interaktif di browser tidak disediakan.** GitHub Pages bersifat static hosting (tanpa Python), sehingga inferensi dijalankan lokal, bukan di halaman web.

@@ -93,6 +93,7 @@ CONFIGS: Dict[str, Dict[str, Dict[str, object]]] = {
 }
 
 
+# Main
 def run() -> Dict[str, object]:
     """Train every config, evaluate on validation, persist best artifacts."""
     dataset = load_dataset_local()
@@ -108,7 +109,7 @@ def run() -> Dict[str, object]:
 
     results: Dict[str, Dict[str, object]] = {}
     for name, cfg in CONFIGS.items():
-        print(f"[{name}] fitting ...", flush=True)
+        print(f"[{name}] melatih model ...", flush=True)
         vectorizer = TfidfVectorizer(**cfg["vec"])
         x_train = vectorizer.fit_transform(train_texts)
         x_val = vectorizer.transform(val_texts)
@@ -125,7 +126,7 @@ def run() -> Dict[str, object]:
         }
 
     class_names = [ID2LABEL[i] for i in ID2LABEL]
-    print("\n=== Config comparison (validation) ===")
+    print("\n=== Perbandingan konfigurasi (validation) ===")
     header = (
         f"{'config':<7}{'accuracy':>10}{'f1_macro':>10}"
         + "".join(f"{'f1_' + c.capitalize():>12}" for c in class_names)
@@ -142,7 +143,7 @@ def run() -> Dict[str, object]:
     best_name = max(results, key=lambda n: results[n]["f1_macro"])
     best = results[best_name]
     print(
-        f"\nBest by f1_macro: config {best_name} "
+        f"\nTerbaik menurut f1_macro: config {best_name} "
         f"(accuracy={best['accuracy']:.4f}, f1_macro={best['f1_macro']:.4f})"
     )
 
@@ -168,8 +169,8 @@ def run() -> Dict[str, object]:
     metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     cm_path = RESULTS_DIR / "confusion_matrix_baseline_tuned.png"
     save_confusion_matrix(val_labels, best["val_pred"], cm_path)
-    print(f"wrote {metrics_path.relative_to(REPO_ROOT)}")
-    print(f"wrote {cm_path.relative_to(REPO_ROOT)}")
+    print(f"tersimpan {metrics_path.relative_to(REPO_ROOT)}")
+    print(f"tersimpan {cm_path.relative_to(REPO_ROOT)}")
     return metrics
 
 

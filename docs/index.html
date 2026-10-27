@@ -98,7 +98,7 @@
         <section id="abstract">
             <h2>📋 Abstract</h2>
             <p>Pipeline NLP yang mengklasifikasikan review pengguna menjadi tiga kelas: <span class="positive">POSITIVE</span>, <span class="neutral">NEUTRAL</span>, dan <span class="negative">NEGATIVE</span>. Pendekatan bertahap: baseline <strong>TF-IDF + Logistic Regression</strong> (70.2% validation, 60k data) lalu fine-tune <strong>DistilBERT</strong> (75.1% test, 30k data). DistilBERT unggul <strong>+4.9 poin</strong> meski dilatih pada separuh data baseline.</p>
-            <p>Untuk menguji apakah model benar-benar belajar sinyal sentimen — bukan menghafal dataset — model diuji pada <strong>review asli hasil scraping Play Store</strong>: <strong>74.6%</strong> pada review berbahasa Inggris (selisih hanya 0.5 poin dari test set akademik), dan 57.5% pada review berbahasa Indonesia dengan 69% prediksi ber-confidence rendah, karena model memang hanya dilatih pada teks Inggris.</p>
+            <p>Untuk menguji apakah model benar-benar belajar sinyal sentimen — bukan menghafal dataset — model diuji pada <strong>review asli hasil scraping Play Store</strong>: <strong>74.6%</strong> pada review berbahasa Inggris (selisih hanya 0.5 poin dari test set akademik), dan 57.5% pada review berbahasa Indonesia dengan 69% prediksi berkeyakinan rendah, karena model memang hanya dilatih pada teks Inggris.</p>
         </section>
 
         <section id="dataset">
@@ -193,7 +193,7 @@
                 <li><strong>Fine-tuning.</strong> DistilBERT base uncased, 30k sampel stratified, <code>max_len=128</code>, batch 32, learning rate 2e-5, 2 epoch, fp16 pada GPU T4.</li>
                 <li><strong>Disiplin split.</strong> Seleksi model dan hyperparameter hanya di <em>validation</em>. Angka final dilaporkan dari <em>test</em> yang disentuh tepat sekali, sehingga tidak ada kebocoran data ke proses seleksi.</li>
                 <li><strong>Evaluasi.</strong> Accuracy, F1-macro, F1-weighted, F1 per kelas, dan confusion matrix. F1-macro menjadi metrik pendamping utama karena kelas tidak seimbang.</li>
-                <li><strong>Inference.</strong> 10 sampel unseen dari test split (seed 42) → teks, label asli, prediksi, dan confidence.</li>
+                <li><strong>Inference.</strong> 10 sampel unseen dari test split (seed 42) → teks, label asli, prediksi, dan tingkat keyakinan.</li>
                 <li><strong>Validasi data nyata.</strong> Scraping review asli Play Store (Inggris &amp; Indonesia) untuk menguji generalisasi di luar distribusi training.</li>
             </ol>
         </section>
@@ -323,7 +323,7 @@
             <ol>
                 <li><strong>Bahasa Inggris ter-generalisasi.</strong> Selisih 75.1% (akademik) vs 74.6% (nyata) hanya <strong>0.5 poin</strong> — bukti model belajar sinyal sentimen, bukan menghafal dataset.</li>
                 <li><strong>Bahasa Indonesia di luar domain.</strong> Model dilatih hanya pada teks Inggris; tokenizer memecah kata Indonesia menjadi 2–4 subword tanpa makna (contoh: <code>mengecewakan</code> → <code>meng</code> · <code>##ece</code> · <code>##wa</code> · <code>##kan</code>). Akurasi turun ke 57.5% dengan bias ke NEGATIVE (60 dari 80 prediksi).</li>
-                <li><strong>Model menandai ketidakpastiannya.</strong> Di data Indonesia, 69% prediksi punya confidence &lt; 0.5 — versus hanya 10% di data Inggris. Model tidak salah tebak dengan yakin; perilaku ini justru diinginkan di produksi karena prediksi berconfidence rendah bisa di-flag untuk review manusia.</li>
+                <li><strong>Model menandai ketidakpastiannya.</strong> Di data Indonesia, 69% prediksi punya keyakinan &lt; 0.5 — versus hanya 10% di data Inggris. Model tidak salah tebak dengan yakin; perilaku ini justru diinginkan di produksi karena prediksi berkeyakinan rendah bisa di-flag untuk review manusia.</li>
                 <li><strong>Noise pada data nyata.</strong> Sebagian review Play Store US ternyata berbahasa Portugis, dan sebagian label bintang tidak konsisten dengan teksnya (teks negatif diberi 5 bintang). Ceiling akurasi pada data nyata memang lebih rendah dari benchmark akademik.</li>
             </ol>
             <div class="warn">
@@ -368,8 +368,8 @@
             <p><code>./run.sh predict "This product is amazing, works perfectly"</code></p>
             <p><small>Atau <code>source .venv/bin/activate</code> dulu lalu <code>python -m src.predict "..."</code>. Kalau muncul <code>ModuleNotFoundError: No module named 'torch'</code>, venv belum aktif.</small></p>
             <p>Hasil langsung di terminal:</p>
-            <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">  → POSITIVE (conf 0.992)
-    NEG 0.002 | NEU 0.005 | POS 0.992</pre>
+            <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">  → POSITIVE (keyakinan 0.992)
+    NEG 0.002 | NEU 0.006 | POS 0.992</pre>
             <p>Tanpa argumen akan masuk mode interaktif — ketik teks, Enter, keluar dengan <code>quit</code>.</p>
 
             <h3>B. Banyak review dari file</h3>
@@ -383,22 +383,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td><td>This app is fantastic. Works perfectly.</td><td class="num">5</td></tr>
-                    <tr><td>2</td><td>Stopped working after the update.</td><td class="num">1</td></tr>
-                    <tr><td>3</td><td>It's okay, nothing special.</td><td class="num">3</td></tr>
+                    <tr><td>1</td><td>This app is absolutely fantastic. Works perfectly and saves me hours every week.</td><td class="num">5</td></tr>
+                    <tr><td>2</td><td>Stopped working after the last update. Crashes every time I open it.</td><td class="num">1</td></tr>
+                    <tr><td>3</td><td>It's okay. Does the job but nothing special about the design.</td><td class="num">3</td></tr>
                 </tbody>
             </table>
             <p>Jalankan:</p>
-            <p><code>./run.sh analyze reviews.csv</code></p>
-            <p>Hasil di terminal mencakup jumlah review, rata-rata confidence, jumlah yang perlu dicek manual, distribusi sentimen, dan akurasi terhadap rating (bila tersedia):</p>
-            <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">Review dianalisis      : 147
-Rata-rata confidence   : 0.623
-Perlu review manual    : 62 (confidence &lt; 0.5)
+            <p><code>./run.sh analyze examples/reviews_sample.csv</code></p>
+            <p>Hasil di terminal mencakup jumlah review, rata-rata keyakinan, jumlah yang perlu dicek manual, distribusi sentimen, dan akurasi terhadap rating (bila tersedia):</p>
+            <pre style="background:#f1f3f6;padding:12px 16px;border-radius:6px;overflow-x:auto;font-size:0.88em;">Membaca examples/reviews_sample.csv ...
+  10 baris · 3 kolom
+  kolom teks  : review
+  kolom rating: rating
 
-Distribusi sentimen:
-  POSITIVE      56  ( 38.1%)
-  NEUTRAL        5  (  3.4%)
-  NEGATIVE      86  ( 58.5%)</pre>
+Menjalankan inferensi pada 10 review (device: cpu) ...
+
+==============================================================
+HASIL ANALISIS
+==============================================================
+  Review dianalisis      : 10
+  Rata-rata keyakinan    : 0.863
+  Perlu review manual    : 0 (keyakinan &lt; 0.5)
+
+  Distribusi sentimen:
+    POSITIVE       5  ( 50.0%)
+    NEUTRAL        2  ( 20.0%)
+    NEGATIVE       3  ( 30.0%)
+
+  Akurasi vs rating asli : 70.00% (10 baris punya rating)
+--------------------------------------------------------------
+  Output  : results/analyzed_reviews_sample.csv
+  Ringkasan: results/analyze_summary.json
+--------------------------------------------------------------</pre>
 
             <h3>Output: di mana dan apa isinya</h3>
             <p>File hasil ditulis ke <code>results/analyzed_&lt;namafile&gt;.csv</code> — berisi seluruh kolom asli ditambah kolom prediksi:</p>
@@ -442,7 +458,7 @@ Distribusi sentimen:
                 <strong>Kecepatan:</strong> ~6 review/detik di CPU 2 core; 147 review selesai dalam 24 detik.
             </div>
             <div class="warn">
-                <strong>Batas bahasa:</strong> model hanya dilatih pada teks Inggris. Review berbahasa Indonesia tetap menghasilkan prediksi, tetapi akurasinya ~57% dan sering ber-confidence rendah — perhatikan kolom <code>needs_review</code>.
+                <strong>Batas bahasa:</strong> model hanya dilatih pada teks Inggris. Review berbahasa Indonesia tetap menghasilkan prediksi, tetapi akurasinya ~57% dan sering berkeyakinan rendah — perhatikan kolom <code>needs_review</code>.
             </div>
             <p><small>Contoh file input: <code>examples/reviews_sample.csv</code></small></p>
         </section>
@@ -454,7 +470,7 @@ Distribusi sentimen:
                 <li><strong>NEUTRAL adalah bottleneck utama</strong> (F1 0.403). Bintang 3 mencakup review campuran — "bagus tapi mahal" — sehingga batas antar kelas kabur bahkan bagi manusia.</li>
                 <li><strong>Baseline TF-IDF mentok di ~70%.</strong> Sapuan hyperparameter (bigram, trigram, char n-gram, 510k fitur, C besar) semuanya &lt; 71%, mengonfirmasi bahwa pendekatan tanpa konteks punya ceiling di dataset ini.</li>
                 <li><strong>Percobaan dengan data lebih banyak tidak dipakai.</strong> Melatih ulang dengan seluruh data + 3 epoch + class weight NEUTRAL×2 menaikkan F1 NEUTRAL (0.398 → 0.531) tetapi menurunkan accuracy (74.9% → 71.2%) karena NEGATIVE tergerus. Trade-off tidak menguntungkan, sehingga konfigurasi 30k dipertahankan.</li>
-                <li><strong>Hanya bahasa Inggris.</strong> Terbukti dari uji data nyata: 57.5% pada review Indonesia dengan 69% confidence rendah.</li>
+                <li><strong>Hanya bahasa Inggris.</strong> Terbukti dari uji data nyata: 57.5% pada review Indonesia dengan 69% keyakinan rendah.</li>
                 <li><strong>Pemotongan teks.</strong> 1.7% review melebihi 128 token sehingga konteksnya terpotong.</li>
                 <li><strong>Tidak ada demo interaktif di browser.</strong> GitHub Pages bersifat static hosting (tidak menjalankan Python), sehingga inferensi dijalankan secara lokal melalui <code>predict.py</code> / <code>analyze.py</code> — bukan dari halaman web ini.</li>
             </ul>

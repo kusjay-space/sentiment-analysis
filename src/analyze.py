@@ -13,7 +13,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 try:
     import pandas as pd
@@ -57,6 +57,7 @@ _tokenizer = None
 _device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
+# Model loading / inference
 def _load():
     """Lazy-load model + tokenizer once."""
     global _model, _tokenizer
@@ -106,6 +107,7 @@ def predict_batch(texts: List[str], batch_size: int = BATCH_SIZE) -> List[Dict]:
     return out
 
 
+# Input handling
 def read_table(path: Path) -> pd.DataFrame:
     """Read CSV/TSV/Excel into a DataFrame, auto-detecting separator."""
     suffix = path.suffix.lower()
@@ -117,7 +119,7 @@ def read_table(path: Path) -> pd.DataFrame:
     # CSV: try encodings in order. Sniff the delimiter, but only among real
     # candidates -- pandas' sniffer can otherwise pick a letter (e.g. 't' from
     # the header word "text") when the file has a single column.
-    last_err: Exception | None = None
+    last_err: Union[Exception, str, None] = None
     for enc in ("utf-8-sig", "utf-8", "latin-1"):
         try:
             raw = path.read_text(encoding=enc)
@@ -156,7 +158,7 @@ def read_table(path: Path) -> pd.DataFrame:
                     except Exception:
                         continue
         if df is None:
-            last_err = "could not parse CSV"
+            last_err = "gagal membaca CSV"
             continue
 
         # A single unnamed column usually means the delimiter guess was wrong.
@@ -173,7 +175,7 @@ def read_table(path: Path) -> pd.DataFrame:
         return df
 
     raise ValueError(
-        f"Could not decode {path} ({last_err}). Convert it to UTF-8 and retry."
+        f"Gagal membaca {path} ({last_err}). Konversi file ke UTF-8 lalu coba lagi."
     )
 
 
@@ -214,8 +216,8 @@ def detect_text_column(df: pd.DataFrame) -> str:
                 best, best_len = col, avg
     if best is None:
         raise ValueError(
-            "No text column found. Pass it explicitly with --text-col NAME.\n"
-            f"Columns available: {list(df.columns)}"
+            "Kolom teks tidak ditemukan. Tentukan manual dengan --text-col NAMA.\n"
+            f"Kolom tersedia: {list(df.columns)}"
         )
     return best
 
@@ -251,40 +253,48 @@ def rating_to_sentiment(value: float) -> Optional[str]:
     return "POSITIVE"
 
 
+def _rel(path: Path) -> str:
+    """Buat path relatif ke root repo bila memungkinkan."""
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
+
+
 # Main
 def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Batch sentiment analysis on your own review file."
+        description="Analisis sentimen batch pada file review milik Anda."
     )
-    parser.add_argument("input", type=Path, help="CSV/TSV/Excel file of reviews")
+    parser.add_argument("input", type=Path, help="File CSV/TSV/Excel berisi review")
     parser.add_argument(
         "-o", "--output", type=Path, default=None,
-        help="Output file (default: results/analyzed_<inputname>.csv)",
+        help="File output (default: results/analyzed_<namafile>.csv)",
     )
     parser.add_argument(
         "--text-col", default=None,
-        help="Name of the column containing review text (auto-detected if omitted)",
+        help="Nama kolom berisi teks review (terdeteksi otomatis bila kosong)",
     )
     parser.add_argument(
-        "--batch-size", type=int, default=BATCH_SIZE, help="Inference batch size"
+        "--batch-size", type=int, default=BATCH_SIZE, help="Ukuran batch inferensi"
     )
     parser.add_argument(
         "--dry-run", action="store_true",
-        help="Only show detected columns and row count; do not run the model",
+        help="Hanya tampilkan kolom terdeteksi dan jumlah baris; model tidak dijalankan",
     )
     args = parser.parse_args(argv)
 
     if not args.input.exists():
-        print(f"ERROR: file not found: {args.input}", file=sys.stderr)
+        print(f"ERROR: file tidak ditemukan: {args.input}", file=sys.stderr)
         return 1
 
-    print(f"Reading {args.input} ...")
+    print(f"Membaca {args.input} ...")
     try:
         df = read_table(args.input)
     except Exception as exc:
-        print(f"ERROR: could not read {args.input}\n  {exc}", file=sys.stderr)
+        print(f"ERROR: gagal membaca {args.input}\n  {exc}", file=sys.stderr)
         return 1
-    print(f"  {len(df):,} rows · {len(df.columns)} columns")
+    print(f"  {len(df):,} baris · {len(df.columns)} kolom")
 
     try:
         text_col = args.text_col or detect_text_column(df)
@@ -293,18 +303,18 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
     if text_col not in df.columns:
         print(
-            f"ERROR: column '{text_col}' not found.\n"
-            f"Available: {list(df.columns)}",
+            f"ERROR: kolom '{text_col}' tidak ada.\n"
+            f"Kolom tersedia: {list(df.columns)}",
             file=sys.stderr,
         )
         return 1
-    print(f"  text column : {text_col}")
+    print(f"  kolom teks  : {text_col}")
 
     rating_col = detect_rating_column(df, exclude=text_col)
-    print(f"  rating column: {rating_col or '(none — accuracy check skipped)'}")
+    print(f"  kolom rating: {rating_col or '(tidak ada — cek akurasi dilewati)'}")
 
     if args.dry_run:
-        print("\nDry run — no model executed. Preview of first rows:")
+        print("\nDry run — model tidak dijalankan. Cuplikan baris pertama:")
         print(df[[text_col] + ([rating_col] if rating_col else [])].head(5).to_string())
         return 0
 
@@ -313,10 +323,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     df = df[df[text_col].notna() & (df[text_col].astype(str).str.strip() != "")].copy()
     skipped = total_rows - len(df)
     if skipped:
-        print(f"  skipped {skipped} row(s) with empty text")
+        print(f"  {skipped} baris tanpa teks dilewati")
 
     texts = df[text_col].astype(str).tolist()
-    print(f"\nRunning inference on {len(texts):,} reviews (device: {_device}) ...")
+    print(f"\nMenjalankan inferensi pada {len(texts):,} review (device: {_device}) ...")
     preds = predict_batch(texts, batch_size=args.batch_size)
 
     out = pd.DataFrame(preds)
@@ -369,9 +379,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("HASIL ANALISIS")
     print("=" * 62)
     print(f"  Review dianalisis      : {len(result):,}")
-    print(f"  Rata-rata confidence   : {result['confidence'].mean():.3f}")
+    print(f"  Rata-rata keyakinan    : {result['confidence'].mean():.3f}")
     print(f"  Perlu review manual    : {int(result['needs_review'].sum()):,} "
-          f"(confidence < {LOW_CONFIDENCE_THRESHOLD})")
+          f"(keyakinan < {LOW_CONFIDENCE_THRESHOLD})")
     print("\n  Distribusi sentimen:")
     for label in ("POSITIVE", "NEUTRAL", "NEGATIVE"):
         n = int((result["sentiment"] == label).sum())
@@ -382,8 +392,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"\n  Akurasi vs rating asli : {summary['accuracy_vs_rating']:.2%} "
               f"({summary['rows_with_rating']:,} baris punya rating)")
     print("\n" + "-" * 62)
-    print(f"  Output  : {out_path}")
-    print(f"  Ringkasan: {summary_path}")
+    print(f"  Output  : {_rel(out_path)}")
+    print(f"  Ringkasan: {_rel(summary_path)}")
     print("-" * 62)
     print("\n  Kolom baru di output:")
     print("    sentiment      -> POSITIVE / NEUTRAL / NEGATIVE")
@@ -391,7 +401,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("    prob_negative  -> probabilitas NEGATIVE")
     print("    prob_neutral   -> probabilitas NEUTRAL")
     print("    prob_positive  -> probabilitas POSITIVE")
-    print("    needs_review   -> True bila confidence < 0.5")
+    print("    needs_review   -> True bila nilai confidence di bawah 0.5")
     return 0
 
 

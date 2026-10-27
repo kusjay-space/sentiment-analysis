@@ -42,6 +42,7 @@ TEXT_TRUNCATE = 80
 N_SAMPLES = 10
 
 
+# Model & inference
 def load_model(model_dir: Path = MODEL_DIR):
     """Load the fine-tuned model and tokenizer from ``model_dir``."""
     if not model_dir.exists():
@@ -80,6 +81,7 @@ def _predict_batch(
     return predictions, confidences
 
 
+# Metrics & plotting
 def f1_per_class(y_true: List[int], y_pred: List[int]) -> Dict[str, float]:
     """Return F1 per class keyed by sentiment name."""
     scores = f1_score(y_true, y_pred, labels=list(ID2LABEL), average=None)
@@ -112,6 +114,7 @@ def save_confusion_matrix(
     plt.close(fig)
 
 
+# Main
 def run() -> Dict[str, object]:
     """Evaluate on the full test split and write inference artifacts."""
     dataset = load_dataset_local()
@@ -159,19 +162,19 @@ def run() -> Dict[str, object]:
     )
     predictions_df.to_csv(RESULTS_DIR / "predictions.csv", index=False)
 
-    print(f"Test metrics: accuracy={metrics['accuracy']:.4f} "
+    print(f"Metrik test: accuracy={metrics['accuracy']:.4f} "
           f"f1_macro={metrics['f1_macro']:.4f} "
           f"f1_weighted={metrics['f1_weighted']:.4f}")
-    print("10 random test predictions (seed=42):")
+    print("10 prediksi acak dari test set (seed=42):")
     for i, row in enumerate(rows, 1):
         print(
-            f"  [{i:02d}] true={row['true_label']:<8} pred={row['predicted_label']:<8} "
-            f"conf={row['confidence']:.3f} | {row['text']}"
+            f"  [{i:02d}] asli={row['true_label']:<8} prediksi={row['predicted_label']:<8} "
+            f"keyakinan={row['confidence']:.3f} | {row['text']}"
         )
-    print(f"  wrote {(RESULTS_DIR / 'predictions.csv').relative_to(REPO_ROOT)}")
-    print(f"  wrote {(RESULTS_DIR / 'metrics.json').relative_to(REPO_ROOT)}")
+    print(f"  tersimpan {(RESULTS_DIR / 'predictions.csv').relative_to(REPO_ROOT)}")
+    print(f"  tersimpan {(RESULTS_DIR / 'metrics.json').relative_to(REPO_ROOT)}")
     print(
-        f"  wrote {(RESULTS_DIR / 'confusion_matrix.png').relative_to(REPO_ROOT)}"
+        f"  tersimpan {(RESULTS_DIR / 'confusion_matrix.png').relative_to(REPO_ROOT)}"
     )
     return metrics
 

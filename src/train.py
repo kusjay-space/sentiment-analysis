@@ -49,6 +49,7 @@ MAX_LEN = 128
 N_PER_CLASS: Dict[int, int] = {0: 12_000, 1: 6_000, 2: 12_000}
 
 
+# Trainer helpers
 def compute_metrics(eval_pred) -> Dict[str, float]:
     """Compute accuracy and macro-F1 from Trainer predictions."""
     logits, labels = eval_pred
@@ -101,12 +102,13 @@ def build_training_args() -> TrainingArguments:
     )
 
 
+# Main
 def run() -> None:
     """Load data, fine-tune DistilBERT, and save the final model."""
     if not torch.cuda.is_available():
         print(
-            "WARNING: CUDA not available — training on CPU will be very slow. "
-            "Prefer a GPU host (e.g. Colab T4)."
+            "PERINGATAN: CUDA tidak tersedia — training di CPU akan sangat lambat. "
+            "Gunakan host dengan GPU (mis. Colab T4)."
         )
 
     set_seed(SEED)  # Seed torch/np/python RNG before model head init.
@@ -141,7 +143,7 @@ def run() -> None:
     trainer.save_model(str(FINAL_DIR))
     tokenizer.save_pretrained(str(FINAL_DIR))
 
-    print(f"Saved model + tokenizer to {FINAL_DIR.relative_to(REPO_ROOT)}")
+    print(f"Model + tokenizer tersimpan di {FINAL_DIR.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":
